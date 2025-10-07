@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>US States List</title>
-    
-    <!-- Simplified Manifest -->
+    <!-- Manifest -->
     <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlVTIFN0YXRlcyBMaXN0IiwKICAic2hvcnRfbmFtZSI6ICJVUyBTdGF0ZXMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI0YwRjZGOCIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDRhOTkiCn0=">
-
     <style>
         :root {
             --primary-color: #004a99;
@@ -16,172 +14,30 @@
             --text-color: #333;
             --georgia-bg: #d9e9f9;
         }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Arial', sans-serif;
-        }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
-        }
-
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px;
-            margin: 0 auto 20px auto;
-            max-width: 1000px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: auto;
-        }
-
-        h1 {
-            font-size: 2em;
-            letter-spacing: 1px;
-        }
-
-        .language-switcher button {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            margin-left: 10px;
-        }
-
-        .language-switcher button:hover {
-            background-color: #e5971a;
-        }
-
-        #statesList {
-            list-style: none;
-            display: grid;
-            gap: 15px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        }
-
-        .state-item {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-
-        .state-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .state-item h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .state-item.georgia-state {
-            background-color: var(--georgia-bg);
-            border: 2px solid var(--secondary-color);
-        }
-
-        .info-button {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
-            display: block;
-        }
-
-        .info-button:hover {
-            background-color: #e5971a;
-        }
-
-        .total-states {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-weight: bold;
-            padding: 10px;
-            background-color: white;
-            border-radius: 8px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 90%;
-            max-width: 700px;
-            border-radius: 10px;
-            position: relative;
-            animation-name: animatetop;
-            animation-duration: 0.4s;
-        }
-
-        @keyframes animatetop {
-            from {top: -300px; opacity: 0}
-            to {top: 0; opacity: 1}
-        }
-
-        .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .close-button:hover {
-            color: #000;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
+        body { background-color: var(--background-color); color: var(--text-color); line-height: 1.6; padding: 20px; }
+        header { background-color: var(--primary-color); color: white; padding: 15px 20px; border-radius: 8px; margin: 0 auto 20px auto; max-width: 1000px; display: flex; justify-content: space-between; align-items: center; }
+        .container { max-width: 1000px; margin: auto; }
+        h1 { font-size: 2em; letter-spacing: 1px; }
+        .language-switcher button { background-color: var(--secondary-color); color: var(--primary-color); border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease; margin-left: 10px; }
+        .language-switcher button:hover { background-color: #e5971a; }
+        #statesList { list-style: none; display: grid; gap: 15px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+        .state-item { background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); transition: transform 0.3s ease; }
+        .state-item:hover { transform: translateY(-5px); }
+        .state-item h3 { color: var(--primary-color); margin-bottom: 10px; }
+        .state-item.georgia-state { background-color: var(--georgia-bg); border: 2px solid var(--secondary-color); }
+        .info-button { background-color: var(--secondary-color); color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s ease; margin-top: 10px; display: block; }
+        .info-button:hover { background-color: #e5971a; }
+        .total-states { text-align: center; font-size: 1.2em; margin-bottom: 20px; font-weight: bold; padding: 10px; background-color: white; border-radius: 8px; }
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.4); padding-top: 60px; }
+        .modal-content { background-color: #fefefe; margin: 5% auto; padding: 20px; border: 1px solid #888; width: 90%; max-width: 700px; border-radius: 10px; position: relative; animation-name: animatetop; animation-duration: 0.4s; }
+        @keyframes animatetop { from {top: -300px; opacity: 0} to {top: 0; opacity: 1} }
+        .close-button { color: #aaa; float: right; font-size: 28px; font-weight: bold; cursor: pointer; }
+        .close-button:hover { color: #000; }
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.5em;
-            }
-            header {
-                margin-left: 10px;
-                margin-right: 10px;
-                max-width: 95%;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .language-switcher {
-                margin-top: 10px;
-            }
+            h1 { font-size: 1.5em; }
+            header { margin-left: 10px; margin-right: 10px; max-width: 95%; flex-direction: column; align-items: flex-start; }
+            .language-switcher { margin-top: 10px; }
         }
     </style>
 </head>
@@ -192,29 +48,21 @@
             <button id="langSwitcher">GEO</button>
         </div>
     </header>
-
     <div class="container">
         <p class="total-states"><span id="totalCountText">Total States:</span> <span id="statesCount">50</span></p>
-        <ul id="statesList">
-            <!-- States will be loaded here -->
-        </ul>
+        <ul id="statesList"></ul>
     </div>
-
     <div id="georgiaModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
             <h2 id="modalTitle">State of Georgia - Information</h2>
-            <div id="modalContent">
-                <!-- Modal content will be loaded here -->
-            </div>
+            <div id="modalContent"></div>
             <div class="language-switcher" style="text-align: right; margin-top: 15px;">
                 <button id="modalLangSwitcher">GEO</button>
             </div>
         </div>
     </div>
-
     <script>
-        // States data
         const STATES = [
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
             "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
@@ -224,8 +72,6 @@
             "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
             "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
-
-        // Georgia information
         const GEORGIA_INFO_EN = {
             title: "State of Georgia - The Peach State",
             content: `
@@ -236,7 +82,6 @@
                 <p><strong>Brief Overview:</strong> Georgia is known as the "Peach State" and the "Empire State of the South." It played a vital role in the Civil War and the Civil Rights Movement.</p>
             `
         };
-
         const GEORGIA_INFO_GEO = {
             title: "შტატი ჯორჯია - ატმის შტატი",
             content: `
@@ -247,8 +92,6 @@
                 <p><strong>მოკლე მიმოხილვა:</strong> ჯორჯია ცნობილია როგორც "ატმის შტატი" და "სამხრეთის იმპერიის შტატი". მან მნიშვნელოვანი როლი ითამაშა სამოქალაქო ომსა და სამოქალაქო უფლებების მოძრაობაში.</p>
             `
         };
-
-        // Text content for languages
         const TEXT_CONTENT = {
             en: {
                 pageTitle: "US States List",
@@ -267,68 +110,49 @@
                 langButton: "ENG"
             }
         };
-
         let currentLang = 'en';
-
-        // DOM elements
         const statesList = document.getElementById('statesList');
         const statesCountSpan = document.getElementById('statesCount');
         const georgiaModal = document.getElementById('georgiaModal');
         const closeButton = document.querySelector('.close-button');
         const langSwitcher = document.getElementById('langSwitcher');
         const modalLangSwitcher = document.getElementById('modalLangSwitcher');
-
-        // Initialize the application
         function init() {
             renderStates();
             setupEventListeners();
             statesCountSpan.textContent = STATES.length;
+            registerServiceWorker();
         }
-
-        // Render states list
         function renderStates() {
             statesList.innerHTML = '';
-            
             STATES.forEach(state => {
                 const listItem = document.createElement('li');
                 listItem.className = `state-item ${state === 'Georgia' ? 'georgia-state' : ''}`;
-                
                 const stateName = document.createElement('h3');
                 stateName.textContent = state;
                 listItem.appendChild(stateName);
-
                 if (state === 'Georgia') {
                     const infoButton = document.createElement('button');
                     infoButton.className = 'info-button';
-                    infoButton.textContent = currentLang === 'en' ? 'See Info' : 'ინფორმაციის ნახვა';
+                    infoButton.textContent = currentLang === 'en' ? TEXT_CONTENT.en.georgiaButton : TEXT_CONTENT.geo.georgiaButton;
                     infoButton.onclick = openGeorgiaModal;
                     listItem.appendChild(infoButton);
                 }
-
                 statesList.appendChild(listItem);
             });
         }
-
-        // Setup event listeners
         function setupEventListeners() {
             langSwitcher.addEventListener('click', toggleLanguage);
             modalLangSwitcher.addEventListener('click', toggleLanguage);
             closeButton.addEventListener('click', closeGeorgiaModal);
-            
             window.addEventListener('click', function(event) {
-                if (event.target === georgiaModal) {
-                    closeGeorgiaModal();
-                }
+                if (event.target === georgiaModal) closeGeorgiaModal();
             });
         }
-
-        // Toggle language
         function toggleLanguage() {
             currentLang = currentLang === 'en' ? 'geo' : 'en';
             updateUI();
         }
-
-        // Update UI based on language
         function updateUI() {
             const content = TEXT_CONTENT[currentLang];
             document.title = content.pageTitle;
@@ -336,27 +160,27 @@
             document.getElementById('totalCountText').textContent = content.totalCountText;
             langSwitcher.textContent = content.langButton;
             modalLangSwitcher.textContent = content.langButton;
-            
-            // Update modal content
             const georgiaInfo = currentLang === 'en' ? GEORGIA_INFO_EN : GEORGIA_INFO_GEO;
             document.getElementById('modalTitle').textContent = georgiaInfo.title;
             document.getElementById('modalContent').innerHTML = georgiaInfo.content;
-            
-            // Re-render states to update button text
             renderStates();
         }
-
-        // Open Georgia modal
         function openGeorgiaModal() {
+            const georgiaInfo = currentLang === 'en' ? GEORGIA_INFO_EN : GEORGIA_INFO_GEO;
+            document.getElementById('modalTitle').textContent = georgiaInfo.title;
+            document.getElementById('modalContent').innerHTML = georgiaInfo.content;
             georgiaModal.style.display = 'block';
         }
-
-        // Close Georgia modal
         function closeGeorgiaModal() {
             georgiaModal.style.display = 'none';
         }
-
-        // Start the application
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker რეგისტრირებულია:', reg))
+                    .catch(err => console.log('Service Worker რეგისტრაცია ვერ მოხერხდა:', err));
+            }
+        }
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
