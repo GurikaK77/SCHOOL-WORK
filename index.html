@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="pageTitle">US States List</title>
+    <title>US States List</title>
     
-    <link rel="manifest" href="data:application/json;base64,eyJpY29ucyI6W3sic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyIsInNyYyI6Imh0dHBzOi8vd3d3Lmljb25zOGwuY29tL2ljb24vMTkyL2RhcmsvZmxhZy5wbmcifSx7InNpemVzIjoiNTEyeDUxMiIsInR5cGUiOiJpbWFnZS9wbmciLCJzcmMiOiJodHRwczovL3d3dy5pY29uczhsLmNvbS9pY29uLzUxMi9kYXJrL2ZsYWcucG5nIn1dLCJuYW1lIjoiVVMgU3RhdGVzIExpc3QiLCJzaG9ydF9uYW1lIjoiVVMgU3RhdGVzIiwic3RhcnRfdXJsIjoiL2luZGV4Lmh0bWwiLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjRjBGNkY4IiwidGhlbWVfY29sb3IiOiIjMDA0YTk5In0=">
+    <!-- Simplified Manifest -->
+    <link rel="manifest" href="data:application/manifest+json;base64,ewogICJuYW1lIjogIlVTIFN0YXRlcyBMaXN0IiwKICAic2hvcnRfbmFtZSI6ICJVUyBTdGF0ZXMiLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI0YwRjZGOCIsCiAgInRoZW1lX2NvbG9yIjogIiMwMDRhOTkiCn0=">
 
     <style>
-        /* CSS */
         :root {
-            --primary-color: #004a99; /* Dark Blue */
-            --secondary-color: #f7a81b; /* Gold/Orange */
-            --background-color: #f0f4f8; /* Light Grey Blue */
+            --primary-color: #004a99;
+            --secondary-color: #f7a81b;
+            --background-color: #f0f4f8;
             --text-color: #333;
             --georgia-bg: #d9e9f9;
         }
@@ -28,7 +28,7 @@
             background-color: var(--background-color);
             color: var(--text-color);
             line-height: 1.6;
-            padding: 20px; /* მთლიანი გვერდის კიდეები */
+            padding: 20px;
         }
 
         header {
@@ -36,22 +36,18 @@
             color: white;
             padding: 15px 20px;
             border-radius: 8px;
-            /* ********** ცვლილება აქ არის ********** */
-            margin: 20px auto 20px auto; /* ზემოდან 20px, გვერდები ავტომატურად, ქვემოდან 20px */
-            max-width: 1000px; /* ჰედერის სიგანე კონტეინერის სიგანეს გაუტოლდეს */
-            /* ************************************** */
+            margin: 0 auto 20px auto;
+            max-width: 1000px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        /* კონტეინერის საწყისი padding მოვაშოროთ, რადგან margin უკვე მივეცით header-ს */
+
         .container {
             max-width: 1000px;
             margin: auto;
         }
-        
-        /* დარჩენილი CSS უცვლელია */
+
         h1 {
             font-size: 2em;
             letter-spacing: 1px;
@@ -112,7 +108,7 @@
             font-weight: bold;
             transition: background-color 0.3s ease;
             margin-top: 10px;
-            display: block; 
+            display: block;
         }
 
         .info-button:hover {
@@ -129,9 +125,8 @@
             border-radius: 8px;
         }
 
-        /* Modal Styles */
         .modal {
-            display: none; 
+            display: none;
             position: fixed;
             z-index: 100;
             left: 0;
@@ -139,21 +134,21 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.4); 
+            background-color: rgba(0,0,0,0.4);
             padding-top: 60px;
         }
 
         .modal-content {
             background-color: #fefefe;
-            margin: 5% auto; 
+            margin: 5% auto;
             padding: 20px;
             border: 1px solid #888;
-            width: 90%; 
+            width: 90%;
             max-width: 700px;
             border-radius: 10px;
             position: relative;
             animation-name: animatetop;
-            animation-duration: 0.4s
+            animation-duration: 0.4s;
         }
 
         @keyframes animatetop {
@@ -166,30 +161,24 @@
             float: right;
             font-size: 28px;
             font-weight: bold;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: #000;
-            text-decoration: none;
             cursor: pointer;
         }
-        
-        /* Responsive Design */
+
+        .close-button:hover {
+            color: #000;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 1.5em;
             }
-
             header {
-                /* მობილურზეც ვინარჩუნებთ ცოტა სივრცეს გვერდებზე */
                 margin-left: 10px;
                 margin-right: 10px;
-                max-width: 95%; 
+                max-width: 95%;
                 flex-direction: column;
                 align-items: flex-start;
             }
-
             .language-switcher {
                 margin-top: 10px;
             }
@@ -197,18 +186,18 @@
     </style>
 </head>
 <body>
-
     <header>
         <h1 id="mainHeader">US States List</h1>
         <div class="language-switcher">
-            <button id="langSwitcher" data-lang="en">GEO</button>
+            <button id="langSwitcher">GEO</button>
         </div>
     </header>
 
     <div class="container">
-        <p class="total-states"><span id="totalCountText">Total States:</span> <span id="statesCount"></span></p>
+        <p class="total-states"><span id="totalCountText">Total States:</span> <span id="statesCount">50</span></p>
         <ul id="statesList">
-            </ul>
+            <!-- States will be loaded here -->
+        </ul>
     </div>
 
     <div id="georgiaModal" class="modal">
@@ -216,97 +205,16 @@
             <span class="close-button">&times;</span>
             <h2 id="modalTitle">State of Georgia - Information</h2>
             <div id="modalContent">
-                </div>
+                <!-- Modal content will be loaded here -->
+            </div>
             <div class="language-switcher" style="text-align: right; margin-top: 15px;">
-                <button id="modalLangSwitcher" data-lang="en">GEO</button>
+                <button id="modalLangSwitcher">GEO</button>
             </div>
         </div>
     </div>
 
     <script>
-        // PWA Service Worker Registration
-        if ('serviceWorker' in navigator) {
-            // We use a data URL to simulate the content of sw.js being in one file
-            const swContent = `
-                const CACHE_NAME = 'us-states-v1';
-                const urlsToCache = ['/'];
-
-                self.addEventListener('install', event => {
-                    console.log('[Service Worker] Installing...');
-                    event.waitUntil(
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                console.log('[Service Worker] Caching app shell');
-                                return cache.addAll(urlsToCache).catch(err => {
-                                    console.warn('[Service Worker] Failed to pre-cache:', err);
-                                });
-                            })
-                    );
-                });
-
-                self.addEventListener('fetch', event => {
-                    event.respondWith(
-                        caches.match(event.request)
-                            .then(response => {
-                                if (response) {
-                                    return response;
-                                }
-                                
-                                return fetch(event.request).then(
-                                    networkResponse => {
-                                        if(!networkResponse || networkResponse.status !== 200 || networkResponse.type !== 'basic') {
-                                            return networkResponse;
-                                        }
-
-                                        const responseToCache = networkResponse.clone();
-                                        
-                                        if (event.request.url.includes(location.origin)) {
-                                            caches.open(CACHE_NAME)
-                                                .then(cache => {
-                                                    cache.put(event.request, responseToCache);
-                                                });
-                                        }
-                                        
-                                        return networkResponse;
-                                    }
-                                ).catch(error => {
-                                    return caches.match('/'); 
-                                });
-                            })
-                        );
-                });
-
-                self.addEventListener('activate', event => {
-                    const cacheWhitelist = [CACHE_NAME];
-                    event.waitUntil(
-                        caches.keys().then(cacheNames => {
-                            return Promise.all(
-                                cacheNames.map(cacheName => {
-                                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                                        return caches.delete(cacheName);
-                                    }
-                                })
-                            );
-                        })
-                    );
-                });
-            `;
-
-            // Create a Blob from the worker script content
-            const swBlob = new Blob([swContent], { type: 'application/javascript' });
-            const swUrl = URL.createObjectURL(swBlob);
-
-            // Register the Service Worker
-            navigator.serviceWorker.register(swUrl)
-                .then(registration => {
-                    console.log('Service Worker Registered with scope:', registration.scope);
-                })
-                .catch(error => {
-                    console.error('Service Worker registration failed:', error);
-                });
-        }
-    </script>
-    <script>
+        // States data
         const STATES = [
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware",
             "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky",
@@ -316,15 +224,16 @@
             "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont",
             "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
-        
+
+        // Georgia information
         const GEORGIA_INFO_EN = {
             title: "State of Georgia - The Peach State",
             content: `
                 <p><strong>Capital:</strong> Atlanta</p>
                 <p><strong>Largest City:</strong> Atlanta</p>
-                <p><strong>Population:</strong> Approximately 11 million (as of recent estimates)</p>
-                <p><strong>Admission to the Union:</strong> January 2, 1788 (4th State)</p>
-                <p><strong>Brief Overview:</strong> Georgia is known as the "Peach State" and the "Empire State of the South." It played a vital role in the Civil War and the Civil Rights Movement. Its geography is diverse, ranging from the Appalachian Mountains in the north to the Atlantic coastal plain in the south. The state is a major transportation hub, with Hartsfield-Jackson Atlanta International Airport being one of the busiest in the world. Key industries include agriculture (peaches, pecans, peanuts), manufacturing, and technology.</p>
+                <p><strong>Population:</strong> Approximately 11 million</p>
+                <p><strong>Admission to Union:</strong> January 2, 1788 (4th State)</p>
+                <p><strong>Brief Overview:</strong> Georgia is known as the "Peach State" and the "Empire State of the South." It played a vital role in the Civil War and the Civil Rights Movement.</p>
             `
         };
 
@@ -333,12 +242,13 @@
             content: `
                 <p><strong>დედაქალაქი:</strong> ატლანტა</p>
                 <p><strong>უდიდესი ქალაქი:</strong> ატლანტა</p>
-                <p><strong>მოსახლეობა:</strong> დაახლოებით 11 მილიონი (ბოლო მონაცემებით)</p>
+                <p><strong>მოსახლეობა:</strong> დაახლოებით 11 მილიონი</p>
                 <p><strong>კავშირში შესვლა:</strong> 2 იანვარი, 1788 (მე-4 შტატი)</p>
-                <p><strong>მოკლე მიმოხილვა:</strong> ჯორჯია ცნობილია როგორც "ატმის შტატი" და "სამხრეთის იმპერიის შტატი". მან მნიშვნელოვანი როლი ითამაშა სამოქალაქო ომსა და სამოქალაქო უფლებების მოძრაობაში. მისი გეოგრაფია მრავალფეროვანია, აპალაჩის მთებიდან ჩრდილოეთით ატლანტის სანაპირო დაბლობებამდე სამხრეთით. შტატი მთავარი სატრანსპორტო კერაა, სადაც ჰარტსფილდ-ჯექსონის ატლანტას საერთაშორისო აეროპორტი მსოფლიოში ერთ-ერთი ყველაზე დატვირთულია. ძირითადი ინდუსტრიები მოიცავს სოფლის მეურნეობას (ატამი, პეკანი, არაქისი), წარმოებას და ტექნოლოგიებს.</p>
+                <p><strong>მოკლე მიმოხილვა:</strong> ჯორჯია ცნობილია როგორც "ატმის შტატი" და "სამხრეთის იმპერიის შტატი". მან მნიშვნელოვანი როლი ითამაშა სამოქალაქო ომსა და სამოქალაქო უფლებების მოძრაობაში.</p>
             `
         };
 
+        // Text content for languages
         const TEXT_CONTENT = {
             en: {
                 pageTitle: "US States List",
@@ -360,27 +270,26 @@
 
         let currentLang = 'en';
 
+        // DOM elements
         const statesList = document.getElementById('statesList');
         const statesCountSpan = document.getElementById('statesCount');
         const georgiaModal = document.getElementById('georgiaModal');
-        const closeButton = georgiaModal.querySelector('.close-button');
+        const closeButton = document.querySelector('.close-button');
         const langSwitcher = document.getElementById('langSwitcher');
         const modalLangSwitcher = document.getElementById('modalLangSwitcher');
-        
-        /**
-         * Renders the list of US States.
-         */
-        function renderStates() {
-            const sortedStates = [...STATES].sort((a, b) => {
-                if (a === "Georgia") return -1;
-                if (b === "Georgia") return 1;
-                return a.localeCompare(b);
-            });
 
+        // Initialize the application
+        function init() {
+            renderStates();
+            setupEventListeners();
             statesCountSpan.textContent = STATES.length;
-            statesList.innerHTML = ''; 
+        }
 
-            sortedStates.forEach(state => {
+        // Render states list
+        function renderStates() {
+            statesList.innerHTML = '';
+            
+            STATES.forEach(state => {
                 const listItem = document.createElement('li');
                 listItem.className = `state-item ${state === 'Georgia' ? 'georgia-state' : ''}`;
                 
@@ -391,8 +300,7 @@
                 if (state === 'Georgia') {
                     const infoButton = document.createElement('button');
                     infoButton.className = 'info-button';
-                    infoButton.id = 'georgiaInfoButton';
-                    infoButton.textContent = TEXT_CONTENT[currentLang].georgiaButton;
+                    infoButton.textContent = currentLang === 'en' ? 'See Info' : 'ინფორმაციის ნახვა';
                     infoButton.onclick = openGeorgiaModal;
                     listItem.appendChild(infoButton);
                 }
@@ -401,64 +309,55 @@
             });
         }
 
-        /**
-         * Updates the UI text elements based on the current language.
-         */
+        // Setup event listeners
+        function setupEventListeners() {
+            langSwitcher.addEventListener('click', toggleLanguage);
+            modalLangSwitcher.addEventListener('click', toggleLanguage);
+            closeButton.addEventListener('click', closeGeorgiaModal);
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === georgiaModal) {
+                    closeGeorgiaModal();
+                }
+            });
+        }
+
+        // Toggle language
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'geo' : 'en';
+            updateUI();
+        }
+
+        // Update UI based on language
         function updateUI() {
             const content = TEXT_CONTENT[currentLang];
-            document.getElementById('pageTitle').textContent = content.pageTitle;
+            document.title = content.pageTitle;
             document.getElementById('mainHeader').textContent = content.mainHeader;
             document.getElementById('totalCountText').textContent = content.totalCountText;
             langSwitcher.textContent = content.langButton;
             modalLangSwitcher.textContent = content.langButton;
             
-            // Update Georgia Info Modal Content
+            // Update modal content
             const georgiaInfo = currentLang === 'en' ? GEORGIA_INFO_EN : GEORGIA_INFO_GEO;
             document.getElementById('modalTitle').textContent = georgiaInfo.title;
             document.getElementById('modalContent').innerHTML = georgiaInfo.content;
             
+            // Re-render states to update button text
             renderStates();
         }
 
-        /**
-         * Opens the Georgia information modal.
-         */
+        // Open Georgia modal
         function openGeorgiaModal() {
-            georgiaModal.style.display = "block";
+            georgiaModal.style.display = 'block';
         }
 
-        /**
-         * Closes the Georgia information modal.
-         */
+        // Close Georgia modal
         function closeGeorgiaModal() {
-            georgiaModal.style.display = "none";
+            georgiaModal.style.display = 'none';
         }
 
-        /**
-         * Toggles the current language and updates the UI.
-         */
-        function toggleLanguage() {
-            currentLang = currentLang === 'en' ? 'geo' : 'en';
-            langSwitcher.dataset.lang = currentLang; 
-            modalLangSwitcher.dataset.lang = currentLang;
-            updateUI();
-        }
-
-        // Event listeners
-        langSwitcher.onclick = toggleLanguage;
-        modalLangSwitcher.onclick = toggleLanguage;
-        closeButton.onclick = closeGeorgiaModal;
-        
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            if (event.target == georgiaModal) {
-                closeGeorgiaModal();
-            }
-        }
-        
-        // Initial load
-        updateUI(); 
+        // Start the application
+        document.addEventListener('DOMContentLoaded', init);
     </script>
-
 </body>
 </html>
