@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US States List</title>
+    <style>
+        :root {
+            --primary-color: #004a99;
+            --secondary-color: #f7a81b;
+            --background-color: #f0f4f8;
+            --text-color: #333;
+            --georgia-bg: #d9e9f9;
+            --usa-bg: #e0f2f1; /* Light Teal for USA Card */
+            --usa-border: #00796b; /* Dark Teal for USA Card Border */
+            --president-bg: #f9e8f0; /* Light Pink for President Card */
+            --president-border: #c2185b; /* Dark Pink for President Card Border */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            margin: 0 auto 0 auto;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            letter-spacing: 1px;
+        }
+
+        .language-switcher button {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .language-switcher button:hover {
+            background-color: #e5971a;
+        }
+
+        /* Search Bar Styles */
+        .search-container {
+            max-width: 1000px;
+            margin: 0 auto 20px auto;
+            padding: 15px 20px;
+            background-color: white;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 10px 15px;
+            font-size: 1em;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        #searchInput:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+        }
+
+        /* List and Item Styles */
+        #statesList {
+            list-style: none;
+            display: grid;
+            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        /* General Item Styles */
+        .state-item {
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .state-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .state-item h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        /* Special States Styles */
+        .state-item.georgia-state {
+            background-color: var(--georgia-bg);
+            border: 2px solid var(--secondary-color);
+        }
+
+        .state-item.california-state {
+            background-color: #fff3e0;
+            border: 2px solid #ff9800;
+        } /* Light Orange */
+
+        .state-item.newyork-state {
+            background-color: #e3f2fd;
+            border: 2px solid #2196f3;
+        } /* Light Blue */
+
+        .state-item.texas-state {
+            background-color: #fce4ec;
+            border: 2px solid #e91e63;
+        } /* Light Pink */
+
+        /* USA Card Styles (Wide Display) */
+        .usa-item {
+            background-color: var(--usa-bg);
+            border: 3px solid var(--usa-border);
+            grid-column: 1 / -1; /* Make it span all columns */
+            padding: 25px;
+            text-align: center;
+        }
+
+        .usa-item h3 {
+            color: var(--usa-border);
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .usa-item p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        /* President Card Styles */
+        .president-item {
+            background-color: var(--president-bg);
+            border: 3px solid var(--president-border);
+            grid-column: 1 / -1; /* Make it span all columns */
+            padding: 25px;
+            text-align: center;
+        }
+
+        .president-item h3 {
+            color: var(--president-border);
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .president-item p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .info-button {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+            text-align: center;
+        }
+
+        .info-button:hover {
+            background-color: #e5971a;
+        }
+
+        .total-states {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            padding: 10px;
+            background-color: white;
+            border-radius: 8px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 10px;
+            position: relative;
+            animation-name: animatetop;
+            animation-duration: 0.4s;
+        }
+
+        @keyframes animatetop {
+            from {top: -300px; opacity: 0}
+            to {top: 0; opacity: 1}
+        }
+
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close-button:hover {
+            color: #000;
+        }
+
+        /* Additional info styles */
+        .additional-info {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+
+        .see-more-button {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .see-more-button:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.5em;
+            }
+
+            header {
+                margin-left: 10px;
+                margin-right: 10px;
+                max-width: 95%;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .language-switcher {
+                margin-top: 10px;
+            }
+
+            .search-container {
+                margin-left: 10px;
+                margin-right: 10px;
+                max-width: 95%;
+            }
+
+            .usa-item, .president-item {
+                grid-column: auto; /* Revert to single column on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 id="mainHeader">US States List</h1>
+        <div class="language-switcher">
+            <button id="langSwitcher">GEO</button>
+        </div>
+    </header>
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search States..." />
+    </div>
+    <div class="container">
+        <p class="total-states"><span id="totalCountText">Total States:</span> <span id="statesCount">50</span></p>
+        <ul id="statesList"></ul>
+    </div>
+    <div id="infoModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modalTitle">Information</h2>
+            <div id="modalContent"></div>
+            <div class="language-switcher" style="text-align: right; margin-top: 15px;">
+                <button id="modalLangSwitcher">GEO</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        const STATES = [
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        ];
+
+        // --- ALL INFO DATA ---
+        // USA General Info
+        const USA_INFO_EN = {
+            title: "United States of America - General Information",
+            content: `<p><strong>Capital:</strong> Washington, D.C.</p>
+                     <p><strong>Motto:</strong> In God We Trust (official), E Pluribus Unum (traditional)</p>
+                     <p><strong>Government:</strong> Federal Presidential Constitutional Republic</p>
+                     <p><strong>Population:</strong> Approximately 340 million</p>
+                     <p><strong>Area:</strong> 9.834 million sq km (3rd largest in the world)</p>
+                     <p><strong>Fun Fact:</strong> The U.S. has the world's longest border between two countries (with Canada). It is also known as the "Melting Pot" due to its cultural diversity.</p>
+                     <p><strong>Economy:</strong> The world's largest economy, driven by advanced technology, diverse manufacturing, and services sectors.</p>`
+        };
+
+        const USA_INFO_GEO = {
+            title: "ამერიკის შეერთებული შტატები - ზოგადი ინფორმაცია",
+            content: `<p><strong>დედაქალაქი:</strong> ვაშინგტონი (D.C.)</p>
+                     <p><strong>დევიზი:</strong> ღმერთის გვწამს (ოფიციალური), E Pluribus Unum (ტრადიციული)</p>
+                     <p><strong>მმართველობა:</strong> ფედერალური საპრეზიდენტო კონსტიტუციური რესპუბლიკა</p>
+                     <p><strong>მოსახლეობა:</strong> დაახლოებით 340 მილიონი</p>
+                     <p><strong>ფართობი:</strong> 9.834 მილიონი კვ.კმ (მე-3 უდიდესი მსოფლიოში)</p>
+                     <p><strong>საინტერესო ფაქტი:</strong> აშშ-ს აქვს ყველაზე გრძელი საზღვარი ორ ქვეყანას შორის (კანადასთან). ის ასევე ცნობილია როგორც "დნობადი ქვაბი" კულტურული მრავალფეროვნების გამო.</p>
+                     <p><strong>ეკონომიკა:</strong> მსოფლიოში უდიდესი ეკონომიკა, რომელსაც ამოძრავებს მოწინავე ტექნოლოგიები, მრავალფეროვანი წარმოება და მომსახურების სექტორი.</p>`
+        };
+
+        // President Info
+        const PRESIDENT_INFO_EN = {
+            title: "President of the United States",
+            content: `<p><strong>Current President:</strong> Donald J. Trump (47th President)</p>
+                     <p><strong>Term:</strong> January 20, 2025 - Present</p>
+                     <p><strong>Political Party:</strong> Republican</p>
+                     <p><strong>Vice President:</strong> J.D. Vance</p>
+                     <p><strong>Residence:</strong> The White House, Washington, D.C.</p>
+                     <p><strong>Powers:</strong> Commander-in-Chief of the Armed Forces, veto power over legislation, appointment of federal judges and ambassadors.</p>
+                     <p><strong>Requirements:</strong> Natural-born U.S. citizen, at least 35 years old, resident in the U.S. for at least 14 years.</p>
+                     <p><strong>Term Length:</strong> 4 years, maximum of two terms.</p>
+                     <button class="see-more-button">See Full Info About Donald Trump</button>
+                     <div class="additional-info">
+                         
+                         Donald John Trump (born June 14, 1946) is an American politician, media personality, and businessman who is the 47th president of the United States. A member of the Republican Party, he served as the 45th president from 2017 to 2021.
+
+Born into a wealthy family in New York City, Trump graduated from the University of Pennsylvania in 1968 with a bachelor's degree in economics. He became the president of his family's real estate business in 1971, renamed it The Trump Organization, and began acquiring and building skyscrapers, hotels, casinos, and golf courses. He also launched side ventures, many licensing the Trump name, and filed for six business bankruptcies in the 1990s and 2000s. From 2004 to 2015, he hosted the reality television show The Apprentice, bolstering his fame as a billionaire. Presenting himself as a political outsider, Trump won the 2016 presidential election against Democratic Party nominee Hillary Clinton.
+
+During his first presidency, Trump imposed a travel ban on seven Muslim-majority countries, expanded the Mexico–United States border wall, and enforced a family separation policy on the border. He rolled back environmental and business regulations, signed the Tax Cuts and Jobs Act, and appointed three Supreme Court justices. In foreign policy, Trump withdrew the U.S. from agreements on climate, trade, and Iran's nuclear program, and initiated a trade war with China. In response to the COVID-19 pandemic from 2020, he downplayed its severity, contradicted health officials, and signed the CARES Act. After losing the 2020 presidential election to Joe Biden, Trump attempted to overturn the result, culminating in the January 6 Capitol attack in 2021. He was impeached in 2019 for abuse of power and obstruction of Congress, and in 2021 for incitement of insurrection; the Senate acquitted him both times.
+                     </div>`
+        };
+
+        const PRESIDENT_INFO_GEO = {
+            title: "ამერიკის შეერთებული შტატების პრეზიდენტი",
+            content: `<p><strong>მოქმედი პრეზიდენტი:</strong> დონალდ ჯ. ტრამპი (47-ე პრეზიდენტი)</p>
+                     <p><strong>ვადა:</strong> 20 იანვარი, 2025 - დღემდე</p>
+                     <p><strong>პოლიტიკური პარტია:</strong> რესპუბლიკური</p>
+                     <p><strong>ვიცე-პრეზიდენტი:</strong> ჯეი.დი. ვენსი</p>
+                     <p><strong>საცხოვრებელი:</strong> თეთრი სახლი, ვაშინგტონი, D.C.</p>
+                     <p><strong>უფლებამოსილებები:</strong> შეიარაღებული ძალების მთავარსარდალი, ვეტოს დადება კანონმდებლობაზე, ფედერალური მოსამართლეებისა და ელჩების დანიშვნა.</p>
+                     <p><strong>მოთხოვნები:</strong> აშშ-ში დაბადებული მოქალაქე, არანაკლებ 35 წლის, აშშ-ში მუდმივი რეზიდენტი მინიმუმ 14 წლის განმავლობაში.</p>
+                     <p><strong>ვადის ხანგრძლივობა:</strong> 4 წელი, მაქსიმუმ ორი ვადა.</p>
+                     <button class="see-more-button">მეტი დონალდ ტრამპზე</button>
+                     <div class="additional-info">
+                         <h3>დონალდ ჯ. ტრამპის შესახებ</h3>
+                         <p><strong>დაბადება:</strong> 14 ივნისი, 1946, კუინზი, ნიუ-იორკი</p>
+                         <p><strong>წინა ვადა:</strong> აშშ-ს 45-ე პრეზიდენტი (2017-2021)</p>
+                         <p><strong>ბიზნეს კარიერა:</strong> უძრავი ქონების დეველოპერი და ბიზნესმენი, The Trump Organization-ის დამფუძნებელი</p>
+                         <p><strong>განათლება:</strong> ეკონომიკის ბაკალავრის ხარისხი პენსილვანიის უნივერსიტეტის ვარტონის სკოლიდან</p>
+                         <p><strong>ძირითადი პოლიტიკა:</strong> "ამერიკა უპირველესად" საგარეო პოლიტიკა, გადასახადების შემცირება, დერეგულაცია, საზღვრების უსაფრთხოება და ვაჭრობის პროტექციონიზმი</p>
+                         <p><strong>მნიშვნელოვანი მიღწევები:</strong> დაინიშნა სამი უზენაესი სასამართლოს მოსამართლე, მოაწერა ხელი აბრაამის შეთანხმებებს, მიიღო გადასახადების შემცირებისა და სამუშაო ადგილების აქტი 2017</p>
+                         <p><strong>პირადი ცხოვრება:</strong> დაქორწინებულია მელანია ტრამპზე, ჰყავს ხუთი შვილი: დონალდ უმცროსი, ივანკა, ერიკი, ტიფანი და ბარონი</p>
+                     </div>`
+        };
+
+        // Georgia Info (retained)
+        const GEORGIA_INFO_EN = {
+            title: "State of Georgia - The Peach State",
+            content: `<p><strong>Capital:</strong> Atlanta</p>
+                     <p><strong>Largest City:</strong> Atlanta</p>
+                     <p><strong>Population:</strong> Approximately 11 million</p>
+                     <p><strong>Admission to Union:</strong> January 2, 1788 (4th State)</p>
+                     <p><strong>Nickname:</strong> The Peach State, Empire State of the South</p>
+                     <p><strong>History:</strong> Key location for the Civil Rights Movement; Martin Luther King Jr. was born here.</p>
+                     <p><strong>Economy:</strong> Major hub for transportation (Hartsfield-Jackson Atlanta Int'l Airport) and film production.</p>`
+        };
+
+        const GEORGIA_INFO_GEO = {
+            title: "შტატი ჯორჯია - ატმის შტატი",
+            content: `<p><strong>დედაქალაქი:</strong> ატლანტა</p>
+                     <p><strong>უდიდესი ქალაქი:</strong> ატლანტა</p>
+                     <p><strong>მოსახლეობა:</strong> დაახლოებით 11 მილიონი</p>
+                     <p><strong>კავშირში შესვლა:</strong> 2 იანვარი, 1788 (მე-4 შტატი)</p>
+                     <p><strong>მეტსახელი:</strong> ატმის შტატი, სამხრეთის იმპერიის შტატი</p>
+                     <p><strong>ისტორია:</strong> სამოქალაქო უფლებების მოძრაობის მთავარი ადგილი; მარტინ ლუთერ კინგი აქ დაიბადა.</p>
+                     <p><strong>ეკონომიკა:</strong> მნიშვნელოვანი ცენტრი ტრანსპორტისთვის (ატლანტას საერთაშორისო აეროპორტი) და კინოინდუსტრიისთვის.</p>`
+        };
+
+        // California Info (New)
+        const CALIFORNIA_INFO_EN = {
+            title: "State of California - The Golden State",
+            content: `<p><strong>Capital:</strong> Sacramento</p>
+                     <p><strong>Largest City:</strong> Los Angeles</p>
+                     <p><strong>Population:</strong> Approximately 39 million (Most Populous State)</p>
+                     <p><strong>Nickname:</strong> The Golden State</p>
+                     <p><strong>Economy:</strong> Home to Hollywood, Silicon Valley (tech industry), and major agricultural production.</p>
+                     <p><strong>Geography:</strong> Features diverse landscapes: beaches, mountains (Sierra Nevada), and deserts (Death Valley).</p>`
+        };
+
+        const CALIFORNIA_INFO_GEO = {
+            title: "შტატი კალიფორნია - ოქროს შტატი",
+            content: `<p><strong>დედაქალაქი:</strong> საკრამენტო</p>
+                     <p><strong>უდიდესი ქალაქი:</strong> ლოს-ანჯელესი</p>
+                     <p><strong>მოსახლეობა:</strong> დაახლოებით 39 მილიონი (ყველაზე დასახლებული შტატი)</p>
+                     <p><strong>მეტსახელი:</strong> ოქროს შტატი</p>
+                     <p><strong>ეკონომიკა:</strong> ჰოლივუდის, სილიკონის ველის (ტექნოლოგიური ინდუსტრია) და ძირითადი სოფლის მეურნეობის სამშობლო.</p>
+                     <p><strong>გეოგრაფია:</strong> გამოირჩევა მრავალფეროვანი ლანდშაფტებით: პლაჟები, მთები (სიერა ნევადა) და უდაბნოები (სიკვდილის ველი).</p>`
+        };
+
+        // New York Info (New)
+        const NEWYORK_INFO_EN = {
+            title: "State of New York - The Empire State",
+            content: `<p><strong>Capital:</strong> Albany</p>
+                     <p><strong>Largest City:</strong> New York City</p>
+                     <p><strong>Population:</strong> Approximately 20 million</p>
+                     <p><strong>Nickname:</strong> The Empire State</p>
+                     <p><strong>Landmarks:</strong> Statue of Liberty, Times Square, Niagara Falls.</p>
+                     <p><strong>Fun Fact:</strong> NYC served as the first capital of the United States.</p>`
+        };
+
+        const NEWYORK_INFO_GEO = {
+            title: "შტატი ნიუ-იორკი - იმპერიის შტატი",
+            content: `<p><strong>დედაქალაქი:</strong> ოლბანი</p>
+                     <p><strong>უდიდესი ქალაქი:</strong> ნიუ-იორკი</p>
+                     <p><strong>მოსახლეობა:</strong> დაახლოებით 20 მილიონი</p>
+                     <p><strong>მეტსახელი:</strong> იმპერიის შტატი</p>
+                     <p><strong>ღირსშესანიშნაობები:</strong> თავისუფლების ქანდაკება, თაიმს სქვერი, ნიაგარას ჩანჩქერი.</p>
+                     <p><strong>საინტერესო ფაქტი:</strong> ნიუ-იორკი იყო ამერიკის შეერთებული შტატების პირველი დედაქალაქი.</p>`
+        };
+
+        // Texas Info (New)
+        const TEXAS_INFO_EN = {
+            title: "State of Texas - The Lone Star State",
+            content: `<p><strong>Capital:</strong> Austin</p>
+                     <p><strong>Largest City:</strong> Houston</p>
+                     <p><strong>Population:</strong> Approximately 30 million (2nd Most Populous State)</p>
+                     <p><strong>Nickname:</strong> The Lone Star State</p>
+                     <p><strong>Economy:</strong> Major center for oil, gas, cattle, and technology (e.g., Dallas).</p>
+                     <p><strong>History:</strong> Was an independent republic before joining the Union.</p>`
+        };
+
+        const TEXAS_INFO_GEO = {
+            title: "შტატი ტეხასი - მარტოხელა ვარსკვლავის შტატი",
+            content: `<p><strong>დედაქალაქი:</strong> ოსტინი</p>
+                     <p><strong>უდიდესი ქალაქი:</strong> ჰიუსტონი</p>
+                     <p><strong>მოსახლეობა:</strong> დაახლოებით 30 მილიონი (მე-2 ყველაზე დასახლებული შტატი)</p>
+                     <p><strong>მეტსახელი:</strong> მარტოხელა ვარსკვლავის შტატი</p>
+                     <p><strong>ეკონომიკა:</strong> ნავთობის, გაზის, მსხვილფეხა რქოსანი პირუტყვისა და ტექნოლოგიების მთავარი ცენტრი (მაგ., დალასი).</p>
+                     <p><strong>ისტორია:</strong> კავშირში გაწევრიანებამდე იყო დამოუკიდებელი რესპუბლიკა.</p>`
+        };
+
+        // Mapping all data for easy access
+        const INFO_MAP = {
+            'USA': {
+                en: USA_INFO_EN,
+                geo: USA_INFO_GEO,
+                css: 'usa-item'
+            },
+            'PRESIDENT': {
+                en: PRESIDENT_INFO_EN,
+                geo: PRESIDENT_INFO_GEO,
+                css: 'president-item'
+            },
+            'Georgia': {
+                en: GEORGIA_INFO_EN,
+                geo: GEORGIA_INFO_GEO,
+                css: 'georgia-state'
+            },
+            'California': {
+                en: CALIFORNIA_INFO_EN,
+                geo: CALIFORNIA_INFO_GEO,
+                css: 'california-state'
+            },
+            'New York': {
+                en: NEWYORK_INFO_EN,
+                geo: NEWYORK_INFO_GEO,
+                css: 'newyork-state'
+            },
+            'Texas': {
+                en: TEXAS_INFO_EN,
+                geo: TEXAS_INFO_GEO,
+                css: 'texas-state'
+            }
+        };
+
+        // --- TEXT CONTENT ---
+        const TEXT_CONTENT = {
+            en: {
+                pageTitle: "US States List",
+                mainHeader: "United States of America - 50 States",
+                totalCountText: "Total States:",
+                infoButton: "See Info",
+                langButton: "GEO",
+                searchPlaceholder: "Search States...",
+                usaCardTitle: "United States Overview",
+                presidentCardTitle: "President of the United States"
+            },
+            geo: {
+                pageTitle: "აშშ-ს შტატების სია",
+                mainHeader: "ამერიკის შეერთებული შტატები - 50 შტატი",
+                totalCountText: "სულ შტატი:",
+                infoButton: "ინფორმაციის ნახვა",
+                langButton: "ENG",
+                searchPlaceholder: "შტატების ძიება...",
+                usaCardTitle: "ამერიკის მიმოხილვა",
+                presidentCardTitle: "ამერიკის შეერთებული შტატების პრეზიდენტი"
+            }
+        };
+
+        let currentLang = 'en';
+        const statesList = document.getElementById('statesList');
+        const statesCountSpan = document.getElementById('statesCount');
+        const infoModal = document.getElementById('infoModal'); // Updated ID
+        const closeButton = document.querySelector('.close-button');
+        const langSwitcher = document.getElementById('langSwitcher');
+        const modalLangSwitcher = document.getElementById('modalLangSwitcher');
+        const searchInput = document.getElementById('searchInput');
+
+        function init() {
+            renderStates();
+            setupEventListeners();
+            statesCountSpan.textContent = STATES.length;
+            updateUI(); // Initial update for USA Card and Search Placeholder
+            registerServiceWorker();
+        }
+
+        function renderStates() {
+            statesList.innerHTML = '';
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredStates = STATES.filter(state => state.toLowerCase().includes(searchTerm));
+
+            // 1. Render USA Card (always at the top, not affected by filter)
+            if (searchTerm === '') {
+                renderUSACard();
+                renderPresidentCard();
+            }
+
+            // 2. Render State List
+            filteredStates.forEach(state => {
+                const listItem = document.createElement('li');
+                const stateData = INFO_MAP[state];
+                const isSpecial = !!stateData; // Check if state has detailed info
+                listItem.className = `state-item ${isSpecial ? stateData.css : ''}`;
+                
+                const stateName = document.createElement('h3');
+                stateName.textContent = state;
+                listItem.appendChild(stateName);
+
+                if (isSpecial) {
+                    const infoButton = document.createElement('button');
+                    infoButton.className = 'info-button';
+                    infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
+                    infoButton.onclick = () => openInfoModal(state);
+                    listItem.appendChild(infoButton);
+                }
+                
+                statesList.appendChild(listItem);
+            });
+        }
+
+        function renderUSACard() {
+            const listItem = document.createElement('li');
+            listItem.className = 'state-item usa-item';
+            
+            const title = document.createElement('h3');
+            title.textContent = TEXT_CONTENT[currentLang].usaCardTitle;
+            listItem.appendChild(title);
+            
+            const preview = document.createElement('p');
+            const data = INFO_MAP['USA'][currentLang].content;
+            // Display a brief preview (e.g., first few lines of the content)
+            const previewText = data.split('</p>')[0].replace(/<[^>]*>/g, '').replace(':', ': '); // Extract first paragraph
+            preview.textContent = previewText + '...';
+            listItem.appendChild(preview);
+            
+            const infoButton = document.createElement('button');
+            infoButton.className = 'info-button';
+            infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
+            infoButton.onclick = () => openInfoModal('USA');
+            listItem.appendChild(infoButton);
+            
+            statesList.appendChild(listItem);
+        }
+
+        function renderPresidentCard() {
+            const listItem = document.createElement('li');
+            listItem.className = 'state-item president-item';
+            
+            const title = document.createElement('h3');
+            title.textContent = TEXT_CONTENT[currentLang].presidentCardTitle;
+            listItem.appendChild(title);
+            
+            const preview = document.createElement('p');
+            const data = INFO_MAP['PRESIDENT'][currentLang].content;
+            // Display a brief preview (e.g., first few lines of the content)
+            const previewText = data.split('</p>')[0].replace(/<[^>]*>/g, '').replace(':', ': '); // Extract first paragraph
+            preview.textContent = previewText + '...';
+            listItem.appendChild(preview);
+            
+            const infoButton = document.createElement('button');
+            infoButton.className = 'info-button';
+            infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
+            infoButton.onclick = () => openInfoModal('PRESIDENT');
+            listItem.appendChild(infoButton);
+            
+            statesList.appendChild(listItem);
+        }
+
+        function setupEventListeners() {
+            langSwitcher.addEventListener('click', toggleLanguage);
+            modalLangSwitcher.addEventListener('click', toggleLanguage);
+            closeButton.addEventListener('click', closeInfoModal);
+            searchInput.addEventListener('input', renderStates); // Add event listener for filtering
+            
+            window.addEventListener('click', function(event) {
+                if (event.target === infoModal) closeInfoModal();
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'geo' : 'en';
+            updateUI();
+        }
+
+        function updateUI() {
+            const content = TEXT_CONTENT[currentLang];
+            document.title = content.pageTitle;
+            document.getElementById('mainHeader').textContent = content.mainHeader;
+            document.getElementById('totalCountText').textContent = content.totalCountText;
+            langSwitcher.textContent = content.langButton;
+            modalLangSwitcher.textContent = content.langButton;
+            searchInput.placeholder = content.searchPlaceholder;
+            
+            // Re-render the list to update button texts and USA card text
+            renderStates();
+            
+            // Re-update modal content if it is open (or just update the default/last opened one)
+            // Note: Since the modal closes when lang switches, this is less critical, but good practice.
+            const currentModalTitle = document.getElementById('modalTitle').textContent;
+            if (currentModalTitle) {
+                // Simplified: Just use the 'USA' data as a fallback to ensure modal is updated
+                const usaInfo = INFO_MAP['USA'][currentLang];
+                document.getElementById('modalTitle').textContent = usaInfo.title;
+                document.getElementById('modalContent').innerHTML = usaInfo.content;
+            }
+        }
+
+        function openInfoModal(key) {
+            const info = INFO_MAP[key][currentLang];
+            document.getElementById('modalTitle').textContent = info.title;
+            document.getElementById('modalContent').innerHTML = info.content;
+            infoModal.style.display = 'block';
+            
+            // Add event listener for "See More" button
+            setTimeout(() => {
+                const seeMoreButton = document.querySelector('.see-more-button');
+                if (seeMoreButton) {
+                    seeMoreButton.addEventListener('click', function() {
+                        const additionalInfo = this.nextElementSibling;
+                        if (additionalInfo.style.display === 'block') {
+                            additionalInfo.style.display = 'none';
+                            this.textContent = currentLang === 'en' ? 'See More About Donald Trump' : 'მეტი დონალდ ტრამპზე';
+                        } else {
+                            additionalInfo.style.display = 'block';
+                            this.textContent = currentLang === 'en' ? 'See Less' : 'ნაკლების ნახვა';
+                        }
+                    });
+                }
+            }, 100);
+        }
+
+        function closeInfoModal() {
+            infoModal.style.display = 'none';
+        }
+
+        function registerServiceWorker() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker რეგისტრირებულია:', reg))
+                .catch(err => console.log('Service Worker რეგისტრაცია ვერ მოხერხდა:', err));
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
