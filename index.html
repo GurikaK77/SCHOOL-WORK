@@ -11,10 +11,16 @@
             --background-color: #f0f4f8;
             --text-color: #333;
             --georgia-bg: #d9e9f9;
-            --usa-bg: #e0f2f1; /* Light Teal for USA Card */
-            --usa-border: #00796b; /* Dark Teal for USA Card Border */
-            --president-bg: #f9e8f0; /* Light Pink for President Card */
-            --president-border: #c2185b; /* Dark Pink for President Card Border */
+            
+            /* Card Specific Colors */
+            --usa-bg: #e0f2f1; /* Light Teal for USA */
+            --usa-border: #00796b; /* Dark Teal for USA */
+            
+            --president-bg: #f9e8f0; /* Light Pink for President */
+            --president-border: #c2185b; /* Dark Pink for President */
+            
+            --education-bg: #e8eaf6; /* Light Indigo for Education */
+            --education-border: #3f51b5; /* Dark Indigo for Education */
         }
 
         * {
@@ -129,59 +135,49 @@
         .state-item.california-state {
             background-color: #fff3e0;
             border: 2px solid #ff9800;
-        } /* Light Orange */
+        }
 
         .state-item.newyork-state {
             background-color: #e3f2fd;
             border: 2px solid #2196f3;
-        } /* Light Blue */
+        }
 
         .state-item.texas-state {
             background-color: #fce4ec;
             border: 2px solid #e91e63;
-        } /* Light Pink */
+        }
 
-        /* USA Card Styles (Wide Display) */
-        .usa-item {
-            background-color: var(--usa-bg);
-            border: 3px solid var(--usa-border);
+        /* Special Full-Width Cards (USA, President, Education) */
+        .usa-item, .president-item, .education-item {
             grid-column: 1 / -1; /* Make it span all columns */
             padding: 25px;
             text-align: center;
         }
 
-        .usa-item h3 {
-            color: var(--usa-border);
-            font-size: 1.8em;
-            margin-bottom: 5px;
+        /* USA Card Styles */
+        .usa-item {
+            background-color: var(--usa-bg);
+            border: 3px solid var(--usa-border);
         }
-
-        .usa-item p {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            color: var(--text-color);
-        }
+        .usa-item h3 { color: var(--usa-border); font-size: 1.8em; margin-bottom: 5px; }
+        .usa-item p { font-size: 1.1em; margin-bottom: 15px; color: var(--text-color); }
 
         /* President Card Styles */
         .president-item {
             background-color: var(--president-bg);
             border: 3px solid var(--president-border);
-            grid-column: 1 / -1; /* Make it span all columns */
-            padding: 25px;
-            text-align: center;
         }
+        .president-item h3 { color: var(--president-border); font-size: 1.8em; margin-bottom: 5px; }
+        .president-item p { font-size: 1.1em; margin-bottom: 15px; color: var(--text-color); }
 
-        .president-item h3 {
-            color: var(--president-border);
-            font-size: 1.8em;
-            margin-bottom: 5px;
+        /* Education Card Styles */
+        .education-item {
+            background-color: var(--education-bg);
+            border: 3px solid var(--education-border);
         }
+        .education-item h3 { color: var(--education-border); font-size: 1.8em; margin-bottom: 5px; }
+        .education-item p { font-size: 1.1em; margin-bottom: 15px; color: var(--text-color); }
 
-        .president-item p {
-            font-size: 1.1em;
-            margin-bottom: 15px;
-            color: var(--text-color);
-        }
 
         .info-button {
             background-color: var(--secondary-color);
@@ -232,7 +228,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 90%;
-            max-width: 700px;
+            max-width: 800px; /* Slightly wider for reading info */
             border-radius: 10px;
             position: relative;
             animation-name: animatetop;
@@ -254,6 +250,24 @@
 
         .close-button:hover {
             color: #000;
+        }
+
+        /* Content Formatting in Modal */
+        #modalContent h4 {
+            color: var(--primary-color);
+            margin-top: 15px;
+            margin-bottom: 5px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        #modalContent ul {
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        #modalContent li {
+            margin-bottom: 5px;
         }
 
         /* Additional info styles */
@@ -290,11 +304,6 @@
             border-bottom: none;
         }
 
-        .president-info h4 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
         /* Responsive Adjustments */
         @media (max-width: 768px) {
             h1 {
@@ -319,7 +328,7 @@
                 max-width: 95%;
             }
 
-            .usa-item, .president-item {
+            .usa-item, .president-item, .education-item {
                 grid-column: auto; /* Revert to single column on small screens */
             }
         }
@@ -363,8 +372,7 @@
                      <p><strong>Government:</strong> Federal Presidential Constitutional Republic</p>
                      <p><strong>Population:</strong> Approximately 340 million</p>
                      <p><strong>Area:</strong> 9.834 million sq km (3rd largest in the world)</p>
-                     <p><strong>Fun Fact:</strong> The U.S. has the world's longest border between two countries (with Canada). It is also known as the "Melting Pot" due to its cultural diversity.</p>
-                     <p><strong>Economy:</strong> The world's largest economy, driven by advanced technology, diverse manufacturing, and services sectors.</p>`
+                     <p><strong>Fun Fact:</strong> The U.S. has the world's longest border between two countries (with Canada).</p>`
         };
 
         const USA_INFO_GEO = {
@@ -374,8 +382,86 @@
                      <p><strong>მმართველობა:</strong> ფედერალური საპრეზიდენტო კონსტიტუციური რესპუბლიკა</p>
                      <p><strong>მოსახლეობა:</strong> დაახლოებით 340 მილიონი</p>
                      <p><strong>ფართობი:</strong> 9.834 მილიონი კვ.კმ (მე-3 უდიდესი მსოფლიოში)</p>
-                     <p><strong>საინტერესო ფაქტი:</strong> აშშ-ს აქვს ყველაზე გრძელი საზღვარი ორ ქვეყანას შორის (კანადასთან). ის ასევე ცნობილია როგორც "დნობადი ქვაბი" კულტურული მრავალფეროვნების გამო.</p>
-                     <p><strong>ეკონომიკა:</strong> მსოფლიოში უდიდესი ეკონომიკა, რომელსაც ამოძრავებს მოწინავე ტექნოლოგიები, მრავალფეროვანი წარმოება და მომსახურების სექტორი.</p>`
+                     <p><strong>საინტერესო ფაქტი:</strong> აშშ-ს აქვს ყველაზე გრძელი საზღვარი ორ ქვეყანას შორის (კანადასთან).</p>`
+        };
+
+        // Education Info (NEW)
+        const EDUCATION_INFO_EN = {
+            title: "Education System in the USA",
+            content: `
+            <div class="education-info">
+                <p>The United States is home to some of the world's best universities and a diverse public school system. Education is primarily the responsibility of state and local governments, not the federal government.</p>
+                
+                <h4>1. K-12 Education (Primary & Secondary)</h4>
+                <ul>
+                    <li><strong>Compulsory:</strong> Education is mandatory from age 5-6 to 16-18 (varies by state).</li>
+                    <li><strong>Elementary School:</strong> Kindergarten to 5th Grade (Ages 5-11).</li>
+                    <li><strong>Middle School (Junior High):</strong> 6th to 8th Grade (Ages 11-14).</li>
+                    <li><strong>High School:</strong> 9th to 12th Grade (Ages 14-18). Years are called Freshman, Sophomore, Junior, and Senior.</li>
+                    <li><strong>Types of Schools:</strong> Public Schools (free, funded by taxes), Private Schools (tuition-based), Charter Schools (publicly funded but privately managed).</li>
+                </ul>
+
+                <h4>2. Grading System</h4>
+                <p>The US uses a letter grading system, often calculated into a Grade Point Average (GPA) on a 4.0 scale:</p>
+                <ul>
+                    <li><strong>A (90-100%):</strong> Excellent (4.0)</li>
+                    <li><strong>B (80-89%):</strong> Above Average (3.0)</li>
+                    <li><strong>C (70-79%):</strong> Average (2.0)</li>
+                    <li><strong>D (60-69%):</strong> Below Average (1.0)</li>
+                    <li><strong>F (0-59%):</strong> Failure (0.0)</li>
+                </ul>
+
+                <h4>3. Higher Education (College & University)</h4>
+                <ul>
+                    <li><strong>Undergraduate (Bachelor's):</strong> Typically 4 years. Students choose a "Major" (main subject). Renowned institutions include the Ivy League (Harvard, Yale, Princeton, etc.).</li>
+                    <li><strong>Community College:</strong> 2-year institutions granting Associate Degrees. Often cheaper and used as a stepping stone to universities.</li>
+                    <li><strong>Graduate School:</strong> Master’s Degree (1-2 years) and Doctoral Degree (PhD, 3-7 years).</li>
+                    <li><strong>Cost:</strong> Higher education is not free. Students often rely on student loans, scholarships, and financial aid.</li>
+                </ul>
+
+                <h4>4. Standardized Testing</h4>
+                <p>For university admission, students typically take standardized tests like the <strong>SAT</strong> or <strong>ACT</strong>, though many colleges are becoming "test-optional."</p>
+            </div>
+            `
+        };
+
+        const EDUCATION_INFO_GEO = {
+            title: "განათლების სისტემა ამერიკაში",
+            content: `
+            <div class="education-info">
+                <p>ამერიკის შეერთებული შტატები გამოირჩევა მსოფლიოს საუკეთესო უნივერსიტეტებით და მრავალფეროვანი საჯარო სკოლების სისტემით. განათლება ძირითადად შტატებისა და ადგილობრივი მთავრობების პასუხისმგებლობაა.</p>
+                
+                <h4>1. სასკოლო განათლება (K-12)</h4>
+                <ul>
+                    <li><strong>სავალდებულო:</strong> განათლება სავალდებულოა 5-6 წლიდან 16-18 წლამდე (შტატების მიხედვით).</li>
+                    <li><strong>დაწყებითი სკოლა (Elementary):</strong> საბავშვო ბაღიდან მე-5 კლასამდე (ასაკი 5-11).</li>
+                    <li><strong>საშუალო სკოლა (Middle School):</strong> მე-6-დან მე-8 კლასამდე (ასაკი 11-14).</li>
+                    <li><strong>უმაღლესი სკოლა (High School):</strong> მე-9-დან მე-12 კლასამდე (ასაკი 14-18). წლებს ეწოდება: Freshman, Sophomore, Junior, Senior.</li>
+                    <li><strong>სკოლის ტიპები:</strong> საჯარო (უფასო, ფინანსდება გადასახადებით), კერძო (ფასიანი) და ჩარტერული სკოლები.</li>
+                </ul>
+
+                <h4>2. შეფასების სისტემა</h4>
+                <p>აშშ იყენებს ასოებით შეფასების სისტემას, რომელიც ხშირად გადაყვანილია GPA (საშუალო ქულა) სისტემაში 4.0 შკალით:</p>
+                <ul>
+                    <li><strong>A (90-100%):</strong> შესანიშნავი (4.0)</li>
+                    <li><strong>B (80-89%):</strong> საშუალოზე მაღალი (3.0)</li>
+                    <li><strong>C (70-79%):</strong> საშუალო (2.0)</li>
+                    <li><strong>D (60-69%):</strong> საშუალოზე დაბალი (1.0)</li>
+                    <li><strong>F (0-59%):</strong> ჩაჭრა (0.0)</li>
+                </ul>
+
+                <h4>3. უმაღლესი განათლება</h4>
+                <ul>
+                    <li><strong>ბაკალავრიატი (Undergraduate):</strong> ჩვეულებრივ 4 წელი. სტუდენტები ირჩევენ "მეიჯორს" (მთავარ პროფესიას). ცნობილია "აივი ლიგის" უნივერსიტეტები (ჰარვარდი, იელი და ა.შ.).</li>
+                    <li><strong>სათემო კოლეჯი (Community College):</strong> 2-წლიანი სასწავლებლები, გასცემენ ასოცირებულ ხარისხს. ხშირად გამოიყენება როგორც უნივერსიტეტში გადასასვლელი იაფი გზა.</li>
+                    <li><strong>მაგისტრატურა და დოქტორანტურა:</strong> მაგისტრი (1-2 წელი) და PhD (3-7 წელი).</li>
+                    <li><strong>ღირებულება:</strong> უმაღლესი განათლება ფასიანია. სტუდენტები იყენებენ სესხებს, გრანტებსა და სტიპენდიებს.</li>
+                </ul>
+
+                <h4>4. ტესტირება</h4>
+                <p>უნივერსიტეტში ჩასაბარებლად სტუდენტები ხშირად აბარებენ ტესტებს, როგორიცაა <strong>SAT</strong> ან <strong>ACT</strong>.</p>
+            </div>
+            `
         };
 
         // President Info
@@ -385,39 +471,19 @@
             <div class="president-info">
                 <h4>Donald J. Trump (47th President)</h4>
                 <p><strong>Term:</strong> January 20, 2025 - Present</p>
-                <p><strong>Political Party:</strong> Republican</p>
-                <p><strong>Vice President:</strong> J.D. Vance</p>
-                <p><strong>Residence:</strong> The White House, Washington, D.C.</p>
-                <p><strong>Powers:</strong> Commander-in-Chief of the Armed Forces, veto power over legislation, appointment of federal judges and ambassadors.</p>
-                <p><strong>Requirements:</strong> Natural-born U.S. citizen, at least 35 years old, resident in the U.S. for at least 14 years.</p>
-                <p><strong>Term Length:</strong> 4 years, maximum of two terms.</p>
+                <p><strong>Party:</strong> Republican</p>
                 <button class="see-more-button" data-president="trump">See Full Info About Donald Trump</button>
                 <div class="additional-info" data-president="trump">
-                    Donald John Trump (born June 14, 1946) is an American politician, media personality, and businessman who is the 47th president of the United States. A member of the Republican Party, he served as the 45th president from 2017 to 2021.
-
-                    Born into a wealthy family in New York City, Trump graduated from the University of Pennsylvania in 1968 with a bachelor's degree in economics. He became the president of his family's real estate business in 1971, renamed it The Trump Organization, and began acquiring and building skyscrapers, hotels, casinos, and golf courses. He also launched side ventures, many licensing the Trump name, and filed for six business bankruptcies in the 1990s and 2000s. From 2004 to 2015, he hosted the reality television show The Apprentice, bolstering his fame as a billionaire. Presenting himself as a political outsider, Trump won the 2016 presidential election against Democratic Party nominee Hillary Clinton.
-
-                    During his first presidency, Trump imposed a travel ban on seven Muslim-majority countries, expanded the Mexico–United States border wall, and enforced a family separation policy on the border. He rolled back environmental and business regulations, signed the Tax Cuts and Jobs Act, and appointed three Supreme Court justices. In foreign policy, Trump withdrew the U.S. from agreements on climate, trade, and Iran's nuclear program, and initiated a trade war with China. In response to the COVID-19 pandemic from 2020, he downplayed its severity, contradicted health officials, and signed the CARES Act. After losing the 2020 presidential election to Joe Biden, Trump attempted to overturn the result, culminating in the January 6 Capitol attack in 2021. He was impeached in 2019 for abuse of power and obstruction of Congress, and in 2021 for incitement of insurrection; the Senate acquitted him both times.
+                    Donald John Trump is the 47th president. He previously served as the 45th president. He is a businessman and media personality. His policies focus on "America First", deregulation, and border security.
                 </div>
             </div>
             <div class="president-info">
                 <h4>Joe Biden (46th President)</h4>
-                <p><strong>Term:</strong> January 20, 2021 - January 20, 2025</p>
-                <p><strong>Political Party:</strong> Democratic</p>
-                <p><strong>Vice President:</strong> Kamala Harris</p>
-                <p><strong>Residence:</strong> The White House, Washington, D.C.</p>
-                <p><strong>Powers:</strong> Commander-in-Chief of the Armed Forces, veto power over legislation, appointment of federal judges and ambassadors.</p>
-                <p><strong>Requirements:</strong> Natural-born U.S. citizen, at least 35 years old, resident in the U.S. for at least 14 years.</p>
-                <p><strong>Term Length:</strong> 4 years, maximum of two terms.</p>
+                <p><strong>Term:</strong> 2021 - 2025</p>
+                <p><strong>Party:</strong> Democratic</p>
                 <button class="see-more-button" data-president="biden">See Full Info About Joe Biden</button>
                 <div class="additional-info" data-president="biden">
-                    Joseph Robinette Biden Jr. (born November 20, 1942) is an American politician who served as the 46th president of the United States from 2021 to 2025. A member of the Democratic Party, he previously served as the 47th vice president from 2009 to 2017 under President Barack Obama and represented Delaware in the United States Senate from 1973 to 2009.
-
-                    Biden was born and raised in Scranton, Pennsylvania, moving with his family to New Castle County, Delaware, in 1953 when he was ten. He studied at the University of Delaware before earning his law degree from Syracuse University in 1968. He was elected to the New Castle County Council in 1970 and became the sixth-youngest senator in U.S. history after he was elected to the United States Senate from Delaware in 1972.
-
-                    Biden was a longtime member of the Senate Foreign Relations Committee and eventually became its chairman. He opposed the Gulf War in 1991 but supported the expansion of NATO into Eastern Europe and the involvement of the United States in the Yugoslav Wars of the 1990s. He also supported the resolution authorizing the Iraq War in 2002 but later opposed the surge of U.S. troops in 2007. He chaired the Senate Judiciary Committee from 1987 to 1995, dealing with drug policy, crime prevention, and civil liberties issues; he led the effort to pass the Violent Crime Control and Law Enforcement Act and the Violence Against Women Act. He also chaired the Senate Foreign Relations Committee from 2001 to 2003 and again from 2007 to 2009.
-
-                    Biden ran for the Democratic presidential nomination in 1988 and again in 2008 but withdrew from both races. He was elected vice president in 2008 as the running mate of Barack Obama and was reelected in 2012. In 2020, Biden defeated incumbent president Donald Trump in the presidential election. As president, Biden signed the American Rescue Plan Act in response to the COVID-19 pandemic and subsequent recession, signed the Infrastructure Investment and Jobs Act, and appointed Ketanji Brown Jackson to the U.S. Supreme Court.
+                   Joe Biden served as the 46th president and previously as Vice President under Obama. His term focused on post-COVID recovery, infrastructure, and strengthening international alliances.
                 </div>
             </div>
             `
@@ -429,166 +495,93 @@
             <div class="president-info">
                 <h4>დონალდ ჯ. ტრამპი (47-ე პრეზიდენტი)</h4>
                 <p><strong>ვადა:</strong> 20 იანვარი, 2025 - დღემდე</p>
-                <p><strong>პოლიტიკური პარტია:</strong> რესპუბლიკური</p>
-                <p><strong>ვიცე-პრეზიდენტი:</strong> ჯეი.დი. ვენსი</p>
-                <p><strong>საცხოვრებელი:</strong> თეთრი სახლი, ვაშინგტონი, D.C.</p>
-                <p><strong>უფლებამოსილებები:</strong> შეიარაღებული ძალების მთავარსარდალი, ვეტოს დადება კანონმდებლობაზე, ფედერალური მოსამართლეებისა და ელჩების დანიშვნა.</p>
-                <p><strong>მოთხოვნები:</strong> აშშ-ში დაბადებული მოქალაქე, არანაკლებ 35 წლის, აშშ-ში მუდმივი რეზიდენტი მინიმუმ 14 წლის განმავლობაში.</p>
-                <p><strong>ვადის ხანგრძლივობა:</strong> 4 წელი, მაქსიმუმ ორი ვადა.</p>
+                <p><strong>პარტია:</strong> რესპუბლიკური</p>
                 <button class="see-more-button" data-president="trump">მეტი დონალდ ტრამპზე</button>
                 <div class="additional-info" data-president="trump">
-                    <h3>დონალდ ჯ. ტრამპის შესახებ</h3>
-                    <p><strong>დაბადება:</strong> 14 ივნისი, 1946, კუინზი, ნიუ-იორკი</p>
-                    <p><strong>წინა ვადა:</strong> აშშ-ს 45-ე პრეზიდენტი (2017-2021)</p>
-                    <p><strong>ბიზნეს კარიერა:</strong> უძრავი ქონების დეველოპერი და ბიზნესმენი, The Trump Organization-ის დამფუძნებელი</p>
-                    <p><strong>განათლება:</strong> ეკონომიკის ბაკალავრის ხარისხი პენსილვანიის უნივერსიტეტის ვარტონის სკოლიდან</p>
-                    <p><strong>ძირითადი პოლიტიკა:</strong> "ამერიკა უპირველესად" საგარეო პოლიტიკა, გადასახადების შემცირება, დერეგულაცია, საზღვრების უსაფრთხოება და ვაჭრობის პროტექციონიზმი</p>
-                    <p><strong>მნიშვნელოვანი მიღწევები:</strong> დაინიშნა სამი უზენაესი სასამართლოს მოსამართლე, მოაწერა ხელი აბრაამის შეთანხმებებს, მიიღო გადასახადების შემცირებისა და სამუშაო ადგილების აქტი 2017</p>
-                    <p><strong>პირადი ცხოვრება:</strong> დაქორწინებულია მელანია ტრამპზე, ჰყავს ხუთი შვილი: დონალდ უმცროსი, ივანკა, ერიკი, ტიფანი და ბარონი</p>
+                    დონალდ ჯონ ტრამპი არის 47-ე პრეზიდენტი. ის ადრე მსახურობდა როგორც 45-ე პრეზიდენტი. არის ბიზნესმენი და მედია პერსონა. მისი პოლიტიკა ფოკუსირებულია "ამერიკა უპირველეს ყოვლისა" პრინციპზე.
                 </div>
             </div>
             <div class="president-info">
                 <h4>ჯო ბაიდენი (46-ე პრეზიდენტი)</h4>
-                <p><strong>ვადა:</strong> 20 იანვარი, 2021 - 20 იანვარი, 2025</p>
-                <p><strong>პოლიტიკური პარტია:</strong> დემოკრატიული</p>
-                <p><strong>ვიცე-პრეზიდენტი:</strong> კამალა ჰარისი</p>
-                <p><strong>საცხოვრებელი:</strong> თეთრი სახლი, ვაშინგტონი, D.C.</p>
-                <p><strong>უფლებამოსილებები:</strong> შეიარაღებული ძალების მთავარსარდალი, ვეტოს დადება კანონმდებლობაზე, ფედერალური მოსამართლეებისა და ელჩების დანიშვნა.</p>
-                <p><strong>მოთხოვნები:</strong> აშშ-ში დაბადებული მოქალაქე, არანაკლებ 35 წლის, აშშ-ში მუდმივი რეზიდენტი მინიმუმ 14 წლის განმავლობაში.</p>
-                <p><strong>ვადის ხანგრძლივობა:</strong> 4 წელი, მაქსიმუმ ორი ვადა.</p>
+                <p><strong>ვადა:</strong> 2021 - 2025</p>
+                <p><strong>პარტია:</strong> დემოკრატიული</p>
                 <button class="see-more-button" data-president="biden">მეტი ჯო ბაიდენზე</button>
                 <div class="additional-info" data-president="biden">
-                    <h3>ჯო ბაიდენის შესახებ</h3>
-                    <p><strong>დაბადება:</strong> 20 ნოემბერი, 1942, სკრანტონი, პენსილვანია</p>
-                    <p><strong>წინა თანამდებობა:</strong> აშშ-ს 47-ე ვიცე-პრეზიდენტი (2009-2017)</p>
-                    <p><strong>პოლიტიკური კარიერა:</strong> დელავერის სენატორი (1973-2009), სენატის საგარეო ურთიერთობების კომიტეტის თავმჯდომარე</p>
-                    <p><strong>განათლება:</strong> იურისპრუდენციის დოქტორის ხარისხი სირაკუსის უნივერსიტეტიდან</p>
-                    <p><strong>ძირითადი პოლიტიკა:</strong> "მშენებლობა უკეთესად" გეგმა, კლიმატის ცვლილების წინააღმდეგ ბრძოლა, აფორდებული აქტი, ამერიკის გადარჩენის გეგმა</p>
-                    <p><strong>მნიშვნელოვანი მიღწევები:</strong> მოაწერა ხელი ამერიკის გადარჩენის გეგმას, ინფრასტრუქტურის ინვესტიციებისა და სამუშაო ადგილების აქტს, დაინიშნა კეტანჯი ბრაუნ ჯექსონი უზენაეს სასამართლოში</p>
-                    <p><strong>პირადი ცხოვრება:</strong> დაქორწინებულია ჯილი ბაიდენზე, ჰყავს ორი შვილი: ჰანტერი და ეშლი</p>
+                    ჯო ბაიდენი იყო 46-ე პრეზიდენტი, მანამდე კი ვიცე-პრეზიდენტი ობამას დროს. მისი პრეზიდენტობა ფოკუსირებული იყო კოვიდის შემდგომ აღდგენაზე და ინფრასტრუქტურაზე.
                 </div>
             </div>
             `
         };
 
-        // Georgia Info (retained)
+        // Georgia Info
         const GEORGIA_INFO_EN = {
             title: "State of Georgia - The Peach State",
             content: `<p><strong>Capital:</strong> Atlanta</p>
-                     <p><strong>Largest City:</strong> Atlanta</p>
-                     <p><strong>Population:</strong> Approximately 11 million</p>
-                     <p><strong>Admission to Union:</strong> January 2, 1788 (4th State)</p>
-                     <p><strong>Nickname:</strong> The Peach State, Empire State of the South</p>
-                     <p><strong>History:</strong> Key location for the Civil Rights Movement; Martin Luther King Jr. was born here.</p>
-                     <p><strong>Economy:</strong> Major hub for transportation (Hartsfield-Jackson Atlanta Int'l Airport) and film production.</p>`
+                     <p><strong>Population:</strong> ~11 million</p>
+                     <p><strong>Nickname:</strong> The Peach State</p>
+                     <p><strong>Economy:</strong> Transport, Film, Agriculture.</p>`
         };
 
         const GEORGIA_INFO_GEO = {
             title: "შტატი ჯორჯია - ატმის შტატი",
             content: `<p><strong>დედაქალაქი:</strong> ატლანტა</p>
-                     <p><strong>უდიდესი ქალაქი:</strong> ატლანტა</p>
-                     <p><strong>მოსახლეობა:</strong> დაახლოებით 11 მილიონი</p>
-                     <p><strong>კავშირში შესვლა:</strong> 2 იანვარი, 1788 (მე-4 შტატი)</p>
-                     <p><strong>მეტსახელი:</strong> ატმის შტატი, სამხრეთის იმპერიის შტატი</p>
-                     <p><strong>ისტორია:</strong> სამოქალაქო უფლებების მოძრაობის მთავარი ადგილი; მარტინ ლუთერ კინგი აქ დაიბადა.</p>
-                     <p><strong>ეკონომიკა:</strong> მნიშვნელოვანი ცენტრი ტრანსპორტისთვის (ატლანტას საერთაშორისო აეროპორტი) და კინოინდუსტრიისთვის.</p>`
+                     <p><strong>მოსახლეობა:</strong> ~11 მილიონი</p>
+                     <p><strong>მეტსახელი:</strong> ატმის შტატი</p>
+                     <p><strong>ეკონომიკა:</strong> ტრანსპორტი, კინო, სოფლის მეურნეობა.</p>`
         };
 
-        // California Info (New)
+        // California Info
         const CALIFORNIA_INFO_EN = {
             title: "State of California - The Golden State",
             content: `<p><strong>Capital:</strong> Sacramento</p>
-                     <p><strong>Largest City:</strong> Los Angeles</p>
-                     <p><strong>Population:</strong> Approximately 39 million (Most Populous State)</p>
-                     <p><strong>Nickname:</strong> The Golden State</p>
-                     <p><strong>Economy:</strong> Home to Hollywood, Silicon Valley (tech industry), and major agricultural production.</p>
-                     <p><strong>Geography:</strong> Features diverse landscapes: beaches, mountains (Sierra Nevada), and deserts (Death Valley).</p>`
+                     <p><strong>Population:</strong> ~39 million</p>
+                     <p><strong>Economy:</strong> Tech (Silicon Valley), Entertainment (Hollywood).</p>`
         };
 
         const CALIFORNIA_INFO_GEO = {
             title: "შტატი კალიფორნია - ოქროს შტატი",
             content: `<p><strong>დედაქალაქი:</strong> საკრამენტო</p>
-                     <p><strong>უდიდესი ქალაქი:</strong> ლოს-ანჯელესი</p>
-                     <p><strong>მოსახლეობა:</strong> დაახლოებით 39 მილიონი (ყველაზე დასახლებული შტატი)</p>
-                     <p><strong>მეტსახელი:</strong> ოქროს შტატი</p>
-                     <p><strong>ეკონომიკა:</strong> ჰოლივუდის, სილიკონის ველის (ტექნოლოგიური ინდუსტრია) და ძირითადი სოფლის მეურნეობის სამშობლო.</p>
-                     <p><strong>გეოგრაფია:</strong> გამოირჩევა მრავალფეროვანი ლანდშაფტებით: პლაჟები, მთები (სიერა ნევადა) და უდაბნოები (სიკვდილის ველი).</p>`
+                     <p><strong>მოსახლეობა:</strong> ~39 მილიონი</p>
+                     <p><strong>ეკონომიკა:</strong> ტექნოლოგიები, გართობა.</p>`
         };
 
-        // New York Info (New)
+        // New York Info
         const NEWYORK_INFO_EN = {
             title: "State of New York - The Empire State",
             content: `<p><strong>Capital:</strong> Albany</p>
                      <p><strong>Largest City:</strong> New York City</p>
-                     <p><strong>Population:</strong> Approximately 20 million</p>
-                     <p><strong>Nickname:</strong> The Empire State</p>
-                     <p><strong>Landmarks:</strong> Statue of Liberty, Times Square, Niagara Falls.</p>
-                     <p><strong>Fun Fact:</strong> NYC served as the first capital of the United States.</p>`
+                     <p><strong>Landmarks:</strong> Statue of Liberty, Times Square.</p>`
         };
 
         const NEWYORK_INFO_GEO = {
             title: "შტატი ნიუ-იორკი - იმპერიის შტატი",
             content: `<p><strong>დედაქალაქი:</strong> ოლბანი</p>
                      <p><strong>უდიდესი ქალაქი:</strong> ნიუ-იორკი</p>
-                     <p><strong>მოსახლეობა:</strong> დაახლოებით 20 მილიონი</p>
-                     <p><strong>მეტსახელი:</strong> იმპერიის შტატი</p>
-                     <p><strong>ღირსშესანიშნაობები:</strong> თავისუფლების ქანდაკება, თაიმს სქვერი, ნიაგარას ჩანჩქერი.</p>
-                     <p><strong>საინტერესო ფაქტი:</strong> ნიუ-იორკი იყო ამერიკის შეერთებული შტატების პირველი დედაქალაქი.</p>`
+                     <p><strong>ღირსშესანიშნაობები:</strong> თავისუფლების ქანდაკება.</p>`
         };
 
-        // Texas Info (New)
+        // Texas Info
         const TEXAS_INFO_EN = {
             title: "State of Texas - The Lone Star State",
             content: `<p><strong>Capital:</strong> Austin</p>
-                     <p><strong>Largest City:</strong> Houston</p>
-                     <p><strong>Population:</strong> Approximately 30 million (2nd Most Populous State)</p>
-                     <p><strong>Nickname:</strong> The Lone Star State</p>
-                     <p><strong>Economy:</strong> Major center for oil, gas, cattle, and technology (e.g., Dallas).</p>
-                     <p><strong>History:</strong> Was an independent republic before joining the Union.</p>`
+                     <p><strong>Economy:</strong> Oil, Gas, Cattle.</p>`
         };
 
         const TEXAS_INFO_GEO = {
             title: "შტატი ტეხასი - მარტოხელა ვარსკვლავის შტატი",
             content: `<p><strong>დედაქალაქი:</strong> ოსტინი</p>
-                     <p><strong>უდიდესი ქალაქი:</strong> ჰიუსტონი</p>
-                     <p><strong>მოსახლეობა:</strong> დაახლოებით 30 მილიონი (მე-2 ყველაზე დასახლებული შტატი)</p>
-                     <p><strong>მეტსახელი:</strong> მარტოხელა ვარსკვლავის შტატი</p>
-                     <p><strong>ეკონომიკა:</strong> ნავთობის, გაზის, მსხვილფეხა რქოსანი პირუტყვისა და ტექნოლოგიების მთავარი ცენტრი (მაგ., დალასი).</p>
-                     <p><strong>ისტორია:</strong> კავშირში გაწევრიანებამდე იყო დამოუკიდებელი რესპუბლიკა.</p>`
+                     <p><strong>ეკონომიკა:</strong> ნავთობი, გაზი, მეცხოველეობა.</p>`
         };
 
-        // Mapping all data for easy access
+        // Mapping all data
         const INFO_MAP = {
-            'USA': {
-                en: USA_INFO_EN,
-                geo: USA_INFO_GEO,
-                css: 'usa-item'
-            },
-            'PRESIDENT': {
-                en: PRESIDENT_INFO_EN,
-                geo: PRESIDENT_INFO_GEO,
-                css: 'president-item'
-            },
-            'Georgia': {
-                en: GEORGIA_INFO_EN,
-                geo: GEORGIA_INFO_GEO,
-                css: 'georgia-state'
-            },
-            'California': {
-                en: CALIFORNIA_INFO_EN,
-                geo: CALIFORNIA_INFO_GEO,
-                css: 'california-state'
-            },
-            'New York': {
-                en: NEWYORK_INFO_EN,
-                geo: NEWYORK_INFO_GEO,
-                css: 'newyork-state'
-            },
-            'Texas': {
-                en: TEXAS_INFO_EN,
-                geo: TEXAS_INFO_GEO,
-                css: 'texas-state'
-            }
+            'USA': { en: USA_INFO_EN, geo: USA_INFO_GEO, css: 'usa-item' },
+            'PRESIDENT': { en: PRESIDENT_INFO_EN, geo: PRESIDENT_INFO_GEO, css: 'president-item' },
+            'EDUCATION': { en: EDUCATION_INFO_EN, geo: EDUCATION_INFO_GEO, css: 'education-item' }, // NEW
+            'Georgia': { en: GEORGIA_INFO_EN, geo: GEORGIA_INFO_GEO, css: 'georgia-state' },
+            'California': { en: CALIFORNIA_INFO_EN, geo: CALIFORNIA_INFO_GEO, css: 'california-state' },
+            'New York': { en: NEWYORK_INFO_EN, geo: NEWYORK_INFO_GEO, css: 'newyork-state' },
+            'Texas': { en: TEXAS_INFO_EN, geo: TEXAS_INFO_GEO, css: 'texas-state' }
         };
 
         // --- TEXT CONTENT ---
@@ -601,7 +594,8 @@
                 langButton: "GEO",
                 searchPlaceholder: "Search States...",
                 usaCardTitle: "United States Overview",
-                presidentCardTitle: "Presidents of the United States"
+                presidentCardTitle: "Presidents of the United States",
+                educationCardTitle: "US Education System" // NEW
             },
             geo: {
                 pageTitle: "აშშ-ს შტატების სია",
@@ -611,14 +605,15 @@
                 langButton: "ENG",
                 searchPlaceholder: "შტატების ძიება...",
                 usaCardTitle: "ამერიკის მიმოხილვა",
-                presidentCardTitle: "ამერიკის შეერთებული შტატების პრეზიდენტები"
+                presidentCardTitle: "ამერიკის შეერთებული შტატების პრეზიდენტები",
+                educationCardTitle: "აშშ-ს განათლების სისტემა" // NEW
             }
         };
 
         let currentLang = 'en';
         const statesList = document.getElementById('statesList');
         const statesCountSpan = document.getElementById('statesCount');
-        const infoModal = document.getElementById('infoModal'); // Updated ID
+        const infoModal = document.getElementById('infoModal');
         const closeButton = document.querySelector('.close-button');
         const langSwitcher = document.getElementById('langSwitcher');
         const modalLangSwitcher = document.getElementById('modalLangSwitcher');
@@ -628,7 +623,7 @@
             renderStates();
             setupEventListeners();
             statesCountSpan.textContent = STATES.length;
-            updateUI(); // Initial update for USA Card and Search Placeholder
+            updateUI();
             registerServiceWorker();
         }
 
@@ -637,17 +632,18 @@
             const searchTerm = searchInput.value.toLowerCase();
             const filteredStates = STATES.filter(state => state.toLowerCase().includes(searchTerm));
 
-            // 1. Render USA Card (always at the top, not affected by filter)
+            // Render Special Cards (only if no search or if relevant)
             if (searchTerm === '') {
                 renderUSACard();
                 renderPresidentCard();
+                renderEducationCard(); // NEW FUNCTION CALL
             }
 
-            // 2. Render State List
+            // Render State List
             filteredStates.forEach(state => {
                 const listItem = document.createElement('li');
                 const stateData = INFO_MAP[state];
-                const isSpecial = !!stateData; // Check if state has detailed info
+                const isSpecial = !!stateData;
                 listItem.className = `state-item ${isSpecial ? stateData.css : ''}`;
                 
                 const stateName = document.createElement('h3');
@@ -667,48 +663,41 @@
         }
 
         function renderUSACard() {
-            const listItem = document.createElement('li');
-            listItem.className = 'state-item usa-item';
-            
-            const title = document.createElement('h3');
-            title.textContent = TEXT_CONTENT[currentLang].usaCardTitle;
-            listItem.appendChild(title);
-            
-            const preview = document.createElement('p');
-            const data = INFO_MAP['USA'][currentLang].content;
-            // Display a brief preview (e.g., first few lines of the content)
-            const previewText = data.split('</p>')[0].replace(/<[^>]*>/g, '').replace(':', ': '); // Extract first paragraph
-            preview.textContent = previewText + '...';
-            listItem.appendChild(preview);
-            
-            const infoButton = document.createElement('button');
-            infoButton.className = 'info-button';
-            infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
-            infoButton.onclick = () => openInfoModal('USA');
-            listItem.appendChild(infoButton);
-            
-            statesList.appendChild(listItem);
+            createSpecialCard('USA', TEXT_CONTENT[currentLang].usaCardTitle, INFO_MAP['USA'][currentLang].content);
         }
 
         function renderPresidentCard() {
+            createSpecialCard('PRESIDENT', TEXT_CONTENT[currentLang].presidentCardTitle, INFO_MAP['PRESIDENT'][currentLang].content);
+        }
+
+        // NEW FUNCTION FOR EDUCATION CARD
+        function renderEducationCard() {
+            createSpecialCard('EDUCATION', TEXT_CONTENT[currentLang].educationCardTitle, INFO_MAP['EDUCATION'][currentLang].content);
+        }
+
+        // Helper function to create special cards to reduce code duplication
+        function createSpecialCard(key, titleText, contentHTML) {
             const listItem = document.createElement('li');
-            listItem.className = 'state-item president-item';
+            listItem.className = `state-item ${INFO_MAP[key].css}`;
             
             const title = document.createElement('h3');
-            title.textContent = TEXT_CONTENT[currentLang].presidentCardTitle;
+            title.textContent = titleText;
             listItem.appendChild(title);
             
             const preview = document.createElement('p');
-            const data = INFO_MAP['PRESIDENT'][currentLang].content;
-            // Display a brief preview (e.g., first few lines of the content)
-            const previewText = data.split('</p>')[0].replace(/<[^>]*>/g, '').replace(':', ': '); // Extract first paragraph
-            preview.textContent = previewText + '...';
+            // Extract first paragraph plain text for preview
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = contentHTML;
+            const firstP = tempDiv.querySelector('p');
+            const previewText = firstP ? firstP.textContent : "";
+            
+            preview.textContent = previewText.substring(0, 100) + '...';
             listItem.appendChild(preview);
             
             const infoButton = document.createElement('button');
             infoButton.className = 'info-button';
             infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
-            infoButton.onclick = () => openInfoModal('PRESIDENT');
+            infoButton.onclick = () => openInfoModal(key);
             listItem.appendChild(infoButton);
             
             statesList.appendChild(listItem);
@@ -718,7 +707,7 @@
             langSwitcher.addEventListener('click', toggleLanguage);
             modalLangSwitcher.addEventListener('click', toggleLanguage);
             closeButton.addEventListener('click', closeInfoModal);
-            searchInput.addEventListener('input', renderStates); // Add event listener for filtering
+            searchInput.addEventListener('input', renderStates);
             
             window.addEventListener('click', function(event) {
                 if (event.target === infoModal) closeInfoModal();
@@ -739,18 +728,7 @@
             modalLangSwitcher.textContent = content.langButton;
             searchInput.placeholder = content.searchPlaceholder;
             
-            // Re-render the list to update button texts and USA card text
             renderStates();
-            
-            // Re-update modal content if it is open (or just update the default/last opened one)
-            // Note: Since the modal closes when lang switches, this is less critical, but good practice.
-            const currentModalTitle = document.getElementById('modalTitle').textContent;
-            if (currentModalTitle) {
-                // Simplified: Just use the 'USA' data as a fallback to ensure modal is updated
-                const usaInfo = INFO_MAP['USA'][currentLang];
-                document.getElementById('modalTitle').textContent = usaInfo.title;
-                document.getElementById('modalContent').innerHTML = usaInfo.content;
-            }
         }
 
         function openInfoModal(key) {
@@ -759,7 +737,7 @@
             document.getElementById('modalContent').innerHTML = info.content;
             infoModal.style.display = 'block';
             
-            // Add event listener for "See More" buttons
+            // Re-attach listeners for president see-more buttons
             setTimeout(() => {
                 const seeMoreButtons = document.querySelectorAll('.see-more-button');
                 seeMoreButtons.forEach(button => {
@@ -793,8 +771,8 @@
         function registerServiceWorker() {
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker რეგისტრირებულია:', reg))
-                .catch(err => console.log('Service Worker რეგისტრაცია ვერ მოხერხდა:', err));
+                .then(reg => console.log('Service Worker registered', reg))
+                .catch(err => console.log('Service Worker failed', err));
             }
         }
 
