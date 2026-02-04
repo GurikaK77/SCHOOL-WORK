@@ -3,368 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus USA - Futuristic Archive</title>
+    <title>Nexus USA - Fixed</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
 
         :root {
-            --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
-            --neon-pink: #ff00bd;
-            --dark-bg: #030008;
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --bg-color: #050505;
+            --card-bg: rgba(20, 20, 30, 0.6);
+            --text-main: #ffffff;
+            --text-muted: #aaaaaa;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            cursor: default;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background: var(--dark-bg);
-            color: #fff;
-            font-family: 'Rajdhani', sans-serif;
-            overflow-x: hidden;
-            min-height: 100vh;
+            background-color: var(--bg-color);
+            background-image: 
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            color: var(--text-main);
+            font-family: 'Roboto', sans-serif;
+            padding: 20px;
         }
 
-        /* Particles Background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-        }
+        .container { max-width: 1200px; margin: 0 auto; }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-
-        /* --- Cyber Header --- */
+        /* HEADER */
         header {
             text-align: center;
-            margin-bottom: 60px;
-            position: relative;
+            padding: 40px 0;
+            border-bottom: 2px solid var(--neon-blue);
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px -10px rgba(0, 243, 255, 0.3);
         }
 
         h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(2rem, 5vw, 4rem);
+            font-size: 3rem;
+            color: var(--neon-blue);
             text-transform: uppercase;
-            letter-spacing: 10px;
-            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
-            margin-bottom: 10px;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px var(--neon-blue);
         }
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: var(--neon-cyan);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            opacity: 0.8;
-        }
-
-        /* --- Controls & Search --- */
+        /* CONTROLS */
         .controls {
             display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
             justify-content: center;
-            margin-bottom: 40px;
-            background: var(--glass);
-            padding: 20px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border);
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
         }
 
-        .search-box {
-            position: relative;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        #searchInput {
-            width: 100%;
-            padding: 15px 20px;
-            background: rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--neon-cyan);
-            border-radius: 10px;
+        input {
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid var(--neon-blue);
+            background: #000;
             color: #fff;
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
+            width: 300px;
+            font-size: 1rem;
             outline: none;
-            transition: 0.3s;
         }
 
-        #searchInput:focus {
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
-        }
+        input:focus { box-shadow: 0 0 15px var(--neon-blue); }
 
-        .filter-btn, #langBtn {
-            padding: 10px 25px;
-            background: transparent;
-            border: 1px solid var(--glass-border);
-            color: #fff;
-            border-radius: 8px;
+        button {
+            padding: 12px 25px;
+            border: 1px solid var(--neon-blue);
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-blue);
+            font-family: 'Orbitron', sans-serif;
             cursor: pointer;
-            font-weight: bold;
             transition: 0.3s;
             text-transform: uppercase;
+            font-weight: bold;
         }
 
-        .filter-btn.active, .filter-btn:hover {
-            border-color: var(--neon-cyan);
-            background: rgba(0, 243, 255, 0.1);
-            color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        button:hover, button.active {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-blue);
         }
 
-        /* --- Grid & Cards --- */
+        /* GRID */
         #statesGrid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
+            gap: 20px;
         }
 
+        /* CARD DESIGN */
         .card {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            padding: 30px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 10px;
+            transition: 0.3s;
             position: relative;
-            overflow: hidden;
-            transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-            backdrop-filter: blur(5px);
+            cursor: pointer; /* მიუთითებს რომ დაკლიკება შეიძლება */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            opacity: 0;
-            transition: 0.5s;
-        }
-
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--neon-cyan);
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .card:hover::before {
-            opacity: 1;
+            transform: translateY(-5px);
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.2);
         }
 
         .card h3 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: var(--neon-cyan);
-        }
-
-        .tag {
-            display: inline-block;
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            background: rgba(0, 243, 255, 0.1);
-            color: var(--neon-cyan);
+            font-size: 1.5rem;
             margin-bottom: 10px;
-            text-transform: uppercase;
+            color: #fff;
         }
 
-        .explore-btn {
-            margin-top: 20px;
-            padding: 12px;
+        .card-tag {
+            font-size: 0.8rem;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        .view-btn {
             background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            border-radius: 5px;
-            cursor: pointer;
+            border: 1px solid var(--neon-pink);
+            color: var(--neon-pink);
+            padding: 10px;
+            text-align: center;
+            margin-top: 15px;
             font-weight: bold;
             transition: 0.3s;
+            pointer-events: none; /* კლიკი მთლიან ბარათზეა, ღილაკი ვიზუალია */
         }
 
-        .explore-btn:hover {
-            background: var(--neon-cyan);
-            color: var(--dark-bg);
-            box-shadow: 0 0 20px var(--neon-cyan);
+        .card:hover .view-btn {
+            background: var(--neon-pink);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-pink);
         }
 
-        /* Special Card Spanning */
-        .special-card {
-            grid-column: span 2;
-            border-left: 5px solid var(--neon-pink);
-        }
-
-        @media (max-width: 768px) {
-            .special-card { grid-column: span 1; }
-        }
-
-        /* --- Modal System --- */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(15px);
-            z-index: 9999;
-            padding: 20px;
-            overflow-y: auto;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
         }
 
         .modal-content {
-            background: #0a0a0f;
-            max-width: 800px;
-            margin: 40px auto;
-            border: 1px solid var(--neon-cyan);
-            border-radius: 20px;
+            background: #111;
+            border: 2px solid var(--neon-blue);
             padding: 40px;
+            width: 90%;
+            max-width: 600px;
             position: relative;
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+            border-radius: 15px;
         }
 
-        .close-modal {
+        .close-btn {
             position: absolute;
-            top: 20px;
-            right: 25px;
-            font-size: 2rem;
+            top: 15px; right: 20px;
+            font-size: 30px;
             color: var(--neon-pink);
             cursor: pointer;
         }
 
-        /* --- Stats Text --- */
-        .stats-bar {
-            text-align: center;
-            margin-bottom: 20px;
+        #modalBody {
             font-size: 1.2rem;
-            color: #888;
+            line-height: 1.6;
+            color: #e0e0e0;
+            margin-top: 20px;
         }
-        #statesCount { color: var(--neon-cyan); font-weight: bold; font-family: 'Orbitron'; }
+
+        /* Special Styling */
+        .special-card { border-left: 5px solid var(--neon-blue); }
+        .usa-card { border-color: var(--neon-blue); }
+        .president-card { border-color: var(--neon-pink); }
     </style>
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
-
     <div class="container">
         <header>
-            <h1 id="mainTitle">NEXUS USA</h1>
-            <p class="subtitle" id="subtitle">Quantum Archive System</p>
+            <h1 id="headerTitle">NEXUS DATABASE</h1>
+            <p style="color: var(--text-muted); letter-spacing: 2px; margin-top: 10px;">SECURE ACCESS TERMINAL</p>
         </header>
 
-        <div class="stats-bar">
-            <span id="totalTxt">ACTIVE NODES:</span> <span id="statesCount">50</span>
+        <div class="controls">
+            <input type="text" id="searchInput" placeholder="Search..." oninput="renderGrid()">
+            <button onclick="setFilter('all')" class="active">ALL</button>
+            <button onclick="setFilter('special')">SPECIAL</button>
+            <button onclick="toggleLang()" id="langBtn">LANG: ENG</button>
         </div>
 
-        <div class="controls">
-            <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Scan database for states...">
-            </div>
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="special">Special</button>
-            <button class="filter-btn" data-filter="states">States</button>
-            <button id="langBtn">GEO</button>
+        <div style="margin-bottom: 20px; color: var(--neon-blue);">
+            Total Nodes: <span id="count" style="font-weight:bold; color:white;">0</span>
         </div>
 
         <div id="statesGrid"></div>
     </div>
 
-    <div id="infoModal" class="modal">
+    <div id="infoModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 id="modalTitle" style="font-family: 'Orbitron'; color: var(--neon-cyan); margin-bottom: 20px;"></h2>
-            <div id="modalContent" style="font-size: 1.2rem; line-height: 1.8; color: #ccc;"></div>
-            <div style="margin-top: 30px; text-align: right;">
-                <button id="modalLangBtn" class="filter-btn">GEO</button>
-            </div>
+            <span class="close-btn" onclick="closeModal(event, true)">&times;</span>
+            <h2 id="modalTitle" style="color: var(--neon-blue); font-family: 'Orbitron'; margin-bottom: 10px;"></h2>
+            <div id="modalBody"></div>
         </div>
     </div>
 
     <script>
-        // --- ARCHIVE DATA ---
-        const DATA = {
-            states: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"],
-            special: {
-                'USA': {
-                    en: { title: "Global Intel: USA", tag: "Federal Hub", content: "Capital: Washington D.C. | Economy: $27 Trillion | Status: Global Superpower." },
-                    geo: { title: "ინფორმაცია: აშშ", tag: "ფედერალური ცენტრი", content: "დედაქალაქი: ვაშინგტონი | ეკონომიკა: $27 ტრილიონი | სტატუსი: სუპერსახელმწიფო." }
-                },
-                'PRESIDENT': {
-                    en: { title: "Executive Branch", tag: "Leadership", content: "Current Leader: Donald J. Trump (47th). Jurisdiction: Commander in Chief." },
-                    geo: { title: "აღმასრულებელი შტო", tag: "ლიდერშიპი", content: "მიმდინარე ლიდერი: დონალდ ჯ. ტრამპი (47-ე). იურისდიქცია: მთავარსარდალი." }
-                },
-                'EDUCATION': {
-                    en: { title: "Knowledge System", tag: "K-12 / Ivy", content: "Advanced grading scale (GPA 4.0). Home to Harvard, MIT, and Stanford." },
-                    geo: { title: "ცოდნის სისტემა", tag: "განათლება", content: "უმაღლესი შეფასების სისტემა (GPA 4.0). ჰარვარდის და MIT-ის სამშობლო." }
-                }
+        // --- DATA ---
+        const STATES_LIST = [
+            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
+        ];
+
+        // აქ ჩაწერე დეტალური ინფორმაცია
+        const DETAILS = {
+            'USA': { 
+                en: { title: "United States", desc: "Capital: Washington D.C.<br>Population: ~340 Million" },
+                geo: { title: "ამერიკა", desc: "დედაქალაქი: ვაშინგტონი<br>მოსახლეობა: ~340 მილიონი" }
             },
-            stateDetails: {
-                'Georgia': { en: "The Peach State. Major Tech hub Atlanta.", geo: "ატმის შტატი. ტექნოლოგიური ცენტრი ატლანტა." },
-                'California': { en: "Silicon Valley & Hollywood. Largest economy.", geo: "სილიკონის ველი და ჰოლივუდი. უდიდესი ეკონომიკა." },
-                'Texas': { en: "Energy & Space Exploration. Starship base.", geo: "ენერგეტიკა და კოსმოსური კვლევები." }
+            'PRESIDENT': {
+                en: { title: "President", desc: "Donald J. Trump (47th President).<br>Commander in Chief." },
+                geo: { title: "პრეზიდენტი", desc: "დონალდ ჯ. ტრამპი (47-ე).<br>მთავარსარდალი." }
+            },
+            'EDUCATION': {
+                en: { title: "Education", desc: "K-12 System & Ivy League Universities (Harvard, Yale)." },
+                geo: { title: "განათლება", desc: "სასკოლო სისტემა და აივი ლიგის უნივერსიტეტები." }
+            },
+            'Georgia': {
+                en: { desc: "The Peach State. Capital: Atlanta." },
+                geo: { desc: "ატმის შტატი. დედაქალაქი: ატლანტა." }
+            },
+            'California': {
+                en: { desc: "The Golden State. Home of Silicon Valley." },
+                geo: { desc: "ოქროს შტატი. სილიკონის ველის სამშობლო." }
             }
         };
 
-        const TEXTS = {
-            en: { title: "NEXUS USA", sub: "Quantum Archive System", search: "Scan database...", total: "ACTIVE NODES:", explore: "DECRYPT INFO" },
-            geo: { title: "ნექსუს აშშ", sub: "კვანტური არქივის სისტემა", search: "მონაცემების სკანირება...", total: "აქტიური ნოუდები:", explore: "გაშიფვრა" }
-        };
-
         let lang = 'en';
-        let currentFilter = 'all';
+        let filter = 'all';
 
-        // --- CORE FUNCTIONS ---
+        // --- APP LOGIC ---
         function init() {
-            renderGrid();
-            setupParticles();
-            
-            document.getElementById('searchInput').oninput = renderGrid;
-            document.getElementById('langBtn').onclick = toggleLang;
-            document.getElementById('modalLangBtn').onclick = toggleLang;
-            document.querySelector('.close-modal').onclick = () => document.getElementById('infoModal').style.display = 'none';
-            
-            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
-                btn.onclick = (e) => {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    currentFilter = e.target.dataset.filter;
-                    renderGrid();
-                }
-            });
-        }
-
-        function toggleLang() {
-            lang = lang === 'en' ? 'geo' : 'en';
-            updateUI();
-        }
-
-        function updateUI() {
-            const t = TEXTS[lang];
-            document.getElementById('mainTitle').textContent = t.title;
-            document.getElementById('subtitle').textContent = t.sub;
-            document.getElementById('searchInput').placeholder = t.search;
-            document.getElementById('totalTxt').textContent = t.total;
-            document.getElementById('langBtn').textContent = lang === 'en' ? 'GEO' : 'ENG';
-            document.getElementById('modalLangBtn').textContent = lang === 'en' ? 'GEO' : 'ENG';
             renderGrid();
         }
 
@@ -372,122 +265,93 @@
             const grid = document.getElementById('statesGrid');
             const search = document.getElementById('searchInput').value.toLowerCase();
             grid.innerHTML = '';
+            let count = 0;
 
-            let items = [];
-
-            // Add Special
-            if (currentFilter === 'all' || currentFilter === 'special') {
-                Object.keys(DATA.special).forEach(key => {
-                    const d = DATA.special[key][lang];
-                    if (d.title.toLowerCase().includes(search)) {
-                        items.push(createCardHTML(key, d.title, d.tag, true));
+            // 1. Render Specials
+            if (filter === 'all' || filter === 'special') {
+                ['USA', 'PRESIDENT', 'EDUCATION'].forEach(key => {
+                    const info = DETAILS[key][lang];
+                    if (info.title.toLowerCase().includes(search) || key.toLowerCase().includes(search)) {
+                        grid.appendChild(createCard(key, info.title, "SYSTEM DATA", "special-card"));
+                        count++;
                     }
                 });
             }
 
-            // Add States
-            if (currentFilter === 'all' || currentFilter === 'states') {
-                DATA.states.filter(s => s.toLowerCase().includes(search)).forEach(s => {
-                    items.push(createCardHTML(s, s, "State Node", !!DATA.stateDetails[s]));
+            // 2. Render States
+            if (filter === 'all' || filter === 'states') {
+                STATES_LIST.forEach(state => {
+                    if (state.toLowerCase().includes(search)) {
+                        // თუ თარგმანი არ გვაქვს, გამოვიყენოთ შტატის სახელი
+                        grid.appendChild(createCard(state, state, "STATE NODE", ""));
+                        count++;
+                    }
                 });
             }
-
-            items.forEach(html => grid.appendChild(html));
-            document.getElementById('statesCount').textContent = items.length;
+            document.getElementById('count').innerText = count;
         }
 
-        function createCardHTML(key, title, tag, hasDetails) {
+        function createCard(key, displayTitle, tag, cssClass) {
             const div = document.createElement('div');
-            div.className = `card ${['USA','PRESIDENT','EDUCATION'].includes(key) ? 'special-card' : ''}`;
+            div.className = `card ${cssClass}`;
+            div.onclick = () => openModal(key, displayTitle);
             
+            // ტექსტები ენის მიხედვით
+            const btnText = lang === 'en' ? "VIEW DATA" : "მონაცემების ნახვა";
+
             div.innerHTML = `
                 <div>
-                    <span class="tag">${tag}</span>
-                    <h3>${title}</h3>
+                    <div class="card-tag">${tag}</div>
+                    <h3>${displayTitle}</h3>
                 </div>
-                ${hasDetails ? `<button class="explore-btn" onclick="openModal('${key}')">${TEXTS[lang].explore}</button>` : ''}
+                <div class="view-btn">${btnText}</div>
             `;
             return div;
         }
 
-        function openModal(key) {
+        function openModal(key, title) {
             const modal = document.getElementById('infoModal');
-            const title = document.getElementById('modalTitle');
-            const content = document.getElementById('modalContent');
+            const mTitle = document.getElementById('modalTitle');
+            const mBody = document.getElementById('modalBody');
 
-            if (DATA.special[key]) {
-                title.textContent = DATA.special[key][lang].title;
-                content.innerHTML = DATA.special[key][lang].content;
+            mTitle.innerText = title;
+
+            // ინფორმაციის მოძიება
+            if (DETAILS[key] && DETAILS[key][lang]) {
+                mBody.innerHTML = DETAILS[key][lang].desc || DETAILS[key][lang];
             } else {
-                title.textContent = key;
-                content.innerHTML = DATA.stateDetails[key][lang];
+                // FALLBACK TEXT (თუ ინფო არ არის)
+                mBody.innerHTML = lang === 'en' 
+                    ? "Access Denied: No detailed data available for this node yet." 
+                    : "წვდომა შეზღუდულია: დეტალური ინფორმაცია ჯერ არ არის დამატებული.";
+                mBody.style.color = "#ff5555"; // Red color for missing info
             }
-            
-            modal.style.display = 'block';
-            modal.dataset.currentKey = key; // for lang toggle
+
+            modal.style.display = 'flex';
         }
 
-        // Overwrite toggleLang specifically to handle modal refresh
-        const originalToggle = toggleLang;
-        toggleLang = function() {
-            const m = document.getElementById('infoModal');
-            originalToggle();
-            if (m.style.display === 'block') {
-                openModal(m.dataset.currentKey);
+        function closeModal(e, force) {
+            if (force || e.target.id === 'infoModal') {
+                document.getElementById('infoModal').style.display = 'none';
             }
-        };
-
-        // --- PARTICLE SYSTEM ---
-        function setupParticles() {
-            const canvas = document.getElementById('bg-canvas');
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            
-            function resize() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
-            }
-            window.onresize = resize;
-            resize();
-
-            class Particle {
-                constructor() {
-                    this.init();
-                }
-                init() {
-                    this.x = Math.random() * canvas.width;
-                    this.y = Math.random() * canvas.height;
-                    this.vX = (Math.random() - 0.5) * 0.5;
-                    this.vY = (Math.random() - 0.5) * 0.5;
-                    this.size = Math.random() * 2;
-                }
-                update() {
-                    this.x += this.vX;
-                    this.y += this.vY;
-                    if (this.x < 0 || this.x > canvas.width) this.vX *= -1;
-                    if (this.y < 0 || this.y > canvas.height) this.vY *= -1;
-                }
-                draw() {
-                    ctx.fillStyle = 'rgba(0, 243, 255, 0.5)';
-                    ctx.beginPath();
-                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-
-            for (let i = 0; i < 100; i++) particles.push(new Particle());
-
-            function animate() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                particles.forEach(p => {
-                    p.update();
-                    p.draw();
-                });
-                requestAnimationFrame(animate);
-            }
-            animate();
         }
 
+        function toggleLang() {
+            lang = lang === 'en' ? 'geo' : 'en';
+            document.getElementById('langBtn').innerText = `LANG: ${lang.toUpperCase()}`;
+            document.getElementById('searchInput').placeholder = lang === 'en' ? "Search..." : "ძიება...";
+            renderGrid();
+        }
+
+        function setFilter(f) {
+            filter = f;
+            // ღილაკების სტილის შეცვლა
+            document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderGrid();
+        }
+
+        // Start
         init();
     </script>
 </body>
