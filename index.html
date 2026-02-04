@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>US States - Neon Edition</title>
+    <title>Nexus USA - Futuristic Archive</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@300;500;700&display=swap');
+
         :root {
-            --bg-dark: #05060f;
-            --card-bg: rgba(255, 255, 255, 0.05);
-            --neon-blue: #00d2ff;
-            --neon-pink: #ff007f;
-            --neon-purple: #9d00ff;
-            --neon-orange: #ff9d00;
-            --text-color: #e0e0e0;
+            --neon-cyan: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-pink: #ff00bd;
+            --dark-bg: #030008;
+            --glass: rgba(255, 255, 255, 0.03);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -20,392 +20,472 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            cursor: default;
         }
 
         body {
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
-            color: var(--text-color);
-            line-height: 1.6;
-            padding: 20px;
+            background: var(--dark-bg);
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
+        /* Particles Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
         }
 
-        /* --- Header Styles --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* --- Cyber Header --- */
         header {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(15px);
-            border: 1px solid var(--glass-border);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
         }
 
         h1 {
-            font-size: 2.2em;
-            font-weight: 800;
-            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(2rem, 5vw, 4rem);
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(0, 243, 255, 0.3));
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--neon-cyan);
+            letter-spacing: 3px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            opacity: 0.8;
         }
 
-        #langSwitcher, #modalLangSwitcher {
-            background: transparent;
-            color: var(--neon-blue);
-            border: 1px solid var(--neon-blue);
-            padding: 10px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
+        /* --- Controls & Search --- */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 40px;
+            background: var(--glass);
+            padding: 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
         }
 
-        #langSwitcher:hover {
-            background: var(--neon-blue);
-            color: var(--bg-dark);
-            box-shadow: 0 0 15px var(--neon-blue);
-        }
-
-        /* --- Search Bar --- */
-        .search-container {
-            margin-bottom: 30px;
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
         }
 
         #searchInput {
             width: 100%;
-            padding: 15px 25px;
-            font-size: 1.1em;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 15px;
-            color: white;
-            transition: all 0.4s ease;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 10px;
+            color: #fff;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            outline: none;
+            transition: 0.3s;
         }
 
         #searchInput:focus {
-            outline: none;
-            border-color: var(--neon-blue);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
-            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
         }
 
-        /* --- Stats Card --- */
-        .total-states {
-            text-align: center;
-            font-size: 1.1em;
-            margin-bottom: 25px;
-            padding: 10px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border-left: 4px solid var(--neon-blue);
-        }
-
-        /* --- Grid System --- */
-        #statesList {
-            list-style: none;
-            display: grid;
-            gap: 20px;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        }
-
-        /* --- Card Styles --- */
-        .state-item {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 18px;
+        .filter-btn, #langBtn {
+            padding: 10px 25px;
+            background: transparent;
             border: 1px solid var(--glass-border);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            border-color: var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+        }
+
+        /* --- Grid & Cards --- */
+        #statesGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+            backdrop-filter: blur(5px);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .state-item:hover {
-            transform: translateY(-10px);
-            border-color: rgba(255,255,255,0.3);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: 0.5s;
         }
 
-        .state-item h3 {
-            margin-bottom: 15px;
-            font-size: 1.4em;
-            color: #fff;
-        }
-
-        /* --- Neon Colors for Special Cards --- */
-        .usa-item { border-bottom: 4px solid var(--neon-blue); }
-        .usa-item h3 { color: var(--neon-blue); }
-
-        .president-item { border-bottom: 4px solid var(--neon-pink); }
-        .president-item h3 { color: var(--neon-pink); }
-
-        .education-item { border-bottom: 4px solid var(--neon-purple); }
-        .education-item h3 { color: var(--neon-purple); }
-
-        .georgia-state { border-left: 4px solid var(--neon-orange); }
-        .california-state { border-left: 4px solid #ffcc00; }
-        .newyork-state { border-left: 4px solid #00ff88; }
-        .texas-state { border-left: 4px solid #ff4444; }
-
-        .info-button {
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--neon-cyan);
             background: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid var(--glass-border);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--neon-cyan);
+        }
+
+        .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: rgba(0, 243, 255, 0.1);
+            color: var(--neon-cyan);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .explore-btn {
+            margin-top: 20px;
             padding: 12px;
-            border-radius: 10px;
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            border-radius: 5px;
             cursor: pointer;
-            font-weight: 600;
-            margin-top: 15px;
-            transition: all 0.3s ease;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
-        .info-button:hover {
-            background: white;
-            color: black;
+        .explore-btn:hover {
+            background: var(--neon-cyan);
+            color: var(--dark-bg);
+            box-shadow: 0 0 20px var(--neon-cyan);
         }
 
-        /* Full-Width Spanning */
-        .usa-item, .president-item, .education-item {
-            grid-column: 1 / -1;
+        /* Special Card Spanning */
+        .special-card {
+            grid-column: span 2;
+            border-left: 5px solid var(--neon-pink);
         }
 
-        /* --- Modal Styles --- */
+        @media (max-width: 768px) {
+            .special-card { grid-column: span 1; }
+        }
+
+        /* --- Modal System --- */
         .modal {
             display: none;
             position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(10px);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            padding: 20px;
+            overflow-y: auto;
         }
 
         .modal-content {
-            background: #0f111a;
-            margin: 5% auto;
+            background: #0a0a0f;
+            max-width: 800px;
+            margin: 40px auto;
+            border: 1px solid var(--neon-cyan);
+            border-radius: 20px;
             padding: 40px;
-            border: 1px solid var(--glass-border);
-            width: 90%;
-            max-width: 850px;
-            border-radius: 25px;
             position: relative;
-            box-shadow: 0 0 50px rgba(0,0,0,1);
-            animation: modalFadeIn 0.5s ease;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
         }
 
-        @keyframes modalFadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .close-button {
+        .close-modal {
             position: absolute;
-            right: 25px;
             top: 20px;
-            color: #666;
-            font-size: 30px;
+            right: 25px;
+            font-size: 2rem;
+            color: var(--neon-pink);
             cursor: pointer;
         }
 
-        #modalContent h4 {
-            color: var(--neon-blue);
-            margin: 20px 0 10px 0;
-            font-size: 1.2em;
+        /* --- Stats Text --- */
+        .stats-bar {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            color: #888;
         }
-
-        .see-more-button {
-            background: var(--neon-pink);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-
-        /* --- Responsive --- */
-        @media (max-width: 768px) {
-            header { flex-direction: column; gap: 20px; text-align: center; }
-            .usa-item, .president-item, .education-item { grid-column: auto; }
-        }
+        #statesCount { color: var(--neon-cyan); font-weight: bold; font-family: 'Orbitron'; }
     </style>
 </head>
 <body>
 
+    <canvas id="bg-canvas"></canvas>
+
     <div class="container">
         <header>
-            <h1 id="mainHeader">US States List</h1>
-            <div class="language-switcher">
-                <button id="langSwitcher">GEO</button>
-            </div>
+            <h1 id="mainTitle">NEXUS USA</h1>
+            <p class="subtitle" id="subtitle">Quantum Archive System</p>
         </header>
 
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search States..." />
+        <div class="stats-bar">
+            <span id="totalTxt">ACTIVE NODES:</span> <span id="statesCount">50</span>
         </div>
 
-        <p class="total-states"><span id="totalCountText">Total States:</span> <span id="statesCount">50</span></p>
-        
-        <ul id="statesList"></ul>
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Scan database for states...">
+            </div>
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="special">Special</button>
+            <button class="filter-btn" data-filter="states">States</button>
+            <button id="langBtn">GEO</button>
+        </div>
+
+        <div id="statesGrid"></div>
     </div>
 
     <div id="infoModal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <h2 id="modalTitle" style="color: var(--neon-blue); margin-bottom: 20px;">Information</h2>
-            <div id="modalContent"></div>
-            <div style="text-align: right; margin-top: 30px;">
-                <button id="modalLangSwitcher">GEO</button>
+            <span class="close-modal">&times;</span>
+            <h2 id="modalTitle" style="font-family: 'Orbitron'; color: var(--neon-cyan); margin-bottom: 20px;"></h2>
+            <div id="modalContent" style="font-size: 1.2rem; line-height: 1.8; color: #ccc;"></div>
+            <div style="margin-top: 30px; text-align: right;">
+                <button id="modalLangBtn" class="filter-btn">GEO</button>
             </div>
         </div>
     </div>
 
     <script>
-        const STATES = [
-            "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
-        ];
-
-        const USA_INFO_EN = {
-            title: "United States of America - General Information",
-            content: `<p><strong>Capital:</strong> Washington, D.C.</p><p><strong>Motto:</strong> In God We Trust</p><p><strong>Government:</strong> Federal Republic</p><p><strong>Population:</strong> ~340 million</p>`
+        // --- ARCHIVE DATA ---
+        const DATA = {
+            states: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"],
+            special: {
+                'USA': {
+                    en: { title: "Global Intel: USA", tag: "Federal Hub", content: "Capital: Washington D.C. | Economy: $27 Trillion | Status: Global Superpower." },
+                    geo: { title: "ინფორმაცია: აშშ", tag: "ფედერალური ცენტრი", content: "დედაქალაქი: ვაშინგტონი | ეკონომიკა: $27 ტრილიონი | სტატუსი: სუპერსახელმწიფო." }
+                },
+                'PRESIDENT': {
+                    en: { title: "Executive Branch", tag: "Leadership", content: "Current Leader: Donald J. Trump (47th). Jurisdiction: Commander in Chief." },
+                    geo: { title: "აღმასრულებელი შტო", tag: "ლიდერშიპი", content: "მიმდინარე ლიდერი: დონალდ ჯ. ტრამპი (47-ე). იურისდიქცია: მთავარსარდალი." }
+                },
+                'EDUCATION': {
+                    en: { title: "Knowledge System", tag: "K-12 / Ivy", content: "Advanced grading scale (GPA 4.0). Home to Harvard, MIT, and Stanford." },
+                    geo: { title: "ცოდნის სისტემა", tag: "განათლება", content: "უმაღლესი შეფასების სისტემა (GPA 4.0). ჰარვარდის და MIT-ის სამშობლო." }
+                }
+            },
+            stateDetails: {
+                'Georgia': { en: "The Peach State. Major Tech hub Atlanta.", geo: "ატმის შტატი. ტექნოლოგიური ცენტრი ატლანტა." },
+                'California': { en: "Silicon Valley & Hollywood. Largest economy.", geo: "სილიკონის ველი და ჰოლივუდი. უდიდესი ეკონომიკა." },
+                'Texas': { en: "Energy & Space Exploration. Starship base.", geo: "ენერგეტიკა და კოსმოსური კვლევები." }
+            }
         };
 
-        const USA_INFO_GEO = {
-            title: "ამერიკის შეერთებული შტატები - ზოგადი ინფორმაცია",
-            content: `<p><strong>დედაქალაქი:</strong> ვაშინგტონი (D.C.)</p><p><strong>დევიზი:</strong> ღმერთის გვწამს</p><p><strong>მმართველობა:</strong> ფედერალური რესპუბლიკა</p><p><strong>მოსახლეობა:</strong> ~340 მილიონი</p>`
+        const TEXTS = {
+            en: { title: "NEXUS USA", sub: "Quantum Archive System", search: "Scan database...", total: "ACTIVE NODES:", explore: "DECRYPT INFO" },
+            geo: { title: "ნექსუს აშშ", sub: "კვანტური არქივის სისტემა", search: "მონაცემების სკანირება...", total: "აქტიური ნოუდები:", explore: "გაშიფვრა" }
         };
 
-        const EDUCATION_INFO_EN = {
-            title: "Education System in the USA",
-            content: `<h4>1. K-12 Education</h4><ul><li>Elementary: Kindergarten - 5th Grade</li><li>Middle: 6th - 8th Grade</li><li>High: 9th - 12th Grade</li></ul><h4>2. Higher Education</h4><p>Includes world-famous Ivy League universities.</p>`
-        };
+        let lang = 'en';
+        let currentFilter = 'all';
 
-        const EDUCATION_INFO_GEO = {
-            title: "განათლების სისტემა ამერიკაში",
-            content: `<h4>1. სასკოლო განათლება (K-12)</h4><ul><li>დაწყებითი: მე-5 კლასამდე</li><li>საშუალო: მე-6 - მე-8 კლასი</li><li>უმაღლესი სკოლა: მე-9 - მე-12 კლასი</li></ul><h4>2. უმაღლესი განათლება</h4><p>მოიცავს მსოფლიოში ცნობილ "აივი ლიგის" უნივერსიტეტებს.</p>`
-        };
-
-        const PRESIDENT_INFO_EN = {
-            title: "Presidents of the United States",
-            content: `<div class="president-info"><h4>Donald J. Trump (47th)</h4><p>Party: Republican</p><button class="see-more-button" data-president="trump">See Full Info</button><div class="additional-info" data-president="trump" style="display:none; margin-top:10px;">Served as 45th and 47th President.</div></div>`
-        };
-
-        const PRESIDENT_INFO_GEO = {
-            title: "ამერიკის შეერთებული შტატების პრეზიდენტები",
-            content: `<div class="president-info"><h4>დონალდ ჯ. ტრამპი (47-ე)</h4><p>პარტია: რესპუბლიკური</p><button class="see-more-button" data-president="trump">მეტი ინფორმაცია</button><div class="additional-info" data-president="trump" style="display:none; margin-top:10px;">მსახურობდა როგორც 45-ე და 47-ე პრეზიდენტი.</div></div>`
-        };
-
-        const INFO_MAP = {
-            'USA': { en: USA_INFO_EN, geo: USA_INFO_GEO, css: 'usa-item' },
-            'PRESIDENT': { en: PRESIDENT_INFO_EN, geo: PRESIDENT_INFO_GEO, css: 'president-item' },
-            'EDUCATION': { en: EDUCATION_INFO_EN, geo: EDUCATION_INFO_GEO, css: 'education-item' },
-            'Georgia': { en: {title: "Georgia", content: "The Peach State. Capital: Atlanta."}, geo: {title: "ჯორჯია", content: "ატმის შტატი. დედაქალაქი: ატლანტა."}, css: 'georgia-state' },
-            'California': { en: {title: "California", content: "The Golden State. Tech & Film Hub."}, geo: {title: "კალიფორნია", content: "ოქროს შტატი. ტექნოლოგიების ცენტრი."}, css: 'california-state' },
-            'New York': { en: {title: "New York", content: "The Empire State. NYC is here."}, geo: {title: "ნიუ-იორკი", content: "იმპერიის შტატი."}, css: 'newyork-state' },
-            'Texas': { en: {title: "Texas", content: "The Lone Star State. Oil & Gas."}, geo: {title: "ტეხასი", content: "მარტოხელა ვარსკვლავის შტატი."}, css: 'texas-state' }
-        };
-
-        const TEXT_CONTENT = {
-            en: { mainHeader: "USA - 50 States", totalCountText: "Total States:", infoButton: "EXPLORE", langButton: "GEO", searchPlaceholder: "Search States..." },
-            geo: { mainHeader: "ამერიკა - 50 შტატი", totalCountText: "სულ შტატი:", infoButton: "ნახვა", langButton: "ENG", searchPlaceholder: "ძიება..." }
-        };
-
-        let currentLang = 'en';
-
+        // --- CORE FUNCTIONS ---
         function init() {
-            renderStates();
-            setupListeners();
-            updateUI();
-        }
-
-        function setupListeners() {
-            document.getElementById('langSwitcher').onclick = toggleLang;
-            document.getElementById('modalLangSwitcher').onclick = toggleLang;
-            document.getElementById('searchInput').oninput = renderStates;
-            document.querySelector('.close-button').onclick = () => document.getElementById('infoModal').style.display = 'none';
-            window.onclick = (e) => { if(e.target.id === 'infoModal') document.getElementById('infoModal').style.display = 'none'; };
+            renderGrid();
+            setupParticles();
+            
+            document.getElementById('searchInput').oninput = renderGrid;
+            document.getElementById('langBtn').onclick = toggleLang;
+            document.getElementById('modalLangBtn').onclick = toggleLang;
+            document.querySelector('.close-modal').onclick = () => document.getElementById('infoModal').style.display = 'none';
+            
+            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+                btn.onclick = (e) => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentFilter = e.target.dataset.filter;
+                    renderGrid();
+                }
+            });
         }
 
         function toggleLang() {
-            currentLang = currentLang === 'en' ? 'geo' : 'en';
+            lang = lang === 'en' ? 'geo' : 'en';
             updateUI();
         }
 
         function updateUI() {
-            const t = TEXT_CONTENT[currentLang];
-            document.getElementById('mainHeader').textContent = t.mainHeader;
-            document.getElementById('totalCountText').textContent = t.totalCountText;
-            document.getElementById('langSwitcher').textContent = t.langButton;
-            document.getElementById('modalLangSwitcher').textContent = t.langButton;
-            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            renderStates();
+            const t = TEXTS[lang];
+            document.getElementById('mainTitle').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.sub;
+            document.getElementById('searchInput').placeholder = t.search;
+            document.getElementById('totalTxt').textContent = t.total;
+            document.getElementById('langBtn').textContent = lang === 'en' ? 'GEO' : 'ENG';
+            document.getElementById('modalLangBtn').textContent = lang === 'en' ? 'GEO' : 'ENG';
+            renderGrid();
         }
 
-        function renderStates() {
-            const list = document.getElementById('statesList');
+        function renderGrid() {
+            const grid = document.getElementById('statesGrid');
             const search = document.getElementById('searchInput').value.toLowerCase();
-            list.innerHTML = '';
+            grid.innerHTML = '';
 
-            if(!search) {
-                ['USA', 'PRESIDENT', 'EDUCATION'].forEach(key => list.appendChild(createCard(key, true)));
+            let items = [];
+
+            // Add Special
+            if (currentFilter === 'all' || currentFilter === 'special') {
+                Object.keys(DATA.special).forEach(key => {
+                    const d = DATA.special[key][lang];
+                    if (d.title.toLowerCase().includes(search)) {
+                        items.push(createCardHTML(key, d.title, d.tag, true));
+                    }
+                });
             }
 
-            STATES.filter(s => s.toLowerCase().includes(search)).forEach(s => {
-                list.appendChild(createCard(s, !!INFO_MAP[s]));
-            });
+            // Add States
+            if (currentFilter === 'all' || currentFilter === 'states') {
+                DATA.states.filter(s => s.toLowerCase().includes(search)).forEach(s => {
+                    items.push(createCardHTML(s, s, "State Node", !!DATA.stateDetails[s]));
+                });
+            }
+
+            items.forEach(html => grid.appendChild(html));
+            document.getElementById('statesCount').textContent = items.length;
         }
 
-        function createCard(key, hasInfo) {
-            const li = document.createElement('li');
-            const data = INFO_MAP[key];
-            li.className = `state-item ${data ? data.css : ''}`;
-
-            const h3 = document.createElement('h3');
-            h3.textContent = data ? (currentLang === 'en' ? data.en.title : data.geo.title) : key;
-            li.appendChild(h3);
-
-            if(hasInfo) {
-                const btn = document.createElement('button');
-                btn.className = 'info-button';
-                btn.textContent = TEXT_CONTENT[currentLang].infoButton;
-                btn.onclick = () => openModal(key);
-                li.appendChild(btn);
-            }
-            return li;
+        function createCardHTML(key, title, tag, hasDetails) {
+            const div = document.createElement('div');
+            div.className = `card ${['USA','PRESIDENT','EDUCATION'].includes(key) ? 'special-card' : ''}`;
+            
+            div.innerHTML = `
+                <div>
+                    <span class="tag">${tag}</span>
+                    <h3>${title}</h3>
+                </div>
+                ${hasDetails ? `<button class="explore-btn" onclick="openModal('${key}')">${TEXTS[lang].explore}</button>` : ''}
+            `;
+            return div;
         }
 
         function openModal(key) {
-            const info = INFO_MAP[key][currentLang];
-            document.getElementById('modalTitle').textContent = info.title;
-            document.getElementById('modalContent').innerHTML = info.content;
-            document.getElementById('infoModal').style.display = 'block';
+            const modal = document.getElementById('infoModal');
+            const title = document.getElementById('modalTitle');
+            const content = document.getElementById('modalContent');
 
-            // See more logic
-            const seeMore = document.querySelector('.see-more-button');
-            if(seeMore) {
-                seeMore.onclick = function() {
-                    const extra = document.querySelector('.additional-info');
-                    extra.style.display = extra.style.display === 'none' ? 'block' : 'none';
-                };
+            if (DATA.special[key]) {
+                title.textContent = DATA.special[key][lang].title;
+                content.innerHTML = DATA.special[key][lang].content;
+            } else {
+                title.textContent = key;
+                content.innerHTML = DATA.stateDetails[key][lang];
             }
+            
+            modal.style.display = 'block';
+            modal.dataset.currentKey = key; // for lang toggle
+        }
+
+        // Overwrite toggleLang specifically to handle modal refresh
+        const originalToggle = toggleLang;
+        toggleLang = function() {
+            const m = document.getElementById('infoModal');
+            originalToggle();
+            if (m.style.display === 'block') {
+                openModal(m.dataset.currentKey);
+            }
+        };
+
+        // --- PARTICLE SYSTEM ---
+        function setupParticles() {
+            const canvas = document.getElementById('bg-canvas');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            
+            function resize() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            }
+            window.onresize = resize;
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.init();
+                }
+                init() {
+                    this.x = Math.random() * canvas.width;
+                    this.y = Math.random() * canvas.height;
+                    this.vX = (Math.random() - 0.5) * 0.5;
+                    this.vY = (Math.random() - 0.5) * 0.5;
+                    this.size = Math.random() * 2;
+                }
+                update() {
+                    this.x += this.vX;
+                    this.y += this.vY;
+                    if (this.x < 0 || this.x > canvas.width) this.vX *= -1;
+                    if (this.y < 0 || this.y > canvas.height) this.vY *= -1;
+                }
+                draw() {
+                    ctx.fillStyle = 'rgba(0, 243, 255, 0.5)';
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 100; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
         }
 
         init();
