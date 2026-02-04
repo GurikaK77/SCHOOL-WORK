@@ -3,30 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus USA - Fixed</title>
+    <title>Nexus USA - Status Update</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
 
         :root {
             --neon-blue: #00f3ff;
-            --neon-pink: #ff00ff;
+            --neon-green: #00ff41; /* მწვანე ინფორმაციისთვის */
+            --neon-red: #ff3333;   /* წითელი ცარიელებისთვის */
             --bg-color: #050505;
-            --card-bg: rgba(20, 20, 30, 0.6);
+            --card-bg: rgba(20, 20, 30, 0.7);
             --text-main: #ffffff;
-            --text-muted: #aaaaaa;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             background-color: var(--bg-color);
-            background-image: 
-                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.1) 0%, transparent 50%);
             color: var(--text-main);
             font-family: 'Roboto', sans-serif;
             padding: 20px;
+            min-height: 100vh;
         }
 
         .container { max-width: 1200px; margin: 0 auto; }
@@ -37,7 +35,6 @@
             padding: 40px 0;
             border-bottom: 2px solid var(--neon-blue);
             margin-bottom: 40px;
-            box-shadow: 0 10px 30px -10px rgba(0, 243, 255, 0.3);
         }
 
         h1 {
@@ -69,8 +66,6 @@
             outline: none;
         }
 
-        input:focus { box-shadow: 0 0 15px var(--neon-blue); }
-
         button {
             padding: 12px 25px;
             border: 1px solid var(--neon-blue);
@@ -83,10 +78,10 @@
             font-weight: bold;
         }
 
-        button:hover, button.active {
+        button.active, button:hover {
             background: var(--neon-blue);
             color: #000;
-            box-shadow: 0 0 20px var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
         }
 
         /* GRID */
@@ -103,18 +98,15 @@
             padding: 25px;
             border-radius: 10px;
             transition: 0.3s;
-            position: relative;
-            cursor: pointer; /* მიუთითებს რომ დაკლიკება შეიძლება */
+            cursor: pointer;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            border-color: var(--neon-pink);
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.2);
-        }
+        .card:hover { transform: translateY(-5px); }
 
         .card h3 {
             font-family: 'Orbitron', sans-serif;
@@ -125,28 +117,47 @@
 
         .card-tag {
             font-size: 0.8rem;
-            color: var(--neon-blue);
+            color: #aaa;
             text-transform: uppercase;
             margin-bottom: 15px;
             letter-spacing: 1px;
         }
 
+        /* BUTTON STYLES (Dynamic) */
         .view-btn {
-            background: transparent;
-            border: 1px solid var(--neon-pink);
-            color: var(--neon-pink);
             padding: 10px;
             text-align: center;
             margin-top: 15px;
             font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
             transition: 0.3s;
-            pointer-events: none; /* კლიკი მთლიან ბარათზეა, ღილაკი ვიზუალია */
+            border: 1px solid;
+            letter-spacing: 2px;
+            font-size: 0.9rem;
         }
 
-        .card:hover .view-btn {
-            background: var(--neon-pink);
+        /* Green Style (Has Info) */
+        .btn-success {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: inset 0 0 5px rgba(0, 255, 65, 0.2);
+        }
+        .card:hover .btn-success {
+            background: var(--neon-green);
+            color: #000;
+            box-shadow: 0 0 20px var(--neon-green);
+        }
+
+        /* Red Style (No Info) */
+        .btn-danger {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+            opacity: 0.7;
+        }
+        .card:hover .btn-danger {
+            background: var(--neon-red);
             color: #fff;
-            box-shadow: 0 0 15px var(--neon-pink);
+            box-shadow: 0 0 20px var(--neon-red);
         }
 
         /* MODAL */
@@ -162,35 +173,46 @@
         }
 
         .modal-content {
-            background: #111;
+            background: #0f0f13;
             border: 2px solid var(--neon-blue);
             padding: 40px;
             width: 90%;
-            max-width: 600px;
+            max-width: 800px; /* გავადიდე სიგანე */
+            max-height: 85vh;
+            overflow-y: auto; /* სქროლი თუ ტექსტი დიდია */
             position: relative;
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
             border-radius: 15px;
         }
+
+        /* Modal Custom Scrollbar */
+        .modal-content::-webkit-scrollbar { width: 8px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 4px; }
+        .modal-content::-webkit-scrollbar-track { background: #000; }
 
         .close-btn {
             position: absolute;
             top: 15px; right: 20px;
             font-size: 30px;
-            color: var(--neon-pink);
+            color: var(--neon-red);
             cursor: pointer;
         }
 
+        #modalTitle { color: var(--neon-blue); font-family: 'Orbitron'; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        
         #modalBody {
-            font-size: 1.2rem;
-            line-height: 1.6;
+            font-size: 1.1rem;
+            line-height: 1.8;
             color: #e0e0e0;
-            margin-top: 20px;
         }
+        
+        /* ტექსტის ფორმატირება მოდალში */
+        #modalBody strong { color: var(--neon-blue); }
+        #modalBody ul { margin-left: 20px; margin-bottom: 15px; }
+        #modalBody p { margin-bottom: 15px; }
 
-        /* Special Styling */
-        .special-card { border-left: 5px solid var(--neon-blue); }
-        .usa-card { border-color: var(--neon-blue); }
-        .president-card { border-color: var(--neon-pink); }
+        /* Special Border Colors */
+        .special-card { border-left: 5px solid var(--neon-green) !important; }
     </style>
 </head>
 <body>
@@ -198,18 +220,14 @@
     <div class="container">
         <header>
             <h1 id="headerTitle">NEXUS DATABASE</h1>
-            <p style="color: var(--text-muted); letter-spacing: 2px; margin-top: 10px;">SECURE ACCESS TERMINAL</p>
+            <p style="color: #888; letter-spacing: 2px; margin-top: 10px;">SECURE ACCESS TERMINAL</p>
         </header>
 
         <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search..." oninput="renderGrid()">
+            <input type="text" id="searchInput" placeholder="Search Node..." oninput="renderGrid()">
             <button onclick="setFilter('all')" class="active">ALL</button>
             <button onclick="setFilter('special')">SPECIAL</button>
             <button onclick="toggleLang()" id="langBtn">LANG: ENG</button>
-        </div>
-
-        <div style="margin-bottom: 20px; color: var(--neon-blue);">
-            Total Nodes: <span id="count" style="font-weight:bold; color:white;">0</span>
         </div>
 
         <div id="statesGrid"></div>
@@ -218,45 +236,111 @@
     <div id="infoModal" class="modal" onclick="closeModal(event)">
         <div class="modal-content">
             <span class="close-btn" onclick="closeModal(event, true)">&times;</span>
-            <h2 id="modalTitle" style="color: var(--neon-blue); font-family: 'Orbitron'; margin-bottom: 10px;"></h2>
+            <h2 id="modalTitle"></h2>
             <div id="modalBody"></div>
         </div>
     </div>
 
     <script>
-        // --- DATA ---
         const STATES_LIST = [
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
 
-        // აქ ჩაწერე დეტალური ინფორმაცია
+        // --- ვრცელი ინფორმაციები აქ იწერება (HTML ფორმატში) ---
         const DETAILS = {
             'USA': { 
-                en: { title: "United States", desc: "Capital: Washington D.C.<br>Population: ~340 Million" },
-                geo: { title: "ამერიკა", desc: "დედაქალაქი: ვაშინგტონი<br>მოსახლეობა: ~340 მილიონი" }
+                en: { 
+                    title: "United States of America", 
+                    desc: `
+                        <p><strong>Overview:</strong> The United States is a country primarily located in North America. It consists of 50 states, a federal district, five major unincorporated territories, and nine minor outlying islands.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> Washington, D.C.</li>
+                            <li><strong>Population:</strong> Approximately 340 Million people.</li>
+                            <li><strong>Economy:</strong> The largest economy in the world by nominal GDP.</li>
+                            <li><strong>Motto:</strong> "In God We Trust"</li>
+                        </ul>
+                        <p>The U.S. is a founding member of the United Nations, World Bank, International Monetary Fund, Organization of American States, NATO, and other international organizations.</p>
+                    `
+                },
+                geo: { 
+                    title: "ამერიკის შეერთებული შტატები", 
+                    desc: `
+                        <p><strong>მიმოხილვა:</strong> ამერიკის შეერთებული შტატები (აშშ) არის ფედერალური რესპუბლიკა, რომელიც შედგება 50 შტატისა და ფედერალური ოლქისგან. ქვეყანა მდებარეობს ჩრდილოეთ ამერიკის ცენტრალურ ნაწილში.</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> ვაშინგტონი (კოლუმბიის ოლქი).</li>
+                            <li><strong>მოსახლეობა:</strong> დაახლოებით 340 მილიონი ადამიანი.</li>
+                            <li><strong>ეკონომიკა:</strong> მსოფლიოს უდიდესი ეკონომიკა ნომინალური მშპ-ის მიხედვით.</li>
+                            <li><strong>დევიზი:</strong> "ჩვენ გვწამს ღმერთის" (In God We Trust).</li>
+                        </ul>
+                        <p>ქვეყანა არის გაეროს, ნატოს, მსოფლიო ბანკისა და სხვა საერთაშორისო ორგანიზაციების დამფუძნებელი წევრი.</p>
+                    ` 
+                }
             },
             'PRESIDENT': {
-                en: { title: "President", desc: "Donald J. Trump (47th President).<br>Commander in Chief." },
-                geo: { title: "პრეზიდენტი", desc: "დონალდ ჯ. ტრამპი (47-ე).<br>მთავარსარდალი." }
+                en: { 
+                    title: "Executive Branch: The President", 
+                    desc: `
+                        <p><strong>Current Leader:</strong> Donald J. Trump</p>
+                        <p><strong>Position:</strong> 47th President of the United States.</p>
+                        <p>The President is the head of state and head of government of the United States of America. The President directs the executive branch of the federal government and is the commander-in-chief of the United States Armed Forces.</p>
+                        <ul>
+                            <li><strong>Term Length:</strong> 4 Years (renewable once).</li>
+                            <li><strong>Residence:</strong> The White House, Washington D.C.</li>
+                            <li><strong>Powers:</strong> Veto legislation, command armed forces, ask for the written opinion of their Cabinet, convene or adjourn Congress, grant reprieves and pardons.</li>
+                        </ul>
+                    ` 
+                },
+                geo: { 
+                    title: "აღმასრულებელი შტო: პრეზიდენტი", 
+                    desc: `
+                        <p><strong>მიმდინარე ლიდერი:</strong> დონალდ ჯ. ტრამპი</p>
+                        <p><strong>პოზიცია:</strong> ამერიკის 47-ე პრეზიდენტი.</p>
+                        <p>პრეზიდენტი არის სახელმწიფოსა და მთავრობის მეთაური. ის ხელმძღვანელობს ფედერალური მთავრობის აღმასრულებელ შტოს და არის აშშ-ის შეიარაღებული ძალების მთავარსარდალი.</p>
+                        <ul>
+                            <li><strong>ვადის ხანგრძლივობა:</strong> 4 წელი (შესაძლებელია მეორე ვადით არჩევა).</li>
+                            <li><strong>რეზიდენცია:</strong> თეთრი სახლი, ვაშინგტონი.</li>
+                            <li><strong>უფლებამოსილებები:</strong> კანონმდებლობის ვეტო, ჯარების მართვა, კონგრესის მოწვევა, შეწყალების უფლება.</li>
+                        </ul>
+                    ` 
+                }
             },
             'EDUCATION': {
-                en: { title: "Education", desc: "K-12 System & Ivy League Universities (Harvard, Yale)." },
-                geo: { title: "განათლება", desc: "სასკოლო სისტემა და აივი ლიგის უნივერსიტეტები." }
+                en: { title: "US Education System", desc: "<p>Detailed breakdown of K-12, Undergraduate, and Ph.D programs...</p>" },
+                geo: { title: "განათლების სისტემა", desc: "<p>დეტალური ინფორმაცია სკოლებზე, ბაკალავრიატსა და დოქტორანტურაზე...</p>" }
             },
             'Georgia': {
-                en: { desc: "The Peach State. Capital: Atlanta." },
-                geo: { desc: "ატმის შტატი. დედაქალაქი: ატლანტა." }
+                en: { 
+                    desc: `
+                        <p><strong>Nickname:</strong> The Peach State</p>
+                        <p>Georgia is a state in the Southeastern region of the United States. It was one of the original Thirteen Colonies.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> Atlanta</li>
+                            <li><strong>Population:</strong> ~11 Million</li>
+                            <li><strong>Known For:</strong> Peaches, Coca-Cola Headquarters, Hartsfield-Jackson Airport (busiest in the world).</li>
+                        </ul>
+                    ` 
+                },
+                geo: { 
+                    desc: `
+                        <p><strong>მეტსახელი:</strong> ატმის შტატი</p>
+                        <p>ჯორჯია არის შტატი აშშ-ის სამხრეთ-აღმოსავლეთ რეგიონში. ის იყო ერთ-ერთი იმ 13 კოლონიიდან, რომლებმაც დააარსეს აშშ.</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> ატლანტა</li>
+                            <li><strong>მოსახლეობა:</strong> ~11 მილიონი</li>
+                            <li><strong>ცნობილია:</strong> ატმებით, კოკა-კოლას სათავო ოფისით და ატლანტას აეროპორტით (ყველაზე დატვირთული მსოფლიოში).</li>
+                        </ul>
+                    ` 
+                }
             },
             'California': {
-                en: { desc: "The Golden State. Home of Silicon Valley." },
-                geo: { desc: "ოქროს შტატი. სილიკონის ველის სამშობლო." }
+                en: { desc: "<p><strong>The Golden State.</strong><br>Home to Silicon Valley, Hollywood, and diverse geography ranging from beaches to mountains.</p>" },
+                geo: { desc: "<p><strong>ოქროს შტატი.</strong><br>სილიკონის ველისა და ჰოლივუდის სამშობლო. გამოირჩევა მრავალფეროვანი ბუნებით.</p>" }
             }
         };
 
         let lang = 'en';
         let filter = 'all';
 
-        // --- APP LOGIC ---
         function init() {
             renderGrid();
         }
@@ -265,66 +349,82 @@
             const grid = document.getElementById('statesGrid');
             const search = document.getElementById('searchInput').value.toLowerCase();
             grid.innerHTML = '';
-            let count = 0;
 
-            // 1. Render Specials
+            // 1. Specials
             if (filter === 'all' || filter === 'special') {
                 ['USA', 'PRESIDENT', 'EDUCATION'].forEach(key => {
-                    const info = DETAILS[key][lang];
-                    if (info.title.toLowerCase().includes(search) || key.toLowerCase().includes(search)) {
-                        grid.appendChild(createCard(key, info.title, "SYSTEM DATA", "special-card"));
-                        count++;
+                    const data = DETAILS[key];
+                    if (key.toLowerCase().includes(search) || data[lang].title.toLowerCase().includes(search)) {
+                        grid.appendChild(createCard(key, data[lang].title, "SYSTEM DATA", true));
                     }
                 });
             }
 
-            // 2. Render States
+            // 2. States
             if (filter === 'all' || filter === 'states') {
                 STATES_LIST.forEach(state => {
                     if (state.toLowerCase().includes(search)) {
-                        // თუ თარგმანი არ გვაქვს, გამოვიყენოთ შტატის სახელი
-                        grid.appendChild(createCard(state, state, "STATE NODE", ""));
-                        count++;
+                        // ვამოწმებთ აქვს თუ არა ინფო ამ შტატს
+                        const hasInfo = DETAILS.hasOwnProperty(state);
+                        grid.appendChild(createCard(state, state, "STATE NODE", hasInfo));
                     }
                 });
             }
-            document.getElementById('count').innerText = count;
         }
 
-        function createCard(key, displayTitle, tag, cssClass) {
+        function createCard(key, displayTitle, tag, hasInfo) {
             const div = document.createElement('div');
-            div.className = `card ${cssClass}`;
-            div.onclick = () => openModal(key, displayTitle);
+            // თუ ინფო აქვს, ვამატებთ special-card კლასს ბორდერისთვის
+            div.className = `card ${hasInfo ? 'special-card' : ''}`;
+            div.onclick = () => openModal(key, displayTitle, hasInfo);
+
+            // ღილაკის ლოგიკა: მწვანე vs წითელი
+            let btnClass, btnText;
             
-            // ტექსტები ენის მიხედვით
-            const btnText = lang === 'en' ? "VIEW DATA" : "მონაცემების ნახვა";
+            if (hasInfo) {
+                btnClass = 'btn-success';
+                btnText = lang === 'en' ? "ACCESS DATA" : "ინფორმაციის ნახვა";
+            } else {
+                btnClass = 'btn-danger';
+                btnText = lang === 'en' ? "LOCKED" : "დაბლოკილია";
+            }
 
             div.innerHTML = `
                 <div>
                     <div class="card-tag">${tag}</div>
                     <h3>${displayTitle}</h3>
                 </div>
-                <div class="view-btn">${btnText}</div>
+                <div class="view-btn ${btnClass}">${btnText}</div>
             `;
             return div;
         }
 
-        function openModal(key, title) {
+        function openModal(key, title, hasInfo) {
             const modal = document.getElementById('infoModal');
             const mTitle = document.getElementById('modalTitle');
             const mBody = document.getElementById('modalBody');
 
             mTitle.innerText = title;
 
-            // ინფორმაციის მოძიება
-            if (DETAILS[key] && DETAILS[key][lang]) {
-                mBody.innerHTML = DETAILS[key][lang].desc || DETAILS[key][lang];
+            if (hasInfo) {
+                // მწვანე: ვრცელი ინფორმაციის ჩვენება
+                const content = DETAILS[key][lang];
+                // თუ ობიექტში title/desc სტრუქტურაა, ვიღებთ desc-ს, თუ არა პირდაპირ სტრინგს
+                mBody.innerHTML = content.desc || content;
+                mBody.style.color = "#e0e0e0"; 
+                mTitle.style.borderColor = "var(--neon-green)";
             } else {
-                // FALLBACK TEXT (თუ ინფო არ არის)
+                // წითელი: შეცდომის ჩვენება
                 mBody.innerHTML = lang === 'en' 
-                    ? "Access Denied: No detailed data available for this node yet." 
-                    : "წვდომა შეზღუდულია: დეტალური ინფორმაცია ჯერ არ არის დამატებული.";
-                mBody.style.color = "#ff5555"; // Red color for missing info
+                    ? `<div style="text-align:center; padding:20px;">
+                         <h3 style="color:var(--neon-red)">ACCESS DENIED</h3>
+                         <p>Data fragment missing. Connection to node failed.</p>
+                       </div>` 
+                    : `<div style="text-align:center; padding:20px;">
+                         <h3 style="color:var(--neon-red)">წვდომა შეზღუდულია</h3>
+                         <p>მონაცემები არ მოიძებნა. კავშირი ვერ დამყარდა.</p>
+                       </div>`;
+                mTitle.style.borderColor = "var(--neon-red)";
             }
 
             modal.style.display = 'flex';
@@ -345,13 +445,11 @@
 
         function setFilter(f) {
             filter = f;
-            // ღილაკების სტილის შეცვლა
             document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
             event.target.classList.add('active');
             renderGrid();
         }
 
-        // Start
         init();
     </script>
 </body>
