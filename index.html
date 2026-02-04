@@ -3,780 +3,412 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>US States List</title>
+    <title>US States - Neon Edition</title>
     <style>
         :root {
-            --primary-color: #004a99;
-            --secondary-color: #f7a81b;
-            --background-color: #f0f4f8;
-            --text-color: #333;
-            --georgia-bg: #d9e9f9;
-            
-            /* Card Specific Colors */
-            --usa-bg: #e0f2f1; /* Light Teal for USA */
-            --usa-border: #00796b; /* Dark Teal for USA */
-            
-            --president-bg: #f9e8f0; /* Light Pink for President */
-            --president-border: #c2185b; /* Dark Pink for President */
-            
-            --education-bg: #e8eaf6; /* Light Indigo for Education */
-            --education-border: #3f51b5; /* Dark Indigo for Education */
+            --bg-dark: #05060f;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --neon-blue: #00d2ff;
+            --neon-pink: #ff007f;
+            --neon-purple: #9d00ff;
+            --neon-orange: #ff9d00;
+            --text-color: #e0e0e0;
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            background-color: var(--background-color);
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 210, 255, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 127, 0.05) 0%, transparent 40%);
             color: var(--text-color);
             line-height: 1.6;
             padding: 20px;
+            min-height: 100vh;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: auto;
         }
 
-        /* Header Styles */
+        /* --- Header Styles --- */
         header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 8px 8px 0 0;
-            margin: 0 auto 0 auto;
-            max-width: 1000px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         h1 {
-            font-size: 2em;
-            letter-spacing: 1px;
+            font-size: 2.2em;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .language-switcher button {
-            background-color: var(--secondary-color);
-            color: var(--primary-color);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+        #langSwitcher, #modalLangSwitcher {
+            background: transparent;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 10px 20px;
+            border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            transition: background-color 0.3s ease;
-            margin-left: 10px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
         }
 
-        .language-switcher button:hover {
-            background-color: #e5971a;
+        #langSwitcher:hover {
+            background: var(--neon-blue);
+            color: var(--bg-dark);
+            box-shadow: 0 0 15px var(--neon-blue);
         }
 
-        /* Search Bar Styles */
+        /* --- Search Bar --- */
         .search-container {
-            max-width: 1000px;
-            margin: 0 auto 20px auto;
-            padding: 15px 20px;
-            background-color: white;
-            border-radius: 0 0 8px 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
         }
 
         #searchInput {
             width: 100%;
-            padding: 10px 15px;
-            font-size: 1em;
-            border: 2px solid var(--primary-color);
-            border-radius: 5px;
-            transition: border-color 0.3s ease;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: white;
+            transition: all 0.4s ease;
         }
 
         #searchInput:focus {
-            border-color: var(--secondary-color);
             outline: none;
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
         }
 
-        /* List and Item Styles */
+        /* --- Stats Card --- */
+        .total-states {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 25px;
+            padding: 10px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border-left: 4px solid var(--neon-blue);
+        }
+
+        /* --- Grid System --- */
         #statesList {
             list-style: none;
             display: grid;
-            gap: 15px;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         }
 
-        /* General Item Styles */
+        /* --- Card Styles --- */
         .state-item {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .state-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
         }
 
         .state-item h3 {
-            color: var(--primary-color);
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 1.4em;
+            color: #fff;
         }
 
-        /* Special States Styles */
-        .state-item.georgia-state {
-            background-color: var(--georgia-bg);
-            border: 2px solid var(--secondary-color);
-        }
+        /* --- Neon Colors for Special Cards --- */
+        .usa-item { border-bottom: 4px solid var(--neon-blue); }
+        .usa-item h3 { color: var(--neon-blue); }
 
-        .state-item.california-state {
-            background-color: #fff3e0;
-            border: 2px solid #ff9800;
-        }
+        .president-item { border-bottom: 4px solid var(--neon-pink); }
+        .president-item h3 { color: var(--neon-pink); }
 
-        .state-item.newyork-state {
-            background-color: #e3f2fd;
-            border: 2px solid #2196f3;
-        }
+        .education-item { border-bottom: 4px solid var(--neon-purple); }
+        .education-item h3 { color: var(--neon-purple); }
 
-        .state-item.texas-state {
-            background-color: #fce4ec;
-            border: 2px solid #e91e63;
-        }
-
-        /* Special Full-Width Cards (USA, President, Education) */
-        .usa-item, .president-item, .education-item {
-            grid-column: 1 / -1; /* Make it span all columns */
-            padding: 25px;
-            text-align: center;
-        }
-
-        /* USA Card Styles */
-        .usa-item {
-            background-color: var(--usa-bg);
-            border: 3px solid var(--usa-border);
-        }
-        .usa-item h3 { color: var(--usa-border); font-size: 1.8em; margin-bottom: 5px; }
-        .usa-item p { font-size: 1.1em; margin-bottom: 15px; color: var(--text-color); }
-
-        /* President Card Styles */
-        .president-item {
-            background-color: var(--president-bg);
-            border: 3px solid var(--president-border);
-        }
-        .president-item h3 { color: var(--president-border); font-size: 1.8em; margin-bottom: 5px; }
-        .president-item p { font-size: 1.1em; margin-bottom: 15px; color: var(--text-color); }
-
-        /* Education Card Styles */
-        .education-item {
-            background-color: var(--education-bg);
-            border: 3px solid var(--education-border);
-        }
-        .education-item h3 { color: var(--education-border); font-size: 1.8em; margin-bottom: 5px; }
-        .education-item p { font-size: 1.1em; margin-bottom: 15px; color: var(--text-color); }
-
+        .georgia-state { border-left: 4px solid var(--neon-orange); }
+        .california-state { border-left: 4px solid #ffcc00; }
+        .newyork-state { border-left: 4px solid #00ff88; }
+        .texas-state { border-left: 4px solid #ff4444; }
 
         .info-button {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-            margin-top: 10px;
-            display: block;
-            width: 100%;
-            text-align: center;
+            font-weight: 600;
+            margin-top: 15px;
+            transition: all 0.3s ease;
         }
 
         .info-button:hover {
-            background-color: #e5971a;
+            background: white;
+            color: black;
         }
 
-        .total-states {
-            text-align: center;
-            font-size: 1.2em;
-            margin-bottom: 20px;
-            font-weight: bold;
-            padding: 10px;
-            background-color: white;
-            border-radius: 8px;
+        /* Full-Width Spanning */
+        .usa-item, .president-item, .education-item {
+            grid-column: 1 / -1;
         }
 
-        /* Modal Styles */
+        /* --- Modal Styles --- */
         .modal {
             display: none;
             position: fixed;
-            z-index: 100;
+            z-index: 1000;
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-            padding-top: 60px;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
         }
 
         .modal-content {
-            background-color: #fefefe;
+            background: #0f111a;
             margin: 5% auto;
-            padding: 20px;
-            border: 1px solid #888;
+            padding: 40px;
+            border: 1px solid var(--glass-border);
             width: 90%;
-            max-width: 800px; /* Slightly wider for reading info */
-            border-radius: 10px;
+            max-width: 850px;
+            border-radius: 25px;
             position: relative;
-            animation-name: animatetop;
-            animation-duration: 0.4s;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+            animation: modalFadeIn 0.5s ease;
         }
 
-        @keyframes animatetop {
-            from {top: -300px; opacity: 0}
-            to {top: 0; opacity: 1}
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .close-button {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+            position: absolute;
+            right: 25px;
+            top: 20px;
+            color: #666;
+            font-size: 30px;
             cursor: pointer;
         }
 
-        .close-button:hover {
-            color: #000;
-        }
-
-        /* Content Formatting in Modal */
         #modalContent h4 {
-            color: var(--primary-color);
-            margin-top: 15px;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 5px;
-        }
-        
-        #modalContent ul {
-            margin-left: 20px;
-            margin-bottom: 10px;
-        }
-
-        #modalContent li {
-            margin-bottom: 5px;
-        }
-
-        /* Additional info styles */
-        .additional-info {
-            display: none;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #ddd;
+            color: var(--neon-blue);
+            margin: 20px 0 10px 0;
+            font-size: 1.2em;
         }
 
         .see-more-button {
-            background-color: #f0f0f0;
-            color: #333;
-            border: 1px solid #ccc;
-            padding: 5px 10px;
-            border-radius: 3px;
+            background: var(--neon-pink);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9em;
             margin-top: 10px;
         }
 
-        .see-more-button:hover {
-            background-color: #e0e0e0;
-        }
-
-        /* President Info Styles */
-        .president-info {
-            margin-bottom: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .president-info:last-child {
-            border-bottom: none;
-        }
-
-        /* Responsive Adjustments */
+        /* --- Responsive --- */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.5em;
-            }
-
-            header {
-                margin-left: 10px;
-                margin-right: 10px;
-                max-width: 95%;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .language-switcher {
-                margin-top: 10px;
-            }
-
-            .search-container {
-                margin-left: 10px;
-                margin-right: 10px;
-                max-width: 95%;
-            }
-
-            .usa-item, .president-item, .education-item {
-                grid-column: auto; /* Revert to single column on small screens */
-            }
+            header { flex-direction: column; gap: 20px; text-align: center; }
+            .usa-item, .president-item, .education-item { grid-column: auto; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1 id="mainHeader">US States List</h1>
-        <div class="language-switcher">
-            <button id="langSwitcher">GEO</button>
-        </div>
-    </header>
-    <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Search States..." />
-    </div>
+
     <div class="container">
+        <header>
+            <h1 id="mainHeader">US States List</h1>
+            <div class="language-switcher">
+                <button id="langSwitcher">GEO</button>
+            </div>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search States..." />
+        </div>
+
         <p class="total-states"><span id="totalCountText">Total States:</span> <span id="statesCount">50</span></p>
+        
         <ul id="statesList"></ul>
     </div>
+
     <div id="infoModal" class="modal">
         <div class="modal-content">
             <span class="close-button">&times;</span>
-            <h2 id="modalTitle">Information</h2>
+            <h2 id="modalTitle" style="color: var(--neon-blue); margin-bottom: 20px;">Information</h2>
             <div id="modalContent"></div>
-            <div class="language-switcher" style="text-align: right; margin-top: 15px;">
+            <div style="text-align: right; margin-top: 30px;">
                 <button id="modalLangSwitcher">GEO</button>
             </div>
         </div>
     </div>
+
     <script>
         const STATES = [
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
 
-        // --- ALL INFO DATA ---
-        // USA General Info
         const USA_INFO_EN = {
             title: "United States of America - General Information",
-            content: `<p><strong>Capital:</strong> Washington, D.C.</p>
-                     <p><strong>Motto:</strong> In God We Trust (official), E Pluribus Unum (traditional)</p>
-                     <p><strong>Government:</strong> Federal Presidential Constitutional Republic</p>
-                     <p><strong>Population:</strong> Approximately 340 million</p>
-                     <p><strong>Area:</strong> 9.834 million sq km (3rd largest in the world)</p>
-                     <p><strong>Fun Fact:</strong> The U.S. has the world's longest border between two countries (with Canada).</p>`
+            content: `<p><strong>Capital:</strong> Washington, D.C.</p><p><strong>Motto:</strong> In God We Trust</p><p><strong>Government:</strong> Federal Republic</p><p><strong>Population:</strong> ~340 million</p>`
         };
 
         const USA_INFO_GEO = {
             title: "ამერიკის შეერთებული შტატები - ზოგადი ინფორმაცია",
-            content: `<p><strong>დედაქალაქი:</strong> ვაშინგტონი (D.C.)</p>
-                     <p><strong>დევიზი:</strong> ღმერთის გვწამს (ოფიციალური), E Pluribus Unum (ტრადიციული)</p>
-                     <p><strong>მმართველობა:</strong> ფედერალური საპრეზიდენტო კონსტიტუციური რესპუბლიკა</p>
-                     <p><strong>მოსახლეობა:</strong> დაახლოებით 340 მილიონი</p>
-                     <p><strong>ფართობი:</strong> 9.834 მილიონი კვ.კმ (მე-3 უდიდესი მსოფლიოში)</p>
-                     <p><strong>საინტერესო ფაქტი:</strong> აშშ-ს აქვს ყველაზე გრძელი საზღვარი ორ ქვეყანას შორის (კანადასთან).</p>`
+            content: `<p><strong>დედაქალაქი:</strong> ვაშინგტონი (D.C.)</p><p><strong>დევიზი:</strong> ღმერთის გვწამს</p><p><strong>მმართველობა:</strong> ფედერალური რესპუბლიკა</p><p><strong>მოსახლეობა:</strong> ~340 მილიონი</p>`
         };
 
-        // Education Info (NEW)
         const EDUCATION_INFO_EN = {
             title: "Education System in the USA",
-            content: `
-            <div class="education-info">
-                <p>The United States is home to some of the world's best universities and a diverse public school system. Education is primarily the responsibility of state and local governments, not the federal government.</p>
-                
-                <h4>1. K-12 Education (Primary & Secondary)</h4>
-                <ul>
-                    <li><strong>Compulsory:</strong> Education is mandatory from age 5-6 to 16-18 (varies by state).</li>
-                    <li><strong>Elementary School:</strong> Kindergarten to 5th Grade (Ages 5-11).</li>
-                    <li><strong>Middle School (Junior High):</strong> 6th to 8th Grade (Ages 11-14).</li>
-                    <li><strong>High School:</strong> 9th to 12th Grade (Ages 14-18). Years are called Freshman, Sophomore, Junior, and Senior.</li>
-                    <li><strong>Types of Schools:</strong> Public Schools (free, funded by taxes), Private Schools (tuition-based), Charter Schools (publicly funded but privately managed).</li>
-                </ul>
-
-                <h4>2. Grading System</h4>
-                <p>The US uses a letter grading system, often calculated into a Grade Point Average (GPA) on a 4.0 scale:</p>
-                <ul>
-                    <li><strong>A (90-100%):</strong> Excellent (4.0)</li>
-                    <li><strong>B (80-89%):</strong> Above Average (3.0)</li>
-                    <li><strong>C (70-79%):</strong> Average (2.0)</li>
-                    <li><strong>D (60-69%):</strong> Below Average (1.0)</li>
-                    <li><strong>F (0-59%):</strong> Failure (0.0)</li>
-                </ul>
-
-                <h4>3. Higher Education (College & University)</h4>
-                <ul>
-                    <li><strong>Undergraduate (Bachelor's):</strong> Typically 4 years. Students choose a "Major" (main subject). Renowned institutions include the Ivy League (Harvard, Yale, Princeton, etc.).</li>
-                    <li><strong>Community College:</strong> 2-year institutions granting Associate Degrees. Often cheaper and used as a stepping stone to universities.</li>
-                    <li><strong>Graduate School:</strong> Master’s Degree (1-2 years) and Doctoral Degree (PhD, 3-7 years).</li>
-                    <li><strong>Cost:</strong> Higher education is not free. Students often rely on student loans, scholarships, and financial aid.</li>
-                </ul>
-
-                <h4>4. Standardized Testing</h4>
-                <p>For university admission, students typically take standardized tests like the <strong>SAT</strong> or <strong>ACT</strong>, though many colleges are becoming "test-optional."</p>
-            </div>
-            `
+            content: `<h4>1. K-12 Education</h4><ul><li>Elementary: Kindergarten - 5th Grade</li><li>Middle: 6th - 8th Grade</li><li>High: 9th - 12th Grade</li></ul><h4>2. Higher Education</h4><p>Includes world-famous Ivy League universities.</p>`
         };
 
         const EDUCATION_INFO_GEO = {
             title: "განათლების სისტემა ამერიკაში",
-            content: `
-            <div class="education-info">
-                <p>ამერიკის შეერთებული შტატები გამოირჩევა მსოფლიოს საუკეთესო უნივერსიტეტებით და მრავალფეროვანი საჯარო სკოლების სისტემით. განათლება ძირითადად შტატებისა და ადგილობრივი მთავრობების პასუხისმგებლობაა.</p>
-                
-                <h4>1. სასკოლო განათლება (K-12)</h4>
-                <ul>
-                    <li><strong>სავალდებულო:</strong> განათლება სავალდებულოა 5-6 წლიდან 16-18 წლამდე (შტატების მიხედვით).</li>
-                    <li><strong>დაწყებითი სკოლა (Elementary):</strong> საბავშვო ბაღიდან მე-5 კლასამდე (ასაკი 5-11).</li>
-                    <li><strong>საშუალო სკოლა (Middle School):</strong> მე-6-დან მე-8 კლასამდე (ასაკი 11-14).</li>
-                    <li><strong>უმაღლესი სკოლა (High School):</strong> მე-9-დან მე-12 კლასამდე (ასაკი 14-18). წლებს ეწოდება: Freshman, Sophomore, Junior, Senior.</li>
-                    <li><strong>სკოლის ტიპები:</strong> საჯარო (უფასო, ფინანსდება გადასახადებით), კერძო (ფასიანი) და ჩარტერული სკოლები.</li>
-                </ul>
-
-                <h4>2. შეფასების სისტემა</h4>
-                <p>აშშ იყენებს ასოებით შეფასების სისტემას, რომელიც ხშირად გადაყვანილია GPA (საშუალო ქულა) სისტემაში 4.0 შკალით:</p>
-                <ul>
-                    <li><strong>A (90-100%):</strong> შესანიშნავი (4.0)</li>
-                    <li><strong>B (80-89%):</strong> საშუალოზე მაღალი (3.0)</li>
-                    <li><strong>C (70-79%):</strong> საშუალო (2.0)</li>
-                    <li><strong>D (60-69%):</strong> საშუალოზე დაბალი (1.0)</li>
-                    <li><strong>F (0-59%):</strong> ჩაჭრა (0.0)</li>
-                </ul>
-
-                <h4>3. უმაღლესი განათლება</h4>
-                <ul>
-                    <li><strong>ბაკალავრიატი (Undergraduate):</strong> ჩვეულებრივ 4 წელი. სტუდენტები ირჩევენ "მეიჯორს" (მთავარ პროფესიას). ცნობილია "აივი ლიგის" უნივერსიტეტები (ჰარვარდი, იელი და ა.შ.).</li>
-                    <li><strong>სათემო კოლეჯი (Community College):</strong> 2-წლიანი სასწავლებლები, გასცემენ ასოცირებულ ხარისხს. ხშირად გამოიყენება როგორც უნივერსიტეტში გადასასვლელი იაფი გზა.</li>
-                    <li><strong>მაგისტრატურა და დოქტორანტურა:</strong> მაგისტრი (1-2 წელი) და PhD (3-7 წელი).</li>
-                    <li><strong>ღირებულება:</strong> უმაღლესი განათლება ფასიანია. სტუდენტები იყენებენ სესხებს, გრანტებსა და სტიპენდიებს.</li>
-                </ul>
-
-                <h4>4. ტესტირება</h4>
-                <p>უნივერსიტეტში ჩასაბარებლად სტუდენტები ხშირად აბარებენ ტესტებს, როგორიცაა <strong>SAT</strong> ან <strong>ACT</strong>.</p>
-            </div>
-            `
+            content: `<h4>1. სასკოლო განათლება (K-12)</h4><ul><li>დაწყებითი: მე-5 კლასამდე</li><li>საშუალო: მე-6 - მე-8 კლასი</li><li>უმაღლესი სკოლა: მე-9 - მე-12 კლასი</li></ul><h4>2. უმაღლესი განათლება</h4><p>მოიცავს მსოფლიოში ცნობილ "აივი ლიგის" უნივერსიტეტებს.</p>`
         };
 
-        // President Info
         const PRESIDENT_INFO_EN = {
             title: "Presidents of the United States",
-            content: `
-            <div class="president-info">
-                <h4>Donald J. Trump (47th President)</h4>
-                <p><strong>Term:</strong> January 20, 2025 - Present</p>
-                <p><strong>Party:</strong> Republican</p>
-                <button class="see-more-button" data-president="trump">See Full Info About Donald Trump</button>
-                <div class="additional-info" data-president="trump">
-                    Donald John Trump is the 47th president. He previously served as the 45th president. He is a businessman and media personality. His policies focus on "America First", deregulation, and border security.
-                </div>
-            </div>
-            <div class="president-info">
-                <h4>Joe Biden (46th President)</h4>
-                <p><strong>Term:</strong> 2021 - 2025</p>
-                <p><strong>Party:</strong> Democratic</p>
-                <button class="see-more-button" data-president="biden">See Full Info About Joe Biden</button>
-                <div class="additional-info" data-president="biden">
-                   Joe Biden served as the 46th president and previously as Vice President under Obama. His term focused on post-COVID recovery, infrastructure, and strengthening international alliances.
-                </div>
-            </div>
-            `
+            content: `<div class="president-info"><h4>Donald J. Trump (47th)</h4><p>Party: Republican</p><button class="see-more-button" data-president="trump">See Full Info</button><div class="additional-info" data-president="trump" style="display:none; margin-top:10px;">Served as 45th and 47th President.</div></div>`
         };
 
         const PRESIDENT_INFO_GEO = {
             title: "ამერიკის შეერთებული შტატების პრეზიდენტები",
-            content: `
-            <div class="president-info">
-                <h4>დონალდ ჯ. ტრამპი (47-ე პრეზიდენტი)</h4>
-                <p><strong>ვადა:</strong> 20 იანვარი, 2025 - დღემდე</p>
-                <p><strong>პარტია:</strong> რესპუბლიკური</p>
-                <button class="see-more-button" data-president="trump">მეტი დონალდ ტრამპზე</button>
-                <div class="additional-info" data-president="trump">
-                    დონალდ ჯონ ტრამპი არის 47-ე პრეზიდენტი. ის ადრე მსახურობდა როგორც 45-ე პრეზიდენტი. არის ბიზნესმენი და მედია პერსონა. მისი პოლიტიკა ფოკუსირებულია "ამერიკა უპირველეს ყოვლისა" პრინციპზე.
-                </div>
-            </div>
-            <div class="president-info">
-                <h4>ჯო ბაიდენი (46-ე პრეზიდენტი)</h4>
-                <p><strong>ვადა:</strong> 2021 - 2025</p>
-                <p><strong>პარტია:</strong> დემოკრატიული</p>
-                <button class="see-more-button" data-president="biden">მეტი ჯო ბაიდენზე</button>
-                <div class="additional-info" data-president="biden">
-                    ჯო ბაიდენი იყო 46-ე პრეზიდენტი, მანამდე კი ვიცე-პრეზიდენტი ობამას დროს. მისი პრეზიდენტობა ფოკუსირებული იყო კოვიდის შემდგომ აღდგენაზე და ინფრასტრუქტურაზე.
-                </div>
-            </div>
-            `
+            content: `<div class="president-info"><h4>დონალდ ჯ. ტრამპი (47-ე)</h4><p>პარტია: რესპუბლიკური</p><button class="see-more-button" data-president="trump">მეტი ინფორმაცია</button><div class="additional-info" data-president="trump" style="display:none; margin-top:10px;">მსახურობდა როგორც 45-ე და 47-ე პრეზიდენტი.</div></div>`
         };
 
-        // Georgia Info
-        const GEORGIA_INFO_EN = {
-            title: "State of Georgia - The Peach State",
-            content: `<p><strong>Capital:</strong> Atlanta</p>
-                     <p><strong>Population:</strong> ~11 million</p>
-                     <p><strong>Nickname:</strong> The Peach State</p>
-                     <p><strong>Economy:</strong> Transport, Film, Agriculture.</p>`
-        };
-
-        const GEORGIA_INFO_GEO = {
-            title: "შტატი ჯორჯია - ატმის შტატი",
-            content: `<p><strong>დედაქალაქი:</strong> ატლანტა</p>
-                     <p><strong>მოსახლეობა:</strong> ~11 მილიონი</p>
-                     <p><strong>მეტსახელი:</strong> ატმის შტატი</p>
-                     <p><strong>ეკონომიკა:</strong> ტრანსპორტი, კინო, სოფლის მეურნეობა.</p>`
-        };
-
-        // California Info
-        const CALIFORNIA_INFO_EN = {
-            title: "State of California - The Golden State",
-            content: `<p><strong>Capital:</strong> Sacramento</p>
-                     <p><strong>Population:</strong> ~39 million</p>
-                     <p><strong>Economy:</strong> Tech (Silicon Valley), Entertainment (Hollywood).</p>`
-        };
-
-        const CALIFORNIA_INFO_GEO = {
-            title: "შტატი კალიფორნია - ოქროს შტატი",
-            content: `<p><strong>დედაქალაქი:</strong> საკრამენტო</p>
-                     <p><strong>მოსახლეობა:</strong> ~39 მილიონი</p>
-                     <p><strong>ეკონომიკა:</strong> ტექნოლოგიები, გართობა.</p>`
-        };
-
-        // New York Info
-        const NEWYORK_INFO_EN = {
-            title: "State of New York - The Empire State",
-            content: `<p><strong>Capital:</strong> Albany</p>
-                     <p><strong>Largest City:</strong> New York City</p>
-                     <p><strong>Landmarks:</strong> Statue of Liberty, Times Square.</p>`
-        };
-
-        const NEWYORK_INFO_GEO = {
-            title: "შტატი ნიუ-იორკი - იმპერიის შტატი",
-            content: `<p><strong>დედაქალაქი:</strong> ოლბანი</p>
-                     <p><strong>უდიდესი ქალაქი:</strong> ნიუ-იორკი</p>
-                     <p><strong>ღირსშესანიშნაობები:</strong> თავისუფლების ქანდაკება.</p>`
-        };
-
-        // Texas Info
-        const TEXAS_INFO_EN = {
-            title: "State of Texas - The Lone Star State",
-            content: `<p><strong>Capital:</strong> Austin</p>
-                     <p><strong>Economy:</strong> Oil, Gas, Cattle.</p>`
-        };
-
-        const TEXAS_INFO_GEO = {
-            title: "შტატი ტეხასი - მარტოხელა ვარსკვლავის შტატი",
-            content: `<p><strong>დედაქალაქი:</strong> ოსტინი</p>
-                     <p><strong>ეკონომიკა:</strong> ნავთობი, გაზი, მეცხოველეობა.</p>`
-        };
-
-        // Mapping all data
         const INFO_MAP = {
             'USA': { en: USA_INFO_EN, geo: USA_INFO_GEO, css: 'usa-item' },
             'PRESIDENT': { en: PRESIDENT_INFO_EN, geo: PRESIDENT_INFO_GEO, css: 'president-item' },
-            'EDUCATION': { en: EDUCATION_INFO_EN, geo: EDUCATION_INFO_GEO, css: 'education-item' }, // NEW
-            'Georgia': { en: GEORGIA_INFO_EN, geo: GEORGIA_INFO_GEO, css: 'georgia-state' },
-            'California': { en: CALIFORNIA_INFO_EN, geo: CALIFORNIA_INFO_GEO, css: 'california-state' },
-            'New York': { en: NEWYORK_INFO_EN, geo: NEWYORK_INFO_GEO, css: 'newyork-state' },
-            'Texas': { en: TEXAS_INFO_EN, geo: TEXAS_INFO_GEO, css: 'texas-state' }
+            'EDUCATION': { en: EDUCATION_INFO_EN, geo: EDUCATION_INFO_GEO, css: 'education-item' },
+            'Georgia': { en: {title: "Georgia", content: "The Peach State. Capital: Atlanta."}, geo: {title: "ჯორჯია", content: "ატმის შტატი. დედაქალაქი: ატლანტა."}, css: 'georgia-state' },
+            'California': { en: {title: "California", content: "The Golden State. Tech & Film Hub."}, geo: {title: "კალიფორნია", content: "ოქროს შტატი. ტექნოლოგიების ცენტრი."}, css: 'california-state' },
+            'New York': { en: {title: "New York", content: "The Empire State. NYC is here."}, geo: {title: "ნიუ-იორკი", content: "იმპერიის შტატი."}, css: 'newyork-state' },
+            'Texas': { en: {title: "Texas", content: "The Lone Star State. Oil & Gas."}, geo: {title: "ტეხასი", content: "მარტოხელა ვარსკვლავის შტატი."}, css: 'texas-state' }
         };
 
-        // --- TEXT CONTENT ---
         const TEXT_CONTENT = {
-            en: {
-                pageTitle: "US States List",
-                mainHeader: "United States of America - 50 States",
-                totalCountText: "Total States:",
-                infoButton: "See Info",
-                langButton: "GEO",
-                searchPlaceholder: "Search States...",
-                usaCardTitle: "United States Overview",
-                presidentCardTitle: "Presidents of the United States",
-                educationCardTitle: "US Education System" // NEW
-            },
-            geo: {
-                pageTitle: "აშშ-ს შტატების სია",
-                mainHeader: "ამერიკის შეერთებული შტატები - 50 შტატი",
-                totalCountText: "სულ შტატი:",
-                infoButton: "ინფორმაციის ნახვა",
-                langButton: "ENG",
-                searchPlaceholder: "შტატების ძიება...",
-                usaCardTitle: "ამერიკის მიმოხილვა",
-                presidentCardTitle: "ამერიკის შეერთებული შტატების პრეზიდენტები",
-                educationCardTitle: "აშშ-ს განათლების სისტემა" // NEW
-            }
+            en: { mainHeader: "USA - 50 States", totalCountText: "Total States:", infoButton: "EXPLORE", langButton: "GEO", searchPlaceholder: "Search States..." },
+            geo: { mainHeader: "ამერიკა - 50 შტატი", totalCountText: "სულ შტატი:", infoButton: "ნახვა", langButton: "ENG", searchPlaceholder: "ძიება..." }
         };
 
         let currentLang = 'en';
-        const statesList = document.getElementById('statesList');
-        const statesCountSpan = document.getElementById('statesCount');
-        const infoModal = document.getElementById('infoModal');
-        const closeButton = document.querySelector('.close-button');
-        const langSwitcher = document.getElementById('langSwitcher');
-        const modalLangSwitcher = document.getElementById('modalLangSwitcher');
-        const searchInput = document.getElementById('searchInput');
 
         function init() {
             renderStates();
-            setupEventListeners();
-            statesCountSpan.textContent = STATES.length;
+            setupListeners();
             updateUI();
-            registerServiceWorker();
         }
 
-        function renderStates() {
-            statesList.innerHTML = '';
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredStates = STATES.filter(state => state.toLowerCase().includes(searchTerm));
-
-            // Render Special Cards (only if no search or if relevant)
-            if (searchTerm === '') {
-                renderUSACard();
-                renderPresidentCard();
-                renderEducationCard(); // NEW FUNCTION CALL
-            }
-
-            // Render State List
-            filteredStates.forEach(state => {
-                const listItem = document.createElement('li');
-                const stateData = INFO_MAP[state];
-                const isSpecial = !!stateData;
-                listItem.className = `state-item ${isSpecial ? stateData.css : ''}`;
-                
-                const stateName = document.createElement('h3');
-                stateName.textContent = state;
-                listItem.appendChild(stateName);
-
-                if (isSpecial) {
-                    const infoButton = document.createElement('button');
-                    infoButton.className = 'info-button';
-                    infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
-                    infoButton.onclick = () => openInfoModal(state);
-                    listItem.appendChild(infoButton);
-                }
-                
-                statesList.appendChild(listItem);
-            });
+        function setupListeners() {
+            document.getElementById('langSwitcher').onclick = toggleLang;
+            document.getElementById('modalLangSwitcher').onclick = toggleLang;
+            document.getElementById('searchInput').oninput = renderStates;
+            document.querySelector('.close-button').onclick = () => document.getElementById('infoModal').style.display = 'none';
+            window.onclick = (e) => { if(e.target.id === 'infoModal') document.getElementById('infoModal').style.display = 'none'; };
         }
 
-        function renderUSACard() {
-            createSpecialCard('USA', TEXT_CONTENT[currentLang].usaCardTitle, INFO_MAP['USA'][currentLang].content);
-        }
-
-        function renderPresidentCard() {
-            createSpecialCard('PRESIDENT', TEXT_CONTENT[currentLang].presidentCardTitle, INFO_MAP['PRESIDENT'][currentLang].content);
-        }
-
-        // NEW FUNCTION FOR EDUCATION CARD
-        function renderEducationCard() {
-            createSpecialCard('EDUCATION', TEXT_CONTENT[currentLang].educationCardTitle, INFO_MAP['EDUCATION'][currentLang].content);
-        }
-
-        // Helper function to create special cards to reduce code duplication
-        function createSpecialCard(key, titleText, contentHTML) {
-            const listItem = document.createElement('li');
-            listItem.className = `state-item ${INFO_MAP[key].css}`;
-            
-            const title = document.createElement('h3');
-            title.textContent = titleText;
-            listItem.appendChild(title);
-            
-            const preview = document.createElement('p');
-            // Extract first paragraph plain text for preview
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = contentHTML;
-            const firstP = tempDiv.querySelector('p');
-            const previewText = firstP ? firstP.textContent : "";
-            
-            preview.textContent = previewText.substring(0, 100) + '...';
-            listItem.appendChild(preview);
-            
-            const infoButton = document.createElement('button');
-            infoButton.className = 'info-button';
-            infoButton.textContent = TEXT_CONTENT[currentLang].infoButton;
-            infoButton.onclick = () => openInfoModal(key);
-            listItem.appendChild(infoButton);
-            
-            statesList.appendChild(listItem);
-        }
-
-        function setupEventListeners() {
-            langSwitcher.addEventListener('click', toggleLanguage);
-            modalLangSwitcher.addEventListener('click', toggleLanguage);
-            closeButton.addEventListener('click', closeInfoModal);
-            searchInput.addEventListener('input', renderStates);
-            
-            window.addEventListener('click', function(event) {
-                if (event.target === infoModal) closeInfoModal();
-            });
-        }
-
-        function toggleLanguage() {
+        function toggleLang() {
             currentLang = currentLang === 'en' ? 'geo' : 'en';
             updateUI();
         }
 
         function updateUI() {
-            const content = TEXT_CONTENT[currentLang];
-            document.title = content.pageTitle;
-            document.getElementById('mainHeader').textContent = content.mainHeader;
-            document.getElementById('totalCountText').textContent = content.totalCountText;
-            langSwitcher.textContent = content.langButton;
-            modalLangSwitcher.textContent = content.langButton;
-            searchInput.placeholder = content.searchPlaceholder;
-            
+            const t = TEXT_CONTENT[currentLang];
+            document.getElementById('mainHeader').textContent = t.mainHeader;
+            document.getElementById('totalCountText').textContent = t.totalCountText;
+            document.getElementById('langSwitcher').textContent = t.langButton;
+            document.getElementById('modalLangSwitcher').textContent = t.langButton;
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             renderStates();
         }
 
-        function openInfoModal(key) {
+        function renderStates() {
+            const list = document.getElementById('statesList');
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            list.innerHTML = '';
+
+            if(!search) {
+                ['USA', 'PRESIDENT', 'EDUCATION'].forEach(key => list.appendChild(createCard(key, true)));
+            }
+
+            STATES.filter(s => s.toLowerCase().includes(search)).forEach(s => {
+                list.appendChild(createCard(s, !!INFO_MAP[s]));
+            });
+        }
+
+        function createCard(key, hasInfo) {
+            const li = document.createElement('li');
+            const data = INFO_MAP[key];
+            li.className = `state-item ${data ? data.css : ''}`;
+
+            const h3 = document.createElement('h3');
+            h3.textContent = data ? (currentLang === 'en' ? data.en.title : data.geo.title) : key;
+            li.appendChild(h3);
+
+            if(hasInfo) {
+                const btn = document.createElement('button');
+                btn.className = 'info-button';
+                btn.textContent = TEXT_CONTENT[currentLang].infoButton;
+                btn.onclick = () => openModal(key);
+                li.appendChild(btn);
+            }
+            return li;
+        }
+
+        function openModal(key) {
             const info = INFO_MAP[key][currentLang];
             document.getElementById('modalTitle').textContent = info.title;
             document.getElementById('modalContent').innerHTML = info.content;
-            infoModal.style.display = 'block';
-            
-            // Re-attach listeners for president see-more buttons
-            setTimeout(() => {
-                const seeMoreButtons = document.querySelectorAll('.see-more-button');
-                seeMoreButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const president = this.getAttribute('data-president');
-                        const additionalInfo = document.querySelector(`.additional-info[data-president="${president}"]`);
-                        if (additionalInfo.style.display === 'block') {
-                            additionalInfo.style.display = 'none';
-                            if (currentLang === 'en') {
-                                this.textContent = president === 'trump' ? 'See Full Info About Donald Trump' : 'See Full Info About Joe Biden';
-                            } else {
-                                this.textContent = president === 'trump' ? 'მეტი დონალდ ტრამპზე' : 'მეტი ჯო ბაიდენზე';
-                            }
-                        } else {
-                            additionalInfo.style.display = 'block';
-                            if (currentLang === 'en') {
-                                this.textContent = 'See Less';
-                            } else {
-                                this.textContent = 'ნაკლების ნახვა';
-                            }
-                        }
-                    });
-                });
-            }, 100);
-        }
+            document.getElementById('infoModal').style.display = 'block';
 
-        function closeInfoModal() {
-            infoModal.style.display = 'none';
-        }
-
-        function registerServiceWorker() {
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                .then(reg => console.log('Service Worker registered', reg))
-                .catch(err => console.log('Service Worker failed', err));
+            // See more logic
+            const seeMore = document.querySelector('.see-more-button');
+            if(seeMore) {
+                seeMore.onclick = function() {
+                    const extra = document.querySelector('.additional-info');
+                    extra.style.display = extra.style.display === 'none' ? 'block' : 'none';
+                };
             }
         }
 
-        document.addEventListener('DOMContentLoaded', init);
+        init();
     </script>
 </body>
 </html>
