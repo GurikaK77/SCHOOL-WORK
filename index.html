@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nexus USA - Status Update</title>
+    <title>Nexus USA - Full Database</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@300;400;700&display=swap');
 
         :root {
             --neon-blue: #00f3ff;
-            --neon-green: #00ff41; /* მწვანე ინფორმაციისთვის */
-            --neon-red: #ff3333;   /* წითელი ცარიელებისთვის */
+            --neon-green: #00ff41;
+            --neon-red: #ff3333;
+            --neon-yellow: #f3ff00; /* ახალი ფერი ტერიტორიებისთვის */
             --bg-color: #050505;
             --card-bg: rgba(20, 20, 30, 0.7);
             --text-main: #ffffff;
@@ -20,7 +21,7 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.1) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 50% 50%, rgba(0, 243, 255, 0.05) 0%, transparent 60%);
             color: var(--text-main);
             font-family: 'Roboto', sans-serif;
             padding: 20px;
@@ -35,6 +36,16 @@
             padding: 40px 0;
             border-bottom: 2px solid var(--neon-blue);
             margin-bottom: 40px;
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -10px; left: 50%; transform: translateX(-50%);
+            width: 200px; height: 5px;
+            background: var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
         }
 
         h1 {
@@ -59,23 +70,27 @@
             padding: 15px;
             border-radius: 5px;
             border: 1px solid var(--neon-blue);
-            background: #000;
+            background: rgba(0,0,0,0.5);
             color: #fff;
-            width: 300px;
+            width: 250px;
             font-size: 1rem;
             outline: none;
+            font-family: 'Orbitron', sans-serif;
         }
 
+        input:focus { box-shadow: 0 0 10px var(--neon-blue); }
+
         button {
-            padding: 12px 25px;
+            padding: 12px 20px;
             border: 1px solid var(--neon-blue);
-            background: rgba(0, 243, 255, 0.1);
+            background: rgba(0, 243, 255, 0.05);
             color: var(--neon-blue);
             font-family: 'Orbitron', sans-serif;
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
             font-weight: bold;
+            font-size: 0.9rem;
         }
 
         button.active, button:hover {
@@ -83,6 +98,10 @@
             color: #000;
             box-shadow: 0 0 15px var(--neon-blue);
         }
+
+        /* Special button for language */
+        #langBtn { border-color: #fff; color: #fff; }
+        #langBtn:hover { background: #fff; color: #000; box-shadow: 0 0 15px #fff; }
 
         /* GRID */
         #statesGrid {
@@ -104,23 +123,31 @@
             justify-content: space-between;
             position: relative;
             overflow: hidden;
+            min-height: 200px;
         }
 
-        .card:hover { transform: translateY(-5px); }
+        .card:hover { 
+            transform: translateY(-5px); 
+            border-color: rgba(255,255,255,0.3);
+        }
 
         .card h3 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin-bottom: 10px;
             color: #fff;
+            line-height: 1.2;
         }
 
         .card-tag {
-            font-size: 0.8rem;
-            color: #aaa;
+            font-size: 0.75rem;
+            color: #888;
             text-transform: uppercase;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 5px;
+            display: inline-block;
         }
 
         /* BUTTON STYLES (Dynamic) */
@@ -133,86 +160,102 @@
             transition: 0.3s;
             border: 1px solid;
             letter-spacing: 2px;
-            font-size: 0.9rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
         }
 
         /* Green Style (Has Info) */
         .btn-success {
             border-color: var(--neon-green);
             color: var(--neon-green);
-            box-shadow: inset 0 0 5px rgba(0, 255, 65, 0.2);
+            background: rgba(0, 255, 65, 0.05);
         }
         .card:hover .btn-success {
             background: var(--neon-green);
             color: #000;
-            box-shadow: 0 0 20px var(--neon-green);
+            box-shadow: 0 0 15px var(--neon-green);
         }
 
         /* Red Style (No Info) */
         .btn-danger {
             border-color: var(--neon-red);
             color: var(--neon-red);
-            opacity: 0.7;
+            background: rgba(255, 51, 51, 0.05);
+            opacity: 0.8;
         }
         .card:hover .btn-danger {
             background: var(--neon-red);
             color: #fff;
-            box-shadow: 0 0 20px var(--neon-red);
+            box-shadow: 0 0 15px var(--neon-red);
         }
+
+        /* Special Border Colors */
+        .has-info-border { border-left: 4px solid var(--neon-green) !important; }
+        .territory-border { border-left: 4px solid var(--neon-yellow) !important; }
 
         /* MODAL */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(10px);
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(5px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
+
+        .modal.show { opacity: 1; }
 
         .modal-content {
             background: #0f0f13;
-            border: 2px solid var(--neon-blue);
+            border: 1px solid var(--neon-blue);
             padding: 40px;
             width: 90%;
-            max-width: 800px; /* გავადიდე სიგანე */
+            max-width: 800px;
             max-height: 85vh;
-            overflow-y: auto; /* სქროლი თუ ტექსტი დიდია */
+            overflow-y: auto;
             position: relative;
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
-            border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0, 243, 255, 0.15);
+            border-radius: 5px;
         }
 
-        /* Modal Custom Scrollbar */
-        .modal-content::-webkit-scrollbar { width: 8px; }
-        .modal-content::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 4px; }
-        .modal-content::-webkit-scrollbar-track { background: #000; }
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-thumb { background: var(--neon-blue); }
+        .modal-content::-webkit-scrollbar-track { background: #111; }
 
         .close-btn {
             position: absolute;
-            top: 15px; right: 20px;
-            font-size: 30px;
+            top: 20px; right: 25px;
+            font-size: 2rem;
             color: var(--neon-red);
             cursor: pointer;
+            transition: 0.2s;
         }
+        .close-btn:hover { text-shadow: 0 0 10px var(--neon-red); transform: scale(1.1); }
 
-        #modalTitle { color: var(--neon-blue); font-family: 'Orbitron'; margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        #modalTitle { 
+            color: var(--neon-blue); 
+            font-family: 'Orbitron'; 
+            margin-bottom: 20px; 
+            border-bottom: 1px solid #333; 
+            padding-bottom: 15px;
+            font-size: 2rem;
+        }
         
         #modalBody {
             font-size: 1.1rem;
             line-height: 1.8;
-            color: #e0e0e0;
+            color: #ccc;
         }
         
-        /* ტექსტის ფორმატირება მოდალში */
-        #modalBody strong { color: var(--neon-blue); }
-        #modalBody ul { margin-left: 20px; margin-bottom: 15px; }
-        #modalBody p { margin-bottom: 15px; }
+        #modalBody strong { color: #fff; }
+        #modalBody ul { margin-left: 20px; margin-bottom: 20px; list-style-type: square; }
+        #modalBody li { margin-bottom: 5px; }
+        #modalBody p { margin-bottom: 15px; text-align: justify; }
 
-        /* Special Border Colors */
-        .special-card { border-left: 5px solid var(--neon-green) !important; }
     </style>
 </head>
 <body>
@@ -220,13 +263,15 @@
     <div class="container">
         <header>
             <h1 id="headerTitle">NEXUS DATABASE</h1>
-            <p style="color: #888; letter-spacing: 2px; margin-top: 10px;">SECURE ACCESS TERMINAL</p>
+            <p style="color: #888; letter-spacing: 2px; margin-top: 10px; font-family: 'Orbitron';">SECURE ACCESS TERMINAL V.2.0</p>
         </header>
 
         <div class="controls">
-            <input type="text" id="searchInput" placeholder="Search Node..." oninput="renderGrid()">
-            <button onclick="setFilter('all')" class="active">ALL</button>
-            <button onclick="setFilter('special')">SPECIAL</button>
+            <input type="text" id="searchInput" placeholder="SEARCH NODE..." oninput="renderGrid()">
+            <button onclick="setFilter('all')" class="active" id="btn-all">ALL</button>
+            <button onclick="setFilter('special')" id="btn-special">SYSTEM</button>
+            <button onclick="setFilter('states')" id="btn-states">STATES</button>
+            <button onclick="setFilter('territories')" id="btn-territories" style="border-color: var(--neon-yellow); color: var(--neon-yellow);">TERRITORIES</button>
             <button onclick="toggleLang()" id="langBtn">LANG: ENG</button>
         </div>
 
@@ -242,99 +287,193 @@
     </div>
 
     <script>
+        // --- DATA SETS ---
         const STATES_LIST = [
             "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa", "Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi", "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee", "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming"
         ];
 
-        // --- ვრცელი ინფორმაციები აქ იწერება (HTML ფორმატში) ---
+        const TERRITORIES_LIST = [
+            "Puerto Rico", "Guam", "US Virgin Islands", "American Samoa", "Northern Mariana Islands"
+        ];
+
+        // --- DETAILED INFORMATION ---
         const DETAILS = {
+            // SYSTEM DATA
             'USA': { 
                 en: { 
                     title: "United States of America", 
-                    desc: `
-                        <p><strong>Overview:</strong> The United States is a country primarily located in North America. It consists of 50 states, a federal district, five major unincorporated territories, and nine minor outlying islands.</p>
-                        <ul>
-                            <li><strong>Capital:</strong> Washington, D.C.</li>
-                            <li><strong>Population:</strong> Approximately 340 Million people.</li>
-                            <li><strong>Economy:</strong> The largest economy in the world by nominal GDP.</li>
-                            <li><strong>Motto:</strong> "In God We Trust"</li>
-                        </ul>
-                        <p>The U.S. is a founding member of the United Nations, World Bank, International Monetary Fund, Organization of American States, NATO, and other international organizations.</p>
-                    `
+                    desc: `<p><strong>Overview:</strong> The United States is a country primarily located in North America. It consists of 50 states, a federal district, five major unincorporated territories, and nine minor outlying islands.</p><ul><li><strong>Capital:</strong> Washington, D.C.</li><li><strong>Population:</strong> ~340 Million</li><li><strong>Economy:</strong> Largest nominal GDP globally.</li></ul>`
                 },
                 geo: { 
                     title: "ამერიკის შეერთებული შტატები", 
-                    desc: `
-                        <p><strong>მიმოხილვა:</strong> ამერიკის შეერთებული შტატები (აშშ) არის ფედერალური რესპუბლიკა, რომელიც შედგება 50 შტატისა და ფედერალური ოლქისგან. ქვეყანა მდებარეობს ჩრდილოეთ ამერიკის ცენტრალურ ნაწილში.</p>
-                        <ul>
-                            <li><strong>დედაქალაქი:</strong> ვაშინგტონი (კოლუმბიის ოლქი).</li>
-                            <li><strong>მოსახლეობა:</strong> დაახლოებით 340 მილიონი ადამიანი.</li>
-                            <li><strong>ეკონომიკა:</strong> მსოფლიოს უდიდესი ეკონომიკა ნომინალური მშპ-ის მიხედვით.</li>
-                            <li><strong>დევიზი:</strong> "ჩვენ გვწამს ღმერთის" (In God We Trust).</li>
-                        </ul>
-                        <p>ქვეყანა არის გაეროს, ნატოს, მსოფლიო ბანკისა და სხვა საერთაშორისო ორგანიზაციების დამფუძნებელი წევრი.</p>
-                    ` 
+                    desc: `<p><strong>მიმოხილვა:</strong> აშშ არის ფედერალური რესპუბლიკა ჩრდილოეთ ამერიკაში. შედგება 50 შტატის, ფედერალური ოლქისა და 5 ძირითადი ტერიტორიისგან.</p><ul><li><strong>დედაქალაქი:</strong> ვაშინგტონი</li><li><strong>მოსახლეობა:</strong> ~340 მილიონი</li><li><strong>ეკონომიკა:</strong> მსოფლიოს უდიდესი ეკონომიკა.</li></ul>` 
                 }
             },
             'PRESIDENT': {
                 en: { 
                     title: "Executive Branch: The President", 
-                    desc: `
-                        <p><strong>Current Leader:</strong> Donald J. Trump</p>
-                        <p><strong>Position:</strong> 47th President of the United States.</p>
-                        <p>The President is the head of state and head of government of the United States of America. The President directs the executive branch of the federal government and is the commander-in-chief of the United States Armed Forces.</p>
-                        <ul>
-                            <li><strong>Term Length:</strong> 4 Years (renewable once).</li>
-                            <li><strong>Residence:</strong> The White House, Washington D.C.</li>
-                            <li><strong>Powers:</strong> Veto legislation, command armed forces, ask for the written opinion of their Cabinet, convene or adjourn Congress, grant reprieves and pardons.</li>
-                        </ul>
-                    ` 
+                    desc: `<p><strong>Current Leader:</strong> Donald J. Trump (47th President).</p><p>The President is the head of state and head of government, directing the executive branch and serving as commander-in-chief.</p>` 
                 },
                 geo: { 
                     title: "აღმასრულებელი შტო: პრეზიდენტი", 
-                    desc: `
-                        <p><strong>მიმდინარე ლიდერი:</strong> დონალდ ჯ. ტრამპი</p>
-                        <p><strong>პოზიცია:</strong> ამერიკის 47-ე პრეზიდენტი.</p>
-                        <p>პრეზიდენტი არის სახელმწიფოსა და მთავრობის მეთაური. ის ხელმძღვანელობს ფედერალური მთავრობის აღმასრულებელ შტოს და არის აშშ-ის შეიარაღებული ძალების მთავარსარდალი.</p>
-                        <ul>
-                            <li><strong>ვადის ხანგრძლივობა:</strong> 4 წელი (შესაძლებელია მეორე ვადით არჩევა).</li>
-                            <li><strong>რეზიდენცია:</strong> თეთრი სახლი, ვაშინგტონი.</li>
-                            <li><strong>უფლებამოსილებები:</strong> კანონმდებლობის ვეტო, ჯარების მართვა, კონგრესის მოწვევა, შეწყალების უფლება.</li>
-                        </ul>
-                    ` 
+                    desc: `<p><strong>ლიდერი:</strong> დონალდ ჯ. ტრამპი (47-ე პრეზიდენტი).</p><p>პრეზიდენტი არის სახელმწიფოსა და მთავრობის მეთაური, ასევე შეიარაღებული ძალების მთავარსარდალი.</p>` 
                 }
             },
             'EDUCATION': {
-                en: { title: "US Education System", desc: "<p>Detailed breakdown of K-12, Undergraduate, and Ph.D programs...</p>" },
-                geo: { title: "განათლების სისტემა", desc: "<p>დეტალური ინფორმაცია სკოლებზე, ბაკალავრიატსა და დოქტორანტურაზე...</p>" }
+                en: { title: "US Education System", desc: "<p>The US education system is decentralized, with control primarily at the state and local levels. Key stages include K-12, Undergraduate (College/University), and Graduate studies.</p>" },
+                geo: { title: "განათლების სისტემა", desc: "<p>აშშ-ის განათლების სისტემა დეცენტრალიზებულია. ძირითადი საფეხურებია: სკოლა (K-12), ბაკალავრიატი და მაგისტრატურა/დოქტორანტურა.</p>" }
             },
+
+            // STATES (Sample data for existing ones)
             'Georgia': {
-                en: { 
-                    desc: `
-                        <p><strong>Nickname:</strong> The Peach State</p>
-                        <p>Georgia is a state in the Southeastern region of the United States. It was one of the original Thirteen Colonies.</p>
-                        <ul>
-                            <li><strong>Capital:</strong> Atlanta</li>
-                            <li><strong>Population:</strong> ~11 Million</li>
-                            <li><strong>Known For:</strong> Peaches, Coca-Cola Headquarters, Hartsfield-Jackson Airport (busiest in the world).</li>
-                        </ul>
-                    ` 
-                },
-                geo: { 
-                    desc: `
-                        <p><strong>მეტსახელი:</strong> ატმის შტატი</p>
-                        <p>ჯორჯია არის შტატი აშშ-ის სამხრეთ-აღმოსავლეთ რეგიონში. ის იყო ერთ-ერთი იმ 13 კოლონიიდან, რომლებმაც დააარსეს აშშ.</p>
-                        <ul>
-                            <li><strong>დედაქალაქი:</strong> ატლანტა</li>
-                            <li><strong>მოსახლეობა:</strong> ~11 მილიონი</li>
-                            <li><strong>ცნობილია:</strong> ატმებით, კოკა-კოლას სათავო ოფისით და ატლანტას აეროპორტით (ყველაზე დატვირთული მსოფლიოში).</li>
-                        </ul>
-                    ` 
-                }
+                en: { desc: `<p><strong>The Peach State.</strong> Capital: Atlanta. Known for Coca-Cola, peaches, and southern history.</p>` },
+                geo: { desc: `<p><strong>ატმის შტატი.</strong> დედაქალაქი: ატლანტა. ცნობილია კოკა-კოლათი, ატმებითა და სამხრეთული ისტორიით.</p>` }
             },
             'California': {
-                en: { desc: "<p><strong>The Golden State.</strong><br>Home to Silicon Valley, Hollywood, and diverse geography ranging from beaches to mountains.</p>" },
-                geo: { desc: "<p><strong>ოქროს შტატი.</strong><br>სილიკონის ველისა და ჰოლივუდის სამშობლო. გამოირჩევა მრავალფეროვანი ბუნებით.</p>" }
+                en: { desc: `<p><strong>The Golden State.</strong> Capital: Sacramento. Home to Silicon Valley and Hollywood.</p>` },
+                geo: { desc: `<p><strong>ოქროს შტატი.</strong> დედაქალაქი: საკრამენტო. სილიკონის ველისა და ჰოლივუდის სამშობლო.</p>` }
+            },
+            'New York': {
+                en: { desc: `<p><strong>The Empire State.</strong> Capital: Albany. NYC is the financial and cultural hub of the world.</p>` },
+                geo: { desc: `<p><strong>იმპერიული შტატი.</strong> დედაქალაქი: ოლბანი. ნიუ-იორკი მსოფლიოს ფინანსური და კულტურული ცენტრია.</p>` }
+            },
+            'Texas': {
+                en: { desc: `<p><strong>The Lone Star State.</strong> Capital: Austin. Known for energy, BBQ, and sheer size.</p>` },
+                geo: { desc: `<p><strong>მარტოხელა ვარსკვლავის შტატი.</strong> დედაქალაქი: ოსტინი. ცნობილია ენერგეტიკით და მასშტაბებით.</p>` }
+            },
+
+            // --- ISLANDS & TERRITORIES (NEW) ---
+            'Puerto Rico': {
+                en: { 
+                    title: "Commonwealth of Puerto Rico",
+                    desc: `
+                        <p><strong>Status:</strong> Unincorporated Territory (Commonwealth).</p>
+                        <p>Puerto Rico is a Caribbean island and unincorporated territory of the United States. Residents are U.S. citizens.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> San Juan</li>
+                            <li><strong>Population:</strong> ~3.2 Million</li>
+                            <li><strong>Language:</strong> Spanish & English</li>
+                            <li><strong>Economy:</strong> Manufacturing (pharmaceuticals), tourism.</li>
+                        </ul>
+                    `
+                },
+                geo: { 
+                    title: "პუერტო რიკოს თანამეგობრობა",
+                    desc: `
+                        <p><strong>სტატუსი:</strong> არაინკორპორირებული ტერიტორია.</p>
+                        <p>პუერტო რიკო მდებარეობს კარიბის ზღვაში. მისი მცხოვრებლები აშშ-ის მოქალაქეები არიან.</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> სან-ხუანი</li>
+                            <li><strong>მოსახლეობა:</strong> ~3.2 მილიონი</li>
+                            <li><strong>ენა:</strong> ესპანური და ინგლისური</li>
+                            <li><strong>ეკონომიკა:</strong> ფარმაცევტული წარმოება, ტურიზმი.</li>
+                        </ul>
+                    `
+                }
+            },
+            'Guam': {
+                en: { 
+                    title: "Guam",
+                    desc: `
+                        <p><strong>Status:</strong> Unincorporated Territory.</p>
+                        <p>Guam is an organized territory in the Micronesia subregion of the western Pacific Ocean. It is a key strategic military hub for the US.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> Hagåtña</li>
+                            <li><strong>Known For:</strong> US Military bases, beaches, Chamorro culture.</li>
+                            <li><strong>Motto:</strong> "Where America's Day Begins"</li>
+                        </ul>
+                    `
+                },
+                geo: { 
+                    title: "გუამი",
+                    desc: `
+                        <p><strong>სტატუსი:</strong> არაინკორპორირებული ტერიტორია.</p>
+                        <p>გუამი მდებარეობს წყნარი ოკეანის დასავლეთ ნაწილში (მიკრონეზია). ის წარმოადგენს აშშ-ის უმნიშვნელოვანეს სამხედრო სტრატეგიულ წერტილს.</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> ჰაგატნა</li>
+                            <li><strong>ცნობილია:</strong> სამხედრო ბაზებით, პლაჟებითა და ჩამოროს კულტურით.</li>
+                            <li><strong>დევიზი:</strong> "სადაც ამერიკის დღე იწყება"</li>
+                        </ul>
+                    `
+                }
+            },
+            'US Virgin Islands': {
+                en: { 
+                    title: "U.S. Virgin Islands",
+                    desc: `
+                        <p><strong>Status:</strong> Unincorporated Territory.</p>
+                        <p>A group of Caribbean islands (St. Croix, St. John, St. Thomas). Known for white-sand beaches and coral reefs.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> Charlotte Amalie</li>
+                            <li><strong>Economy:</strong> Tourism, Rum production.</li>
+                            <li><strong>Note:</strong> Vehicles drive on the left side of the road.</li>
+                        </ul>
+                    `
+                },
+                geo: { 
+                    title: "აშშ-ის ვირჯინიის კუნძულები",
+                    desc: `
+                        <p><strong>სტატუსი:</strong> არაინკორპორირებული ტერიტორია.</p>
+                        <p>კარიბის ზღვის კუნძულების ჯგუფი (სენტ-კრუა, სენტ-ჯონი, სენტ-ტომასი). გამოირჩევა თეთრი ქვიშის პლაჟებით.</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> შარლოტ-ამალია</li>
+                            <li><strong>ეკონომიკა:</strong> ტურიზმი, რომის წარმოება.</li>
+                            <li><strong>შენიშვნა:</strong> მოძრაობა მარცხენასაჭიანია.</li>
+                        </ul>
+                    `
+                }
+            },
+            'American Samoa': {
+                en: { 
+                    title: "American Samoa",
+                    desc: `
+                        <p><strong>Status:</strong> Unincorporated Territory.</p>
+                        <p>Located in the South Pacific. Unlike other territories, residents are U.S. nationals but not automatically U.S. citizens.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> Pago Pago</li>
+                            <li><strong>Economy:</strong> Tuna fishing and processing.</li>
+                            <li><strong>Culture:</strong> Strong Fa'a Samoa (The Samoan Way) traditions.</li>
+                        </ul>
+                    `
+                },
+                geo: { 
+                    title: "ამერიკის სამოა",
+                    desc: `
+                        <p><strong>სტატუსი:</strong> არაინკორპორირებული ტერიტორია.</p>
+                        <p>მდებარეობს სამხრეთ წყნარ ოკეანეში. სხვა ტერიტორიებისგან განსხვავებით, აქ მცხოვრებლები აშშ-ის მოქალაქეები ავტომატურად არ ხდებიან (არიან U.S. Nationals).</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> პაგო-პაგო</li>
+                            <li><strong>ეკონომიკა:</strong> თინუსის თევზჭერა და გადამუშავება.</li>
+                            <li><strong>კულტურა:</strong> ძლიერი სამოური ტრადიციები.</li>
+                        </ul>
+                    `
+                }
+            },
+            'Northern Mariana Islands': {
+                en: { 
+                    title: "Northern Mariana Islands",
+                    desc: `
+                        <p><strong>Status:</strong> Commonwealth.</p>
+                        <p>A chain of 14 islands in the northwestern Pacific Ocean. Included in the US political union in the 1970s.</p>
+                        <ul>
+                            <li><strong>Capital:</strong> Saipan</li>
+                            <li><strong>History:</strong> Key battleground during WWII.</li>
+                            <li><strong>Economy:</strong> Tourism (Garment industry historically).</li>
+                        </ul>
+                    `
+                },
+                geo: { 
+                    title: "ჩრდილოეთ მარიანას კუნძულები",
+                    desc: `
+                        <p><strong>სტატუსი:</strong> თანამეგობრობა.</p>
+                        <p>14 კუნძულისგან შემდგარი ჯაჭვი წყნარ ოკეანეში. აშშ-ის პოლიტიკურ კავშირში შევიდა 1970-იანებში.</p>
+                        <ul>
+                            <li><strong>დედაქალაქი:</strong> საიპანი</li>
+                            <li><strong>ისტორია:</strong> მეორე მსოფლიო ომის მნიშვნელოვანი ბრძოლის ველი.</li>
+                            <li><strong>ეკონომიკა:</strong> ტურიზმი.</li>
+                        </ul>
+                    `
+                }
             }
         };
 
@@ -350,48 +489,68 @@
             const search = document.getElementById('searchInput').value.toLowerCase();
             grid.innerHTML = '';
 
-            // 1. Specials
+            // 1. Specials (System)
             if (filter === 'all' || filter === 'special') {
                 ['USA', 'PRESIDENT', 'EDUCATION'].forEach(key => {
                     const data = DETAILS[key];
                     if (key.toLowerCase().includes(search) || data[lang].title.toLowerCase().includes(search)) {
-                        grid.appendChild(createCard(key, data[lang].title, "SYSTEM DATA", true));
+                        grid.appendChild(createCard(key, data[lang].title, "SYSTEM DATA", true, 'special'));
                     }
                 });
             }
 
-            // 2. States
+            // 2. Territories (Islands)
+            if (filter === 'all' || filter === 'territories') {
+                TERRITORIES_LIST.forEach(terr => {
+                    const matchesSearch = terr.toLowerCase().includes(search);
+                    if (matchesSearch) {
+                        const hasInfo = DETAILS.hasOwnProperty(terr);
+                        // ვანიჭებთ 'territory' ტიპს რომ ყვითელი ფერი ჰქონდეს
+                        grid.appendChild(createCard(terr, terr, "TERRITORY NODE", hasInfo, 'territory'));
+                    }
+                });
+            }
+
+            // 3. States
             if (filter === 'all' || filter === 'states') {
                 STATES_LIST.forEach(state => {
                     if (state.toLowerCase().includes(search)) {
-                        // ვამოწმებთ აქვს თუ არა ინფო ამ შტატს
                         const hasInfo = DETAILS.hasOwnProperty(state);
-                        grid.appendChild(createCard(state, state, "STATE NODE", hasInfo));
+                        grid.appendChild(createCard(state, state, "STATE NODE", hasInfo, 'state'));
                     }
                 });
             }
         }
 
-        function createCard(key, displayTitle, tag, hasInfo) {
+        function createCard(key, displayTitle, tag, hasInfo, type) {
             const div = document.createElement('div');
-            // თუ ინფო აქვს, ვამატებთ special-card კლასს ბორდერისთვის
-            div.className = `card ${hasInfo ? 'special-card' : ''}`;
+            
+            // Border Logic
+            let borderClass = '';
+            if (hasInfo) borderClass = 'has-info-border';
+            if (type === 'territory') borderClass = 'territory-border'; // Territories override generic green
+
+            div.className = `card ${borderClass}`;
             div.onclick = () => openModal(key, displayTitle, hasInfo);
 
-            // ღილაკის ლოგიკა: მწვანე vs წითელი
+            // Button Logic
             let btnClass, btnText;
-            
             if (hasInfo) {
                 btnClass = 'btn-success';
-                btnText = lang === 'en' ? "ACCESS DATA" : "ინფორმაციის ნახვა";
+                btnText = lang === 'en' ? "ACCESS DATA" : "ინფოს ნახვა";
             } else {
                 btnClass = 'btn-danger';
                 btnText = lang === 'en' ? "LOCKED" : "დაბლოკილია";
             }
 
+            // Tag Color
+            let tagColor = "#888";
+            if(type === 'territory') tagColor = "var(--neon-yellow)";
+            if(type === 'special') tagColor = "var(--neon-blue)";
+
             div.innerHTML = `
                 <div>
-                    <div class="card-tag">${tag}</div>
+                    <div class="card-tag" style="color:${tagColor}">${tag}</div>
                     <h3>${displayTitle}</h3>
                 </div>
                 <div class="view-btn ${btnClass}">${btnText}</div>
@@ -404,49 +563,56 @@
             const mTitle = document.getElementById('modalTitle');
             const mBody = document.getElementById('modalBody');
 
-            mTitle.innerText = title;
+            // Reset classes
+            modal.style.display = 'flex';
+            setTimeout(() => modal.classList.add('show'), 10);
 
             if (hasInfo) {
-                // მწვანე: ვრცელი ინფორმაციის ჩვენება
                 const content = DETAILS[key][lang];
-                // თუ ობიექტში title/desc სტრუქტურაა, ვიღებთ desc-ს, თუ არა პირდაპირ სტრინგს
+                // Check if title exists in data, otherwise use passed title
+                mTitle.innerText = content.title || title;
                 mBody.innerHTML = content.desc || content;
-                mBody.style.color = "#e0e0e0"; 
                 mTitle.style.borderColor = "var(--neon-green)";
             } else {
-                // წითელი: შეცდომის ჩვენება
+                mTitle.innerText = title;
                 mBody.innerHTML = lang === 'en' 
-                    ? `<div style="text-align:center; padding:20px;">
-                         <h3 style="color:var(--neon-red)">ACCESS DENIED</h3>
-                         <p>Data fragment missing. Connection to node failed.</p>
+                    ? `<div style="text-align:center; padding:30px;">
+                         <h3 style="color:var(--neon-red); font-family:'Orbitron'; margin-bottom:10px;">ACCESS DENIED</h3>
+                         <p>Data fragment missing. Secure connection to node failed.</p>
                        </div>` 
-                    : `<div style="text-align:center; padding:20px;">
-                         <h3 style="color:var(--neon-red)">წვდომა შეზღუდულია</h3>
-                         <p>მონაცემები არ მოიძებნა. კავშირი ვერ დამყარდა.</p>
+                    : `<div style="text-align:center; padding:30px;">
+                         <h3 style="color:var(--neon-red); font-family:'Orbitron'; margin-bottom:10px;">წვდომა შეზღუდულია</h3>
+                         <p>მონაცემები არ მოიძებნა. უსაფრთხო კავშირი ვერ დამყარდა.</p>
                        </div>`;
                 mTitle.style.borderColor = "var(--neon-red)";
             }
-
-            modal.style.display = 'flex';
         }
 
         function closeModal(e, force) {
             if (force || e.target.id === 'infoModal') {
-                document.getElementById('infoModal').style.display = 'none';
+                const modal = document.getElementById('infoModal');
+                modal.classList.remove('show');
+                setTimeout(() => modal.style.display = 'none', 300);
             }
         }
 
         function toggleLang() {
             lang = lang === 'en' ? 'geo' : 'en';
             document.getElementById('langBtn').innerText = `LANG: ${lang.toUpperCase()}`;
-            document.getElementById('searchInput').placeholder = lang === 'en' ? "Search..." : "ძიება...";
+            document.getElementById('searchInput').placeholder = lang === 'en' ? "SEARCH NODE..." : "ძიება...";
             renderGrid();
         }
 
         function setFilter(f) {
             filter = f;
+            // Update UI buttons
             document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            // Since we have IDs now, we highlight based on filter
+            if(f === 'all') document.getElementById('btn-all').classList.add('active');
+            if(f === 'special') document.getElementById('btn-special').classList.add('active');
+            if(f === 'states') document.getElementById('btn-states').classList.add('active');
+            if(f === 'territories') document.getElementById('btn-territories').classList.add('active');
+            
             renderGrid();
         }
 
